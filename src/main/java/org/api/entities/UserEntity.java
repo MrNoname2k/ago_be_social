@@ -9,14 +9,18 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -113,4 +117,7 @@ public class UserEntity extends CommonEntity implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "userEntityTo", cascade = CascadeType.ALL)
     private List<MessageEntity> messageTo;
+
+
+
 }

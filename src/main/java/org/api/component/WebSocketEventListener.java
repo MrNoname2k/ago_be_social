@@ -25,9 +25,10 @@ public class WebSocketEventListener {
 
 
     @EventListener
-    private void handleSessionConnected(SessionConnectedEvent event) throws Exception {
+    private void handleSessionConnected(SessionConnectEvent event) throws Exception {
         SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.wrap(event.getMessage());
         String username = headers.getUser().getName();
+        System.out.println(username);
         UserEntity userServiceModel = userEntityService.updateOnline(username, ConstantOnline.ON);
         String userId = userServiceModel.getId();
         WebSocketMessage message = new WebSocketMessage(WebSocketEventNameEnum.CONNECT, userId, username, ConstantOnline.ON);

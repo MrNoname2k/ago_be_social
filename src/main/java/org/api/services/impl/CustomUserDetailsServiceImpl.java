@@ -27,7 +27,8 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
         if (userEntity.isEmpty()) {
             throw new UsernameNotFoundException("No user found with mail:" + mail);
         }
-        return new CustomUserDetailsService(userEntity.get());
+        CustomUserDetailsService user = new CustomUserDetailsService(userEntity.get());
+        return user;
     }
 
 }

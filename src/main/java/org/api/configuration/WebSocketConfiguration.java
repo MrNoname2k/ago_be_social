@@ -4,6 +4,7 @@ import org.api.entities.UserEntity;
 import org.api.component.JWTAuthenticationToken;
 import org.api.component.JwtTokenProvider;
 import org.api.constants.ConstantJwt;
+import org.api.services.CustomUserDetailsService;
 import org.api.services.impl.CustomUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -78,8 +79,8 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
             String mail = tokenProvider.getMailFromJwtToken(token);
             UserDetails userDetails = customUserDetailsServiceImpl.loadUserByUsername(mail);
             if (userDetails != null) {
-                JWTAuthenticationToken jwtAuthenticationToken =
-                        new JWTAuthenticationToken(userDetails.getAuthorities(), token, (UserEntity) userDetails);
+                CustomUserDetailsService user = (CustomUserDetailsService) userDetails;
+                JWTAuthenticationToken jwtAuthenticationToken = new JWTAuthenticationToken(userDetails.getAuthorities(), token, user.getUserEntity());
                 jwtAuthenticationToken.setAuthenticated(true);
                 return jwtAuthenticationToken;
             }
