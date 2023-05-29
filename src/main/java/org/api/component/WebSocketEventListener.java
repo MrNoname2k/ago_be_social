@@ -11,6 +11,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.api.enumeration.WebSocketEventNameEnum;
 
@@ -24,7 +25,7 @@ public class WebSocketEventListener {
 
 
     @EventListener
-    private void handleSessionConnected(SessionConnectEvent event) throws Exception {
+    private void handleSessionConnected(SessionConnectedEvent event) throws Exception {
         SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.wrap(event.getMessage());
         String username = headers.getUser().getName();
         UserEntity userServiceModel = userEntityService.updateOnline(username, ConstantOnline.ON);

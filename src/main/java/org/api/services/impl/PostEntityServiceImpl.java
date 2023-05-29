@@ -14,6 +14,7 @@ import org.api.utils.ApiValidateException;
 import org.api.utils.DataUtil;
 import org.api.utils.ValidateData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,6 +45,9 @@ public class PostEntityServiceImpl implements PostEntityService {
     @Autowired
     private FileEntityService fileEntityService;
 
+    @Autowired
+    private RelationshipEntityService relationshipEntityService;
+
     @Override
     public ResultBean createPost(String json, MultipartFile[] files) throws ApiValidateException, Exception {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -69,6 +73,7 @@ public class PostEntityServiceImpl implements PostEntityService {
                 fileEntityService.createFile(entityOld.getAbumEntityPost(), entityOld, fileName);
             }
         }
+
         return new ResultBean(map, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 

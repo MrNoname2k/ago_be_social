@@ -62,7 +62,7 @@ public class WebSecurityConfiguration {
                         "/v1/api/auth/**",
                         "/v1/api/abums/**",
                         "/v1/api/files/**",
-                        "/ws/**"
+                        "/socket/**"
                 ).permitAll()
                 .antMatchers(
                         "/v1/api/users/**",
