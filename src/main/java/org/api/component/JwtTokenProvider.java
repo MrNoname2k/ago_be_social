@@ -3,6 +3,7 @@ package org.api.component;
 import io.jsonwebtoken.*;
 import org.api.annotation.LogExecutionTime;
 import org.api.constants.ConstantJwt;
+import org.api.entities.UserEntity;
 import org.api.services.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +24,18 @@ public class JwtTokenProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     public String generateJwtToken(Authentication authentication) {
-        CustomUserDetailsService userPrincipal = (CustomUserDetailsService) authentication.getPrincipal();
+        UserEntity userPrincipal = (UserEntity) authentication.getPrincipal();
+        String authority = userPrincipal.getAuthorities()
+                .stream()
+                .findFirst()
+                .orElse(null)
+                .getAuthority();
+
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + ConstantJwt.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
-                .claim("role", userPrincipal.getAuthorities())
+                .claim("role", authority)
                 .signWith(SignatureAlgorithm.HS512, evn.getProperty(ConstantJwt.SIGNING_KEY))
                 .compact();
     }

@@ -23,7 +23,6 @@ public class WebSocketEventListener {
     @Autowired
     private SimpMessagingTemplate template;
 
-
     @EventListener
     private void handleSessionConnected(SessionConnectEvent event) throws Exception {
         SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.wrap(event.getMessage());

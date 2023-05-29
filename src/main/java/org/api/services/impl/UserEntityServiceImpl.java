@@ -6,6 +6,7 @@ import org.api.constants.*;
 import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
 import org.api.repository.UserEntityRepository;
+import org.api.services.CustomUserDetailsService;
 import org.api.services.FirebaseService;
 import org.api.services.UserEntityService;
 import org.api.utils.*;
@@ -145,6 +146,7 @@ public class UserEntityServiceImpl implements UserEntityService {
         if (userOptional.isPresent()) {
             userOptional.get().setOnline(online);
             UserEntity entityOld = userEntityRepository.save(userOptional.get());
+
             return entityOld;
         } else {
             throw new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
