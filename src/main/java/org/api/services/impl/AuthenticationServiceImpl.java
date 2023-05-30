@@ -106,8 +106,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public UserEntity authentication() throws ApiValidateException, Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity userDetails = (UserEntity) authentication.getPrincipal();
-        UserEntity entityOld = userEntityService.findOneByMail(userDetails.getMail());
+        CustomUserDetailsService userPrincipal = (CustomUserDetailsService) authentication.getPrincipal();
+        UserEntity entityOld = userEntityService.findOneByMail(userPrincipal.getUsername());
         return entityOld;
     }
 
