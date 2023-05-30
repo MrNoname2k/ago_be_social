@@ -25,5 +25,5 @@ public interface UserEntityService {
 
     public UserEntity findOneByMail(String mail) throws ApiValidateException, Exception;
 
-    public UserEntity updateOnline(String mail, String online) throws ApiValidateException, Exception;
+    public UserEntity updateOnline(String mail, boolean online) throws ApiValidateException, Exception;
 }

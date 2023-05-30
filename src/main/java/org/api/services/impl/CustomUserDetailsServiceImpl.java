@@ -28,7 +28,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("No user found with mail:" + mail);
         }
 
-        return userEntity.get();
+        return new CustomUserDetailsService(userEntity.get());
     }
 
 }

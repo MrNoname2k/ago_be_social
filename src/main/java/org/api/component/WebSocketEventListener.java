@@ -30,7 +30,7 @@ public class WebSocketEventListener {
         System.out.println(username);
         UserEntity userServiceModel = userEntityService.updateOnline(username, ConstantOnline.ON);
         String userId = userServiceModel.getId();
-        WebSocketMessage message = new WebSocketMessage(WebSocketEventNameEnum.CONNECT, userId, username, ConstantOnline.ON);
+        WebSocketMessage message = new WebSocketMessage(WebSocketEventNameEnum.CONNECT, userId, username, String.valueOf(ConstantOnline.ON));
         template.convertAndSend(WebSocketEventNameEnum.CONNECT.getDestination(), message);
     }
 
@@ -40,7 +40,7 @@ public class WebSocketEventListener {
         String username = headers.getUser().getName();
         UserEntity userServiceModel = userEntityService.updateOnline(username, ConstantOnline.OFF);
         String userId = userServiceModel.getId();
-        WebSocketMessage message = new WebSocketMessage(WebSocketEventNameEnum.DISCONNECT, userId, username, ConstantOnline.OFF);
+        WebSocketMessage message = new WebSocketMessage(WebSocketEventNameEnum.DISCONNECT, userId, username, String.valueOf(ConstantOnline.OFF));
         template.convertAndSend(WebSocketEventNameEnum.DISCONNECT.getDestination(), message);
     }
 }

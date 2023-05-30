@@ -24,7 +24,7 @@ public class JwtTokenProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     public String generateJwtToken(Authentication authentication) {
-        UserEntity userPrincipal = (UserEntity) authentication.getPrincipal();
+        CustomUserDetailsService userPrincipal = (CustomUserDetailsService) authentication.getPrincipal();
         String authority = userPrincipal.getAuthorities()
                 .stream()
                 .findFirst()

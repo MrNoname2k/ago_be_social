@@ -7,8 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
-public class UserRole extends CommonEntity implements GrantedAuthority {
+@Table(name = "t1_user_role_entity")
+public class UserRoleEntity extends CommonEntity implements GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,7 @@ public class UserRole extends CommonEntity implements GrantedAuthority {
 
     private String authority;
 
-    public UserRole() {
+    public UserRoleEntity() {
     }
 
     @Column(name = "authority", nullable = false)

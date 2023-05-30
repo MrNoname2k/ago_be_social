@@ -1,10 +1,10 @@
 package org.api.services;
 
-import org.api.entities.UserRole;
+import org.api.entities.UserRoleEntity;
 
 public interface RoleService {
 
-    boolean persist(UserRole role) throws Exception;
+    boolean persist(UserRoleEntity role) throws Exception;
 
-    UserRole getByName(String name);
+    UserRoleEntity getByName(String name);
 }

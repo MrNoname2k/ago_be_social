@@ -1,6 +1,6 @@
 package org.api.utils.entitiesSeed;
 
-import org.api.entities.UserRole;
+import org.api.entities.UserRoleEntity;
 import org.api.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,8 +21,8 @@ public class EntitiesSeedExecutor {
 
         // Role initialisation
         if(roleRepository.count() == 0L ){
-            UserRole role1 = new UserRole();
-            UserRole role2 = new UserRole();
+            UserRoleEntity role1 = new UserRoleEntity();
+            UserRoleEntity role2 = new UserRoleEntity();
 
             role1.setAuthority("ROLE_ADMIN");
             role2.setAuthority("ROLE_USER");

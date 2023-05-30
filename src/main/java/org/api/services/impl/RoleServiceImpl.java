@@ -1,6 +1,6 @@
 package org.api.services.impl;
 
-import org.api.entities.UserRole;
+import org.api.entities.UserRoleEntity;
 import org.api.repository.RoleRepository;
 import org.api.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean persist(UserRole role) throws Exception {
+    public boolean persist(UserRoleEntity role) throws Exception {
         return this.roleRepository.save(role) != null;
     }
 
     @Override
-    public UserRole getByName(String name) {
+    public UserRoleEntity getByName(String name) {
         return this.roleRepository.findByAuthority(name);
     }
 }

@@ -141,7 +141,7 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     @Override
-    public UserEntity updateOnline(String mail, String online) throws ApiValidateException, Exception {
+    public UserEntity updateOnline(String mail, boolean online) throws ApiValidateException, Exception {
         Optional<UserEntity> userOptional = userEntityRepository.findOneByMail(mail);
         if (userOptional.isPresent()) {
             userOptional.get().setOnline(online);

@@ -2,7 +2,7 @@ package org.api.services.impl;
 
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
-import org.api.entities.UserRole;
+import org.api.entities.UserRoleEntity;
 import org.api.payload.ResultBean;
 import org.api.entities.UserEntity;
 import org.api.component.JwtTokenProvider;
@@ -70,7 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 //            throw new ApiValidateException(ConstantMessage.ID_AUTH_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_AUTH_ERR00001));
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserEntity userDetails = (UserEntity) authentication.getPrincipal();
+        CustomUserDetailsService userDetails = (CustomUserDetailsService) authentication.getPrincipal();
         String token = tokenProvider.generateJwtToken(authentication);
         UserEntity entityOld = userEntityService.updateLastLogin(userDetails.getUsername());
         Map<String, Object> map = new HashMap<String, Object>();
@@ -91,8 +91,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         ValidateData.validate(ConstantJsonFileValidate.FILE_REGISTER_JSON_VALIDATE, jsonObject, false);
         this.convertJsonToEntityRegister(jsonObject, entity);
 //        entity.setRole(ConstantRole.ROLE_USER);
-        UserRole userRole = this.roleRepository.findByAuthority(ConstantRole.ROLE_USER);
-        Set<UserRole> roles = new HashSet<>();
+        UserRoleEntity userRole = this.roleRepository.findByAuthority(ConstantRole.ROLE_USER);
+        Set<UserRoleEntity> roles = new HashSet<>();
         roles.add(userRole);
         entity.setAuthorities(roles);
 
@@ -107,7 +107,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public UserEntity authentication() throws ApiValidateException, Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity userDetails = (UserEntity) authentication.getPrincipal();
-        UserEntity entityOld = userEntityService.findOneByMail(userDetails.getUsername());
+        UserEntity entityOld = userEntityService.findOneByMail(userDetails.getMail());
         return entityOld;
     }
 
