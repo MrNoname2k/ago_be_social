@@ -77,10 +77,10 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     private JWTAuthenticationToken getJWTAuthenticationToken(String token) {
         if (StringUtils.hasText(token) && tokenProvider.validateJwtToken(token)) {
             String mail = tokenProvider.getMailFromJwtToken(token);
-            UserDetails userDetails = customUserDetailsServiceImpl.loadUserByUsername(mail);
+            CustomUserDetailsService userDetails = (CustomUserDetailsService) customUserDetailsServiceImpl.loadUserByUsername(mail);
 
             if (userDetails != null) {
-                UserEntity user = (UserEntity) userDetails;
+                UserEntity user = userDetails.getUserEntity();
                 JWTAuthenticationToken jwtAuthenticationToken = new JWTAuthenticationToken(userDetails.getAuthorities(), token, user);
                 jwtAuthenticationToken.setAuthenticated(true);
                 return jwtAuthenticationToken;

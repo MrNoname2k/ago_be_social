@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.api.enumeration.WebSocketEventNameEnum;
+
+import java.util.List;
 
 @Component
 public class WebSocketEventListener {
@@ -27,7 +30,9 @@ public class WebSocketEventListener {
     private void handleSessionConnected(SessionConnectEvent event) throws Exception {
         SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.wrap(event.getMessage());
         String username = headers.getUser().getName();
-        System.out.println(username);
+
+        System.out.println("headers.getUser()------------>" + username);
+
         UserEntity userServiceModel = userEntityService.updateOnline(username, ConstantOnline.ON);
         String userId = userServiceModel.getId();
         WebSocketMessage message = new WebSocketMessage(WebSocketEventNameEnum.CONNECT, userId, username, String.valueOf(ConstantOnline.ON));

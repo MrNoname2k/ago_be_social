@@ -111,4 +111,8 @@ public class UserEntity extends CommonEntity implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "id"))
     private Set<UserRoleEntity> authorities;
 
+    @Override
+    public String toString() {
+        return getMail();
+    }
 }
