@@ -52,7 +52,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/app")
                 .setUserDestinationPrefix("/user")
-                .enableSimpleBroker("/chat", "/topic", "/queue");
+                .enableSimpleBroker("/chat", "/topic", "/queue", "/user");
     }
 
     @Override
