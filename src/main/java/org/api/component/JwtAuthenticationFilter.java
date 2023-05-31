@@ -1,7 +1,6 @@
 package org.api.component;
 
 import org.api.constants.ConstantJwt;
-import org.api.services.CustomUserDetailsService;
 import org.api.services.impl.CustomUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -46,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception ex) {
-            logger.error("Failed to set user authentication: ", ex);
+            logger.error(ConstantJwt.DO_FILTER_INTERNAL, ex);
         }
         filterChain.doFilter(request, response);
     }

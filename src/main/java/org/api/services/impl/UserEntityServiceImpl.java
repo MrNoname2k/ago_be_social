@@ -20,17 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * [OVERVIEW] UserEntityServiceImpl.
- *
- * @author: (DAI)
- * @version: 1.0
- * @History
- * [NUMBER]  [VER]     [DATE]          [USER]             [CONTENT]
- * --------------------------------------------------------------------------
- * 001       1.0       5/15/2023 7:37 PM      (DAI)        Create new
-*/
-
 @LogExecutionTime
 @Service
 @Transactional(rollbackFor = { ApiValidateException.class, Exception.class })
@@ -92,42 +81,6 @@ public class UserEntityServiceImpl implements UserEntityService {
             userOptional.get().setLastLoginDate(new Date());
             UserEntity entityOld = userEntityRepository.save(userOptional.get());
             return entityOld;
-        } else {
-            throw new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
-                    MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS)));
-        }
-    }
-
-    @Override
-    public ResultBean updateAvatar(MultipartFile file, String id) throws ApiValidateException, Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
-        Optional<UserEntity> userOptional = userEntityRepository.findOneById(id);
-        if (userOptional.isPresent()) {
-            ValidateData.check(file);
-            String fileName = firebaseService.uploadImage(file, id, ConstantFirebase.FIREBASE_STORAGE_USER + id);
-            map.put(ConstantColumns.IMAGE, fileName);
-            //userOptional.get().setAvatarUrl(fileName);
-            UserEntity entityOld = userEntityRepository.save(userOptional.get());
-            map.put(ConstantColumns.USER_ENTITY, entityOld);
-            return new ResultBean(map, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
-        } else {
-            throw new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
-                    MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS)));
-        }
-    }
-
-    @Override
-    public ResultBean updateBanner(MultipartFile file, String id) throws ApiValidateException, Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
-        Optional<UserEntity> userOptional = userEntityRepository.findOneById(id);
-        if (userOptional.isPresent()) {
-            ValidateData.check(file);
-            String fileName = firebaseService.uploadImage(file, id, ConstantFirebase.FIREBASE_STORAGE_USER + id);
-            map.put(ConstantColumns.IMAGE, fileName);
-            //userOptional.get().setBannerUrl(fileName);
-            UserEntity entityOld = userEntityRepository.save(userOptional.get());
-            map.put(ConstantColumns.USER_ENTITY, entityOld);
-            return new ResultBean(map, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
         } else {
             throw new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
                     MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS)));

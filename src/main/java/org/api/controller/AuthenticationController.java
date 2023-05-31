@@ -27,13 +27,10 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
-
-
     @PostMapping(value = "/login", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<ResultBean> login(@RequestBody String json){
         try{
             ResultBean resultBean = authenticationService.loginAuth(json);
-
             return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
         }catch (ApiValidateException ex){
             return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);

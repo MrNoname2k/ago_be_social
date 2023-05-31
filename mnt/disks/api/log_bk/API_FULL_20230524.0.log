@@ -272,7 +272,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 	Validation Mode: AUTO
 	Jar files URLs []
 	Managed classes names [
-		org.api.entities.AbumEntity
+		org.api.entities.AlbumEntity
 		org.api.entities.CommentEntity
 		org.api.entities.CommonEntity
 		org.api.entities.FileEntity
@@ -443,31 +443,31 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:00.285 [restartedMain] DEBUG o.h.type.spi.TypeConfiguration$Scope - Scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration@322a878b] to MetadataBuildingContext [org.hibernate.boot.internal.MetadataBuildingContextRootImpl@1c1638ce]
 2023-05-24_23:22:00.330 [restartedMain] DEBUG o.h.boot.model.relational.Namespace - Created database namespace [logicalName=Name{catalog=null, schema=null}, physicalName=Name{catalog=null, schema=null}]
 2023-05-24_23:22:00.342 [restartedMain] DEBUG o.h.b.m.s.i.a.AnnotationMetadataSourceProcessorImpl - Skipping explicit MappedSuperclass org.api.entities.CommonEntity, the class will be discovered analyzing the implementing class
-2023-05-24_23:22:00.350 [restartedMain] DEBUG org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: org.api.entities.AbumEntity
+2023-05-24_23:22:00.350 [restartedMain] DEBUG org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: org.api.entities.AlbumEntity
 2023-05-24_23:22:00.365 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
 2023-05-24_23:22:00.370 [restartedMain] DEBUG o.h.cfg.annotations.EntityBinder - Import with entity name AbumEntity
-2023-05-24_23:22:00.372 [restartedMain] DEBUG o.h.cfg.annotations.EntityBinder - Bind entity org.api.entities.AbumEntity on table t1_abum_entity
+2023-05-24_23:22:00.372 [restartedMain] DEBUG o.h.cfg.annotations.EntityBinder - Bind entity org.api.entities.AlbumEntity on table t1_abum_entity
 2023-05-24_23:22:00.403 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(t1_abum_entity), mappingColumn=id, insertable=true, updatable=true, unique=false}
-2023-05-24_23:22:00.406 [restartedMain] DEBUG o.h.b.internal.ClassLoaderAccessImpl - Not known whether passed class name [org.api.entities.AbumEntity] is safe
-2023-05-24_23:22:00.406 [restartedMain] DEBUG o.h.b.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : org.api.entities.AbumEntity
+2023-05-24_23:22:00.406 [restartedMain] DEBUG o.h.b.internal.ClassLoaderAccessImpl - Not known whether passed class name [org.api.entities.AlbumEntity] is safe
+2023-05-24_23:22:00.406 [restartedMain] DEBUG o.h.b.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : org.api.entities.AlbumEntity
 2023-05-24_23:22:00.406 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - MetadataSourceProcessor property id with lazy=false
-2023-05-24_23:22:00.408 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AbumEntity:id]
+2023-05-24_23:22:00.408 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AlbumEntity:id]
 2023-05-24_23:22:00.410 [restartedMain] DEBUG o.h.c.annotations.SimpleValueBinder - building SimpleValue for id
 2023-05-24_23:22:00.411 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - Building property id
 2023-05-24_23:22:00.414 [restartedMain] DEBUG org.hibernate.cfg.BinderHelper - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(id)]), id, org.hibernate.id.enhanced.SequenceStyleGenerator, custom-id, ...)
 2023-05-24_23:22:00.415 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(t1_abum_entity), mappingColumn=create_date, insertable=true, updatable=false, unique=false}
 2023-05-24_23:22:00.415 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - MetadataSourceProcessor property createDate with lazy=false
-2023-05-24_23:22:00.415 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AbumEntity:createDate]
+2023-05-24_23:22:00.415 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AlbumEntity:createDate]
 2023-05-24_23:22:00.415 [restartedMain] DEBUG o.h.c.annotations.SimpleValueBinder - building SimpleValue for createDate
 2023-05-24_23:22:00.415 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - Building property createDate
 2023-05-24_23:22:00.422 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(t1_abum_entity), mappingColumn=del_flg, insertable=true, updatable=true, unique=false}
 2023-05-24_23:22:00.422 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - MetadataSourceProcessor property delFlg with lazy=false
-2023-05-24_23:22:00.423 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AbumEntity:delFlg]
+2023-05-24_23:22:00.423 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AlbumEntity:delFlg]
 2023-05-24_23:22:00.423 [restartedMain] DEBUG o.h.c.annotations.SimpleValueBinder - building SimpleValue for delFlg
 2023-05-24_23:22:00.423 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - Building property delFlg
 2023-05-24_23:22:00.423 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(t1_abum_entity), mappingColumn=update_date, insertable=true, updatable=true, unique=false}
 2023-05-24_23:22:00.423 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - MetadataSourceProcessor property updateDate with lazy=false
-2023-05-24_23:22:00.423 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AbumEntity:updateDate]
+2023-05-24_23:22:00.423 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AlbumEntity:updateDate]
 2023-05-24_23:22:00.423 [restartedMain] DEBUG o.h.c.annotations.SimpleValueBinder - building SimpleValue for updateDate
 2023-05-24_23:22:00.423 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - Building property updateDate
 2023-05-24_23:22:00.425 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='abumEntityFile'}
@@ -478,11 +478,11 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:00.438 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='files_KEY', referencedColumn='null', mappedBy='null'}
 2023-05-24_23:22:00.440 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='abumEntityFile'}
 2023-05-24_23:22:00.440 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='abumEntityFile'}
-2023-05-24_23:22:00.440 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Collection role: org.api.entities.AbumEntity.files
+2023-05-24_23:22:00.440 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Collection role: org.api.entities.AlbumEntity.files
 2023-05-24_23:22:00.443 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - Building property files
 2023-05-24_23:22:00.443 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(t1_abum_entity), mappingColumn=name, insertable=true, updatable=true, unique=false}
 2023-05-24_23:22:00.443 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - MetadataSourceProcessor property name with lazy=false
-2023-05-24_23:22:00.443 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AbumEntity:name]
+2023-05-24_23:22:00.443 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AlbumEntity:name]
 2023-05-24_23:22:00.443 [restartedMain] DEBUG o.h.c.annotations.SimpleValueBinder - building SimpleValue for name
 2023-05-24_23:22:00.444 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - Building property name
 2023-05-24_23:22:00.444 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='abumEntityPost'}
@@ -493,11 +493,11 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:00.444 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='posts_KEY', referencedColumn='null', mappedBy='null'}
 2023-05-24_23:22:00.444 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='abumEntityPost'}
 2023-05-24_23:22:00.444 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='abumEntityPost'}
-2023-05-24_23:22:00.444 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Collection role: org.api.entities.AbumEntity.posts
+2023-05-24_23:22:00.444 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Collection role: org.api.entities.AlbumEntity.posts
 2023-05-24_23:22:00.444 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - Building property posts
 2023-05-24_23:22:00.445 [restartedMain] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(t1_abum_entity), mappingColumn=type_abum, insertable=true, updatable=true, unique=false}
 2023-05-24_23:22:00.445 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - MetadataSourceProcessor property typeAbum with lazy=false
-2023-05-24_23:22:00.445 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AbumEntity:typeAbum]
+2023-05-24_23:22:00.445 [restartedMain] DEBUG o.h.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [org.api.entities.AlbumEntity:typeAbum]
 2023-05-24_23:22:00.445 [restartedMain] DEBUG o.h.c.annotations.SimpleValueBinder - building SimpleValue for typeAbum
 2023-05-24_23:22:00.445 [restartedMain] DEBUG o.h.cfg.annotations.PropertyBinder - Building property typeAbum
 2023-05-24_23:22:00.450 [restartedMain] DEBUG org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: org.api.entities.CommentEntity
@@ -1032,14 +1032,14 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:00.513 [restartedMain] DEBUG org.hibernate.mapping.PrimaryKey - Forcing column [id] to be non-null as it is part of the primary key for table [t1_post_entity]
 2023-05-24_23:22:00.513 [restartedMain] DEBUG org.hibernate.mapping.PrimaryKey - Forcing column [id] to be non-null as it is part of the primary key for table [t1_share_entity]
 2023-05-24_23:22:00.513 [restartedMain] DEBUG org.hibernate.mapping.PrimaryKey - Forcing column [id] to be non-null as it is part of the primary key for table [t1_user_entity]
-2023-05-24_23:22:00.513 [restartedMain] DEBUG o.hibernate.cfg.CollectionSecondPass - Second pass for collection: org.api.entities.AbumEntity.files
-2023-05-24_23:22:00.514 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Binding a OneToMany: org.api.entities.AbumEntity.files through a foreign key
-2023-05-24_23:22:00.515 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Mapping collection: org.api.entities.AbumEntity.files -> t1_file_entity
+2023-05-24_23:22:00.513 [restartedMain] DEBUG o.hibernate.cfg.CollectionSecondPass - Second pass for collection: org.api.entities.AlbumEntity.files
+2023-05-24_23:22:00.514 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Binding a OneToMany: org.api.entities.AlbumEntity.files through a foreign key
+2023-05-24_23:22:00.515 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Mapping collection: org.api.entities.AlbumEntity.files -> t1_file_entity
 2023-05-24_23:22:00.516 [restartedMain] DEBUG o.h.cfg.annotations.TableBinder - Retrieving property org.api.entities.FileEntity.abumEntityFile
 2023-05-24_23:22:00.516 [restartedMain] DEBUG o.hibernate.cfg.CollectionSecondPass - Mapped collection key: id_abum, one-to-many: org.api.entities.FileEntity
-2023-05-24_23:22:00.516 [restartedMain] DEBUG o.hibernate.cfg.CollectionSecondPass - Second pass for collection: org.api.entities.AbumEntity.posts
-2023-05-24_23:22:00.516 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Binding a OneToMany: org.api.entities.AbumEntity.posts through a foreign key
-2023-05-24_23:22:00.516 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Mapping collection: org.api.entities.AbumEntity.posts -> t1_post_entity
+2023-05-24_23:22:00.516 [restartedMain] DEBUG o.hibernate.cfg.CollectionSecondPass - Second pass for collection: org.api.entities.AlbumEntity.posts
+2023-05-24_23:22:00.516 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Binding a OneToMany: org.api.entities.AlbumEntity.posts through a foreign key
+2023-05-24_23:22:00.516 [restartedMain] DEBUG o.h.cfg.annotations.CollectionBinder - Mapping collection: org.api.entities.AlbumEntity.posts -> t1_post_entity
 2023-05-24_23:22:00.516 [restartedMain] DEBUG o.h.cfg.annotations.TableBinder - Retrieving property org.api.entities.PostEntity.abumEntityPost
 2023-05-24_23:22:00.516 [restartedMain] DEBUG o.hibernate.cfg.CollectionSecondPass - Mapped collection key: id_abum, one-to-many: org.api.entities.PostEntity
 2023-05-24_23:22:00.516 [restartedMain] DEBUG o.hibernate.cfg.CollectionSecondPass - Second pass for collection: org.api.entities.PostEntity.comments
@@ -1099,27 +1099,27 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:00.519 [restartedMain] DEBUG o.hibernate.cfg.CollectionSecondPass - Mapped collection key: id_user_create, one-to-many: org.api.entities.ShareEntity
 2023-05-24_23:22:00.519 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.PostEntity
 2023-05-24_23:22:00.522 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
-2023-05-24_23:22:00.522 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.AbumEntity
+2023-05-24_23:22:00.522 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.AlbumEntity
 2023-05-24_23:22:00.522 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.PostEntity
 2023-05-24_23:22:00.522 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
 2023-05-24_23:22:00.522 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
 2023-05-24_23:22:00.522 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
 2023-05-24_23:22:00.523 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.PostEntity
 2023-05-24_23:22:00.523 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
-2023-05-24_23:22:00.523 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.AbumEntity
+2023-05-24_23:22:00.523 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.AlbumEntity
 2023-05-24_23:22:00.523 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
 2023-05-24_23:22:00.524 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.PostEntity
 2023-05-24_23:22:00.524 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
 2023-05-24_23:22:00.525 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.PostEntity
 2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
-2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.AbumEntity
+2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.AlbumEntity
 2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.PostEntity
 2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
 2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
 2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
 2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.PostEntity
 2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
-2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.AbumEntity
+2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.AlbumEntity
 2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
 2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.PostEntity
 2023-05-24_23:22:00.526 [restartedMain] DEBUG o.h.b.i.InFlightMetadataCollectorImpl - Resolving reference to class: org.api.entities.UserEntity
@@ -1188,8 +1188,8 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:01.048 [restartedMain] DEBUG o.h.b.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : org.api.payload.jpa.FollowEntity
 2023-05-24_23:22:01.063 [restartedMain] DEBUG o.hibernate.orm.bytecode.interceptor - To-one property `org.api.payload.jpa.FollowEntity#userEntityFollower` was mapped with LAZY + NO_PROXY but the class was not enhanced
 2023-05-24_23:22:01.063 [restartedMain] DEBUG o.hibernate.orm.bytecode.interceptor - To-one property `org.api.payload.jpa.FollowEntity#userEntityFollower` was mapped with LAZY + NO_PROXY but the class was not enhanced
-2023-05-24_23:22:01.064 [restartedMain] DEBUG o.h.b.internal.ClassLoaderAccessImpl - Not known whether passed class name [org.api.entities.AbumEntity] is safe
-2023-05-24_23:22:01.064 [restartedMain] DEBUG o.h.b.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : org.api.entities.AbumEntity
+2023-05-24_23:22:01.064 [restartedMain] DEBUG o.h.b.internal.ClassLoaderAccessImpl - Not known whether passed class name [org.api.entities.AlbumEntity] is safe
+2023-05-24_23:22:01.064 [restartedMain] DEBUG o.h.b.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : org.api.entities.AlbumEntity
 2023-05-24_23:22:01.084 [restartedMain] DEBUG o.hibernate.orm.bytecode.interceptor - To-one property `org.api.entities.RelationshipEntity#userEntityFriend` was mapped with LAZY + NO_PROXY but the class was not enhanced
 2023-05-24_23:22:01.084 [restartedMain] DEBUG o.hibernate.orm.bytecode.interceptor - To-one property `org.api.entities.RelationshipEntity#userEntityFriend` was mapped with LAZY + NO_PROXY but the class was not enhanced
 2023-05-24_23:22:01.084 [restartedMain] DEBUG o.hibernate.orm.bytecode.interceptor - To-one property `org.api.entities.RelationshipEntity#userEntityFriending` was mapped with LAZY + NO_PROXY but the class was not enhanced
@@ -1240,7 +1240,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:01.158 [restartedMain] DEBUG o.hibernate.orm.bytecode.interceptor - To-one property `org.api.entities.FileEntity#postEntity` was mapped with LAZY + NO_PROXY but the class was not enhanced
 2023-05-24_23:22:01.159 [restartedMain] DEBUG o.hibernate.orm.bytecode.interceptor - To-one property `org.api.entities.FileEntity#abumEntityFile` was mapped with LAZY + NO_PROXY but the class was not enhanced
 2023-05-24_23:22:01.159 [restartedMain] DEBUG o.hibernate.orm.bytecode.interceptor - To-one property `org.api.entities.FileEntity#postEntity` was mapped with LAZY + NO_PROXY but the class was not enhanced
-2023-05-24_23:22:01.180 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister - Static SQL for collection: org.api.entities.AbumEntity.posts
+2023-05-24_23:22:01.180 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister - Static SQL for collection: org.api.entities.AlbumEntity.posts
 2023-05-24_23:22:01.180 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister -  Row insert: update t1_post_entity set id_abum=? where id=?
 2023-05-24_23:22:01.180 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister -  Row update: update t1_post_entity set  where id=?
 2023-05-24_23:22:01.180 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister -  Row delete: update t1_post_entity set id_abum=null where id_abum=? and id=?
@@ -1300,7 +1300,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:01.182 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister -  Row update: update t1_post_entity set  where id=?
 2023-05-24_23:22:01.182 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister -  Row delete: update t1_post_entity set id_user_create=null where id_user_create=? and id=?
 2023-05-24_23:22:01.182 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister -  One-shot delete: update t1_post_entity set id_user_create=null where id_user_create=?
-2023-05-24_23:22:01.182 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister - Static SQL for collection: org.api.entities.AbumEntity.files
+2023-05-24_23:22:01.182 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister - Static SQL for collection: org.api.entities.AlbumEntity.files
 2023-05-24_23:22:01.182 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister -  Row insert: update t1_file_entity set id_abum=? where id=?
 2023-05-24_23:22:01.182 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister -  Row update: update t1_file_entity set  where id=?
 2023-05-24_23:22:01.182 [restartedMain] DEBUG o.h.p.c.AbstractCollectionPersister -  Row delete: update t1_file_entity set id_abum=null where id_abum=? and id=?
@@ -1427,8 +1427,8 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
     - Returns
        - EntityReturnImpl(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:0>, path=org.api.entities.CommentEntity)
           - EntityAttributeFetchImpl(entity=org.api.entities.PostEntity, querySpaceUid=<gen:1>, path=org.api.entities.CommentEntity.postEntity)
-             - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:2>, path=org.api.entities.CommentEntity.postEntity.abumEntityPost)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.files, querySpaceUid=<gen:3>, path=org.api.entities.CommentEntity.postEntity.abumEntityPost.files)
+             - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:2>, path=org.api.entities.CommentEntity.postEntity.abumEntityPost)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.files, querySpaceUid=<gen:3>, path=org.api.entities.CommentEntity.postEntity.abumEntityPost.files)
                    - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:4>, path=org.api.entities.CommentEntity.postEntity.abumEntityPost.files.<elements>)
              - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.fileEntities, querySpaceUid=<gen:5>, path=org.api.entities.CommentEntity.postEntity.fileEntities)
                 - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:6>, path=org.api.entities.CommentEntity.postEntity.fileEntities.<elements>)
@@ -1471,7 +1471,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                 - alias suffix - 1_
                 - suffixed key columns - {id1_6_1_}
                 - JOIN (JoinDefinedByMetadata(abumEntityPost)) : <gen:1> -> <gen:2>
-                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=org.api.entities.AbumEntity)
+                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=org.api.entities.AlbumEntity)
                       - SQL table alias mapping - abumentity2_
                       - alias suffix - 2_
                       - suffixed key columns - {id1_0_2_}
@@ -1634,7 +1634,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                 - suffixed key columns - {id1_8_1_}
 
 2023-05-24_23:22:01.279 [restartedMain] DEBUG o.h.loader.entity.plan.EntityLoader - Static select for entity org.api.payload.jpa.FollowEntity [NONE]: select followenti0_.id as id1_3_0_, followenti0_.create_date as create_d2_3_0_, followenti0_.del_flg as del_flg3_3_0_, followenti0_.update_date as update_d4_3_0_, followenti0_.id_user_following as id_user_5_3_0_, followenti0_.id_user_follower as id_user_6_3_0_, userentity1_.id as id1_8_1_, userentity1_.create_date as create_d2_8_1_, userentity1_.del_flg as del_flg3_8_1_, userentity1_.update_date as update_d4_8_1_, userentity1_.address as address5_8_1_, userentity1_.birth_day as birth_da6_8_1_, userentity1_.full_name as full_nam7_8_1_, userentity1_.gender as gender8_8_1_, userentity1_.last_login_date as last_log9_8_1_, userentity1_.link_ig as link_ig10_8_1_, userentity1_.link_tiktok as link_ti11_8_1_, userentity1_.link_youtube as link_yo12_8_1_, userentity1_.mail as mail13_8_1_, userentity1_.password as passwor14_8_1_, userentity1_.phone as phone15_8_1_, userentity1_.role as role16_8_1_ from t1_follow_entity followenti0_ left outer join t1_user_entity userentity1_ on followenti0_.id_user_follower=userentity1_.id where followenti0_.id=?
-2023-05-24_23:22:01.280 [restartedMain] DEBUG o.h.p.entity.AbstractEntityPersister - Static SQL for entity: org.api.entities.AbumEntity
+2023-05-24_23:22:01.280 [restartedMain] DEBUG o.h.p.entity.AbstractEntityPersister - Static SQL for entity: org.api.entities.AlbumEntity
 2023-05-24_23:22:01.280 [restartedMain] DEBUG o.h.p.entity.AbstractEntityPersister -  Version select: select id from t1_abum_entity where id =?
 2023-05-24_23:22:01.280 [restartedMain] DEBUG o.h.p.entity.AbstractEntityPersister -  Snapshot select: select abumentity_.id, abumentity_.del_flg as del_flg3_0_, abumentity_.update_date as update_d4_0_, abumentity_.name as name5_0_, abumentity_.type_abum as type_abu6_0_ from t1_abum_entity abumentity_ where abumentity_.id=?
 2023-05-24_23:22:01.280 [restartedMain] DEBUG o.h.p.entity.AbstractEntityPersister -  Insert 0: insert into t1_abum_entity (create_date, del_flg, update_date, name, type_abum, id) values (?, ?, ?, ?, ?, ?)
@@ -1654,20 +1654,20 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:01.281 [restartedMain] DEBUG o.h.p.w.spi.MetamodelGraphWalker - Visiting attribute path : typeAbum
 2023-05-24_23:22:01.281 [restartedMain] DEBUG o.h.l.p.b.i.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
 2023-05-24_23:22:01.281 [restartedMain] DEBUG o.h.l.p.e.i.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
-2023-05-24_23:22:01.281 [restartedMain] DEBUG o.h.l.p.b.spi.LoadPlanTreePrinter - LoadPlan(entity=org.api.entities.AbumEntity)
+2023-05-24_23:22:01.281 [restartedMain] DEBUG o.h.l.p.b.spi.LoadPlanTreePrinter - LoadPlan(entity=org.api.entities.AlbumEntity)
     - Returns
-       - EntityReturnImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:0>, path=org.api.entities.AbumEntity)
-          - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.files, querySpaceUid=<gen:1>, path=org.api.entities.AbumEntity.files)
-             - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:2>, path=org.api.entities.AbumEntity.files.<elements>)
-          - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.posts, querySpaceUid=<gen:3>, path=org.api.entities.AbumEntity.posts)
-             - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.PostEntity, querySpaceUid=<gen:4>, path=org.api.entities.AbumEntity.posts.<elements>)
+       - EntityReturnImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:0>, path=org.api.entities.AlbumEntity)
+          - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.files, querySpaceUid=<gen:1>, path=org.api.entities.AlbumEntity.files)
+             - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:2>, path=org.api.entities.AlbumEntity.files.<elements>)
+          - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.posts, querySpaceUid=<gen:3>, path=org.api.entities.AlbumEntity.posts)
+             - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.PostEntity, querySpaceUid=<gen:4>, path=org.api.entities.AlbumEntity.posts.<elements>)
     - QuerySpaces
-       - EntityQuerySpaceImpl(uid=<gen:0>, entity=org.api.entities.AbumEntity)
+       - EntityQuerySpaceImpl(uid=<gen:0>, entity=org.api.entities.AlbumEntity)
           - SQL table alias mapping - abumentity0_
           - alias suffix - 0_
           - suffixed key columns - {id1_0_0_}
 
-2023-05-24_23:22:01.281 [restartedMain] DEBUG o.h.loader.entity.plan.EntityLoader - Static select for entity org.api.entities.AbumEntity [NONE]: select abumentity0_.id as id1_0_0_, abumentity0_.create_date as create_d2_0_0_, abumentity0_.del_flg as del_flg3_0_0_, abumentity0_.update_date as update_d4_0_0_, abumentity0_.name as name5_0_0_, abumentity0_.type_abum as type_abu6_0_0_ from t1_abum_entity abumentity0_ where abumentity0_.id=?
+2023-05-24_23:22:01.281 [restartedMain] DEBUG o.h.loader.entity.plan.EntityLoader - Static select for entity org.api.entities.AlbumEntity [NONE]: select abumentity0_.id as id1_0_0_, abumentity0_.create_date as create_d2_0_0_, abumentity0_.del_flg as del_flg3_0_0_, abumentity0_.update_date as update_d4_0_0_, abumentity0_.name as name5_0_0_, abumentity0_.type_abum as type_abu6_0_0_ from t1_abum_entity abumentity0_ where abumentity0_.id=?
 2023-05-24_23:22:01.282 [restartedMain] DEBUG o.h.p.entity.AbstractEntityPersister - Static SQL for entity: org.api.entities.RelationshipEntity
 2023-05-24_23:22:01.282 [restartedMain] DEBUG o.h.p.entity.AbstractEntityPersister -  Version select: select id from t1_friend_entity where id =?
 2023-05-24_23:22:01.282 [restartedMain] DEBUG o.h.p.entity.AbstractEntityPersister -  Snapshot select: select friendenti_.id, friendenti_.del_flg as del_flg3_4_, friendenti_.update_date as update_d4_4_, friendenti_.id_user_friend as id_user_5_4_, friendenti_.id_user_friending as id_user_6_4_ from t1_friend_entity friendenti_ where friendenti_.id=?
@@ -1917,8 +1917,8 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
     - Returns
        - EntityReturnImpl(entity=org.api.entities.ShareEntity, querySpaceUid=<gen:0>, path=org.api.entities.ShareEntity)
           - EntityAttributeFetchImpl(entity=org.api.entities.PostEntity, querySpaceUid=<gen:1>, path=org.api.entities.ShareEntity.postEntity)
-             - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:2>, path=org.api.entities.ShareEntity.postEntity.abumEntityPost)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.files, querySpaceUid=<gen:3>, path=org.api.entities.ShareEntity.postEntity.abumEntityPost.files)
+             - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:2>, path=org.api.entities.ShareEntity.postEntity.abumEntityPost)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.files, querySpaceUid=<gen:3>, path=org.api.entities.ShareEntity.postEntity.abumEntityPost.files)
                    - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:4>, path=org.api.entities.ShareEntity.postEntity.abumEntityPost.files.<elements>)
              - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:5>, path=org.api.entities.ShareEntity.postEntity.comments)
                 - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:6>, path=org.api.entities.ShareEntity.postEntity.comments.<elements>)
@@ -1961,7 +1961,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                 - alias suffix - 1_
                 - suffixed key columns - {id1_6_1_}
                 - JOIN (JoinDefinedByMetadata(abumEntityPost)) : <gen:1> -> <gen:2>
-                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=org.api.entities.AbumEntity)
+                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=org.api.entities.AlbumEntity)
                       - SQL table alias mapping - abumentity2_
                       - alias suffix - 2_
                       - suffixed key columns - {id1_0_2_}
@@ -2097,8 +2097,8 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
     - Returns
        - EntityReturnImpl(entity=org.api.entities.LikeEntity, querySpaceUid=<gen:0>, path=org.api.entities.LikeEntity)
           - EntityAttributeFetchImpl(entity=org.api.entities.PostEntity, querySpaceUid=<gen:1>, path=org.api.entities.LikeEntity.postEntity)
-             - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:2>, path=org.api.entities.LikeEntity.postEntity.abumEntityPost)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.files, querySpaceUid=<gen:3>, path=org.api.entities.LikeEntity.postEntity.abumEntityPost.files)
+             - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:2>, path=org.api.entities.LikeEntity.postEntity.abumEntityPost)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.files, querySpaceUid=<gen:3>, path=org.api.entities.LikeEntity.postEntity.abumEntityPost.files)
                    - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:4>, path=org.api.entities.LikeEntity.postEntity.abumEntityPost.files.<elements>)
              - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:5>, path=org.api.entities.LikeEntity.postEntity.comments)
                 - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:6>, path=org.api.entities.LikeEntity.postEntity.comments.<elements>)
@@ -2141,7 +2141,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                 - alias suffix - 1_
                 - suffixed key columns - {id1_6_1_}
                 - JOIN (JoinDefinedByMetadata(abumEntityPost)) : <gen:1> -> <gen:2>
-                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=org.api.entities.AbumEntity)
+                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=org.api.entities.AlbumEntity)
                       - SQL table alias mapping - abumentity2_
                       - alias suffix - 2_
                       - suffixed key columns - {id1_0_2_}
@@ -2236,8 +2236,8 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:01.310 [restartedMain] DEBUG o.h.l.p.b.spi.LoadPlanTreePrinter - LoadPlan(entity=org.api.entities.PostEntity)
     - Returns
        - EntityReturnImpl(entity=org.api.entities.PostEntity, querySpaceUid=<gen:0>, path=org.api.entities.PostEntity)
-          - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:1>, path=org.api.entities.PostEntity.abumEntityPost)
-             - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.files, querySpaceUid=<gen:2>, path=org.api.entities.PostEntity.abumEntityPost.files)
+          - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:1>, path=org.api.entities.PostEntity.abumEntityPost)
+             - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.files, querySpaceUid=<gen:2>, path=org.api.entities.PostEntity.abumEntityPost.files)
                 - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:3>, path=org.api.entities.PostEntity.abumEntityPost.files.<elements>)
           - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:4>, path=org.api.entities.PostEntity.comments)
              - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:5>, path=org.api.entities.PostEntity.comments.<elements>)
@@ -2266,7 +2266,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
           - alias suffix - 0_
           - suffixed key columns - {id1_6_0_}
           - JOIN (JoinDefinedByMetadata(abumEntityPost)) : <gen:0> -> <gen:1>
-             - EntityQuerySpaceImpl(uid=<gen:1>, entity=org.api.entities.AbumEntity)
+             - EntityQuerySpaceImpl(uid=<gen:1>, entity=org.api.entities.AlbumEntity)
                 - SQL table alias mapping - abumentity1_
                 - alias suffix - 1_
                 - suffixed key columns - {id1_0_1_}
@@ -2373,11 +2373,11 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:01.315 [restartedMain] DEBUG o.h.l.p.b.spi.LoadPlanTreePrinter - LoadPlan(entity=org.api.entities.FileEntity)
     - Returns
        - EntityReturnImpl(entity=org.api.entities.FileEntity, querySpaceUid=<gen:0>, path=org.api.entities.FileEntity)
-          - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:1>, path=org.api.entities.FileEntity.abumEntityFile)
-             - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.posts, querySpaceUid=<gen:2>, path=org.api.entities.FileEntity.abumEntityFile.posts)
+          - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:1>, path=org.api.entities.FileEntity.abumEntityFile)
+             - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.posts, querySpaceUid=<gen:2>, path=org.api.entities.FileEntity.abumEntityFile.posts)
                 - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.PostEntity, querySpaceUid=<gen:3>, path=org.api.entities.FileEntity.abumEntityFile.posts.<elements>)
           - EntityAttributeFetchImpl(entity=org.api.entities.PostEntity, querySpaceUid=<gen:4>, path=org.api.entities.FileEntity.postEntity)
-             - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:5>, path=org.api.entities.FileEntity.postEntity.abumEntityPost)
+             - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:5>, path=org.api.entities.FileEntity.postEntity.abumEntityPost)
              - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:6>, path=org.api.entities.FileEntity.postEntity.comments)
                 - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:7>, path=org.api.entities.FileEntity.postEntity.comments.<elements>)
              - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.likes, querySpaceUid=<gen:8>, path=org.api.entities.FileEntity.postEntity.likes)
@@ -2403,7 +2403,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
           - alias suffix - 0_
           - suffixed key columns - {id1_2_0_}
           - JOIN (JoinDefinedByMetadata(abumEntityFile)) : <gen:0> -> <gen:1>
-             - EntityQuerySpaceImpl(uid=<gen:1>, entity=org.api.entities.AbumEntity)
+             - EntityQuerySpaceImpl(uid=<gen:1>, entity=org.api.entities.AlbumEntity)
                 - SQL table alias mapping - abumentity1_
                 - alias suffix - 1_
                 - suffixed key columns - {id1_0_1_}
@@ -2413,7 +2413,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                 - alias suffix - 2_
                 - suffixed key columns - {id1_6_2_}
                 - JOIN (JoinDefinedByMetadata(abumEntityPost)) : <gen:4> -> <gen:5>
-                   - EntityQuerySpaceImpl(uid=<gen:5>, entity=org.api.entities.AbumEntity)
+                   - EntityQuerySpaceImpl(uid=<gen:5>, entity=org.api.entities.AlbumEntity)
                       - SQL table alias mapping - abumentity3_
                       - alias suffix - 3_
                       - suffixed key columns - {id1_0_3_}
@@ -2485,33 +2485,33 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:01.323 [restartedMain] DEBUG o.h.l.p.b.i.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:22> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@3c8ff683]
 2023-05-24_23:22:01.323 [restartedMain] DEBUG o.h.l.p.b.i.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
 2023-05-24_23:22:01.326 [restartedMain] DEBUG o.h.l.p.e.i.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
-2023-05-24_23:22:01.327 [restartedMain] DEBUG o.h.l.p.b.spi.LoadPlanTreePrinter - LoadPlan(collection=org.api.entities.AbumEntity.posts)
+2023-05-24_23:22:01.327 [restartedMain] DEBUG o.h.l.p.b.spi.LoadPlanTreePrinter - LoadPlan(collection=org.api.entities.AlbumEntity.posts)
     - Returns
-       - CollectionReturnImpl(collection=org.api.entities.AbumEntity.posts, querySpaceUid=<gen:0>, path=[org.api.entities.AbumEntity.posts])
-          - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.PostEntity, querySpaceUid=<gen:1>, path=[org.api.entities.AbumEntity.posts].<elements>)
-             - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:2>, path=[org.api.entities.AbumEntity.posts].<elements>.comments)
-                - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:3>, path=[org.api.entities.AbumEntity.posts].<elements>.comments.<elements>)
-             - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.fileEntities, querySpaceUid=<gen:4>, path=[org.api.entities.AbumEntity.posts].<elements>.fileEntities)
-                - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:5>, path=[org.api.entities.AbumEntity.posts].<elements>.fileEntities.<elements>)
-             - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.likes, querySpaceUid=<gen:6>, path=[org.api.entities.AbumEntity.posts].<elements>.likes)
-                - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.LikeEntity, querySpaceUid=<gen:7>, path=[org.api.entities.AbumEntity.posts].<elements>.likes.<elements>)
-             - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.shares, querySpaceUid=<gen:8>, path=[org.api.entities.AbumEntity.posts].<elements>.shares)
-                - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.ShareEntity, querySpaceUid=<gen:9>, path=[org.api.entities.AbumEntity.posts].<elements>.shares.<elements>)
-             - EntityAttributeFetchImpl(entity=org.api.entities.UserEntity, querySpaceUid=<gen:10>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.comments, querySpaceUid=<gen:11>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.comments)
-                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:12>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.comments.<elements>)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.followers, querySpaceUid=<gen:13>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.followers)
-                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.payload.jpa.FollowEntity, querySpaceUid=<gen:14>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.followers.<elements>)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.friendings, querySpaceUid=<gen:15>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.friendings)
-                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.RelationshipEntity, querySpaceUid=<gen:16>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.friendings.<elements>)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.friends, querySpaceUid=<gen:17>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.friends)
-                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.RelationshipEntity, querySpaceUid=<gen:18>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.friends.<elements>)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.likes, querySpaceUid=<gen:19>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.likes)
-                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.LikeEntity, querySpaceUid=<gen:20>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.likes.<elements>)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.shares, querySpaceUid=<gen:21>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.shares)
-                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.ShareEntity, querySpaceUid=<gen:22>, path=[org.api.entities.AbumEntity.posts].<elements>.userEntityPost.shares.<elements>)
+       - CollectionReturnImpl(collection=org.api.entities.AlbumEntity.posts, querySpaceUid=<gen:0>, path=[org.api.entities.AlbumEntity.posts])
+          - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.PostEntity, querySpaceUid=<gen:1>, path=[org.api.entities.AlbumEntity.posts].<elements>)
+             - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:2>, path=[org.api.entities.AlbumEntity.posts].<elements>.comments)
+                - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:3>, path=[org.api.entities.AlbumEntity.posts].<elements>.comments.<elements>)
+             - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.fileEntities, querySpaceUid=<gen:4>, path=[org.api.entities.AlbumEntity.posts].<elements>.fileEntities)
+                - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:5>, path=[org.api.entities.AlbumEntity.posts].<elements>.fileEntities.<elements>)
+             - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.likes, querySpaceUid=<gen:6>, path=[org.api.entities.AlbumEntity.posts].<elements>.likes)
+                - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.LikeEntity, querySpaceUid=<gen:7>, path=[org.api.entities.AlbumEntity.posts].<elements>.likes.<elements>)
+             - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.shares, querySpaceUid=<gen:8>, path=[org.api.entities.AlbumEntity.posts].<elements>.shares)
+                - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.ShareEntity, querySpaceUid=<gen:9>, path=[org.api.entities.AlbumEntity.posts].<elements>.shares.<elements>)
+             - EntityAttributeFetchImpl(entity=org.api.entities.UserEntity, querySpaceUid=<gen:10>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.comments, querySpaceUid=<gen:11>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.comments)
+                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:12>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.comments.<elements>)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.followers, querySpaceUid=<gen:13>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.followers)
+                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.payload.jpa.FollowEntity, querySpaceUid=<gen:14>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.followers.<elements>)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.friendings, querySpaceUid=<gen:15>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.friendings)
+                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.RelationshipEntity, querySpaceUid=<gen:16>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.friendings.<elements>)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.friends, querySpaceUid=<gen:17>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.friends)
+                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.RelationshipEntity, querySpaceUid=<gen:18>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.friends.<elements>)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.likes, querySpaceUid=<gen:19>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.likes)
+                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.LikeEntity, querySpaceUid=<gen:20>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.likes.<elements>)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.shares, querySpaceUid=<gen:21>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.shares)
+                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.ShareEntity, querySpaceUid=<gen:22>, path=[org.api.entities.AlbumEntity.posts].<elements>.userEntityPost.shares.<elements>)
     - QuerySpaces
-       - CollectionQuerySpaceImpl(uid=<gen:0>, collection=org.api.entities.AbumEntity.posts)
+       - CollectionQuerySpaceImpl(uid=<gen:0>, collection=org.api.entities.AlbumEntity.posts)
           - SQL table alias mapping - posts0_
           - alias suffix - 0_
           - suffixed key columns - {id_abum8_6_0_}
@@ -2528,7 +2528,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                       - alias suffix - 2_
                       - suffixed key columns - {id1_8_2_}
 
-2023-05-24_23:22:01.327 [restartedMain] DEBUG o.h.l.c.plan.CollectionLoader - Static select for collection org.api.entities.AbumEntity.posts: select posts0_.id_abum as id_abum8_6_0_, posts0_.id as id1_6_0_, posts0_.id as id1_6_1_, posts0_.create_date as create_d2_6_1_, posts0_.del_flg as del_flg3_6_1_, posts0_.update_date as update_d4_6_1_, posts0_.id_abum as id_abum8_6_1_, posts0_.access_modifier_level as access_m5_6_1_, posts0_.content as content6_6_1_, posts0_.type_post as type_pos7_6_1_, posts0_.id_user_create as id_user_9_6_1_, userentity1_.id as id1_8_2_, userentity1_.create_date as create_d2_8_2_, userentity1_.del_flg as del_flg3_8_2_, userentity1_.update_date as update_d4_8_2_, userentity1_.address as address5_8_2_, userentity1_.birth_day as birth_da6_8_2_, userentity1_.full_name as full_nam7_8_2_, userentity1_.gender as gender8_8_2_, userentity1_.last_login_date as last_log9_8_2_, userentity1_.link_ig as link_ig10_8_2_, userentity1_.link_tiktok as link_ti11_8_2_, userentity1_.link_youtube as link_yo12_8_2_, userentity1_.mail as mail13_8_2_, userentity1_.password as passwor14_8_2_, userentity1_.phone as phone15_8_2_, userentity1_.role as role16_8_2_ from t1_post_entity posts0_ left outer join t1_user_entity userentity1_ on posts0_.id_user_create=userentity1_.id where posts0_.id_abum=?
+2023-05-24_23:22:01.327 [restartedMain] DEBUG o.h.l.c.plan.CollectionLoader - Static select for collection org.api.entities.AlbumEntity.posts: select posts0_.id_abum as id_abum8_6_0_, posts0_.id as id1_6_0_, posts0_.id as id1_6_1_, posts0_.create_date as create_d2_6_1_, posts0_.del_flg as del_flg3_6_1_, posts0_.update_date as update_d4_6_1_, posts0_.id_abum as id_abum8_6_1_, posts0_.access_modifier_level as access_m5_6_1_, posts0_.content as content6_6_1_, posts0_.type_post as type_pos7_6_1_, posts0_.id_user_create as id_user_9_6_1_, userentity1_.id as id1_8_2_, userentity1_.create_date as create_d2_8_2_, userentity1_.del_flg as del_flg3_8_2_, userentity1_.update_date as update_d4_8_2_, userentity1_.address as address5_8_2_, userentity1_.birth_day as birth_da6_8_2_, userentity1_.full_name as full_nam7_8_2_, userentity1_.gender as gender8_8_2_, userentity1_.last_login_date as last_log9_8_2_, userentity1_.link_ig as link_ig10_8_2_, userentity1_.link_tiktok as link_ti11_8_2_, userentity1_.link_youtube as link_yo12_8_2_, userentity1_.mail as mail13_8_2_, userentity1_.password as passwor14_8_2_, userentity1_.phone as phone15_8_2_, userentity1_.role as role16_8_2_ from t1_post_entity posts0_ left outer join t1_user_entity userentity1_ on posts0_.id_user_create=userentity1_.id where posts0_.id_abum=?
 2023-05-24_23:22:01.327 [restartedMain] DEBUG o.h.l.p.b.i.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@3788f4bb]
 2023-05-24_23:22:01.327 [restartedMain] DEBUG o.h.l.p.b.i.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@60359378]
 2023-05-24_23:22:01.327 [restartedMain] DEBUG o.h.p.w.spi.MetamodelGraphWalker - Visiting attribute path : createDate
@@ -2640,8 +2640,8 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
     - Returns
        - CollectionReturnImpl(collection=org.api.entities.PostEntity.fileEntities, querySpaceUid=<gen:0>, path=[org.api.entities.PostEntity.fileEntities])
           - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:1>, path=[org.api.entities.PostEntity.fileEntities].<elements>)
-             - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:2>, path=[org.api.entities.PostEntity.fileEntities].<elements>.abumEntityFile)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.posts, querySpaceUid=<gen:3>, path=[org.api.entities.PostEntity.fileEntities].<elements>.abumEntityFile.posts)
+             - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:2>, path=[org.api.entities.PostEntity.fileEntities].<elements>.abumEntityFile)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.posts, querySpaceUid=<gen:3>, path=[org.api.entities.PostEntity.fileEntities].<elements>.abumEntityFile.posts)
                    - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.PostEntity, querySpaceUid=<gen:4>, path=[org.api.entities.PostEntity.fileEntities].<elements>.abumEntityFile.posts.<elements>)
     - QuerySpaces
        - CollectionQuerySpaceImpl(uid=<gen:0>, collection=org.api.entities.PostEntity.fileEntities)
@@ -2656,7 +2656,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                 - alias suffix - 1_
                 - suffixed key columns - {id1_2_1_}
                 - JOIN (JoinDefinedByMetadata(abumEntityFile)) : <gen:1> -> <gen:2>
-                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=org.api.entities.AbumEntity)
+                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=org.api.entities.AlbumEntity)
                       - SQL table alias mapping - abumentity1_
                       - alias suffix - 2_
                       - suffixed key columns - {id1_0_2_}
@@ -3011,8 +3011,8 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
        - CollectionReturnImpl(collection=org.api.entities.UserEntity.likes, querySpaceUid=<gen:0>, path=[org.api.entities.UserEntity.likes])
           - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.LikeEntity, querySpaceUid=<gen:1>, path=[org.api.entities.UserEntity.likes].<elements>)
              - EntityAttributeFetchImpl(entity=org.api.entities.PostEntity, querySpaceUid=<gen:2>, path=[org.api.entities.UserEntity.likes].<elements>.postEntity)
-                - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:3>, path=[org.api.entities.UserEntity.likes].<elements>.postEntity.abumEntityPost)
-                   - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.files, querySpaceUid=<gen:4>, path=[org.api.entities.UserEntity.likes].<elements>.postEntity.abumEntityPost.files)
+                - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:3>, path=[org.api.entities.UserEntity.likes].<elements>.postEntity.abumEntityPost)
+                   - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.files, querySpaceUid=<gen:4>, path=[org.api.entities.UserEntity.likes].<elements>.postEntity.abumEntityPost.files)
                       - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:5>, path=[org.api.entities.UserEntity.likes].<elements>.postEntity.abumEntityPost.files.<elements>)
                 - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:6>, path=[org.api.entities.UserEntity.likes].<elements>.postEntity.comments)
                    - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:7>, path=[org.api.entities.UserEntity.likes].<elements>.postEntity.comments.<elements>)
@@ -3049,7 +3049,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                       - alias suffix - 2_
                       - suffixed key columns - {id1_6_2_}
                       - JOIN (JoinDefinedByMetadata(abumEntityPost)) : <gen:2> -> <gen:3>
-                         - EntityQuerySpaceImpl(uid=<gen:3>, entity=org.api.entities.AbumEntity)
+                         - EntityQuerySpaceImpl(uid=<gen:3>, entity=org.api.entities.AlbumEntity)
                             - SQL table alias mapping - abumentity2_
                             - alias suffix - 3_
                             - suffixed key columns - {id1_0_3_}
@@ -3223,8 +3223,8 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
        - CollectionReturnImpl(collection=org.api.entities.UserEntity.shares, querySpaceUid=<gen:0>, path=[org.api.entities.UserEntity.shares])
           - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.ShareEntity, querySpaceUid=<gen:1>, path=[org.api.entities.UserEntity.shares].<elements>)
              - EntityAttributeFetchImpl(entity=org.api.entities.PostEntity, querySpaceUid=<gen:2>, path=[org.api.entities.UserEntity.shares].<elements>.postEntity)
-                - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:3>, path=[org.api.entities.UserEntity.shares].<elements>.postEntity.abumEntityPost)
-                   - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.files, querySpaceUid=<gen:4>, path=[org.api.entities.UserEntity.shares].<elements>.postEntity.abumEntityPost.files)
+                - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:3>, path=[org.api.entities.UserEntity.shares].<elements>.postEntity.abumEntityPost)
+                   - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.files, querySpaceUid=<gen:4>, path=[org.api.entities.UserEntity.shares].<elements>.postEntity.abumEntityPost.files)
                       - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:5>, path=[org.api.entities.UserEntity.shares].<elements>.postEntity.abumEntityPost.files.<elements>)
                 - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:6>, path=[org.api.entities.UserEntity.shares].<elements>.postEntity.comments)
                    - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:7>, path=[org.api.entities.UserEntity.shares].<elements>.postEntity.comments.<elements>)
@@ -3261,7 +3261,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                       - alias suffix - 2_
                       - suffixed key columns - {id1_6_2_}
                       - JOIN (JoinDefinedByMetadata(abumEntityPost)) : <gen:2> -> <gen:3>
-                         - EntityQuerySpaceImpl(uid=<gen:3>, entity=org.api.entities.AbumEntity)
+                         - EntityQuerySpaceImpl(uid=<gen:3>, entity=org.api.entities.AlbumEntity)
                             - SQL table alias mapping - abumentity2_
                             - alias suffix - 3_
                             - suffixed key columns - {id1_0_3_}
@@ -3355,8 +3355,8 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
        - CollectionReturnImpl(collection=org.api.entities.UserEntity.comments, querySpaceUid=<gen:0>, path=[org.api.entities.UserEntity.comments])
           - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:1>, path=[org.api.entities.UserEntity.comments].<elements>)
              - EntityAttributeFetchImpl(entity=org.api.entities.PostEntity, querySpaceUid=<gen:2>, path=[org.api.entities.UserEntity.comments].<elements>.postEntity)
-                - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:3>, path=[org.api.entities.UserEntity.comments].<elements>.postEntity.abumEntityPost)
-                   - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.files, querySpaceUid=<gen:4>, path=[org.api.entities.UserEntity.comments].<elements>.postEntity.abumEntityPost.files)
+                - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:3>, path=[org.api.entities.UserEntity.comments].<elements>.postEntity.abumEntityPost)
+                   - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.files, querySpaceUid=<gen:4>, path=[org.api.entities.UserEntity.comments].<elements>.postEntity.abumEntityPost.files)
                       - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:5>, path=[org.api.entities.UserEntity.comments].<elements>.postEntity.abumEntityPost.files.<elements>)
                 - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.fileEntities, querySpaceUid=<gen:6>, path=[org.api.entities.UserEntity.comments].<elements>.postEntity.fileEntities)
                    - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:7>, path=[org.api.entities.UserEntity.comments].<elements>.postEntity.fileEntities.<elements>)
@@ -3393,7 +3393,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                       - alias suffix - 2_
                       - suffixed key columns - {id1_6_2_}
                       - JOIN (JoinDefinedByMetadata(abumEntityPost)) : <gen:2> -> <gen:3>
-                         - EntityQuerySpaceImpl(uid=<gen:3>, entity=org.api.entities.AbumEntity)
+                         - EntityQuerySpaceImpl(uid=<gen:3>, entity=org.api.entities.AlbumEntity)
                             - SQL table alias mapping - abumentity2_
                             - alias suffix - 3_
                             - suffixed key columns - {id1_0_3_}
@@ -3444,8 +3444,8 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
     - Returns
        - CollectionReturnImpl(collection=org.api.entities.UserEntity.posts, querySpaceUid=<gen:0>, path=[org.api.entities.UserEntity.posts])
           - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.PostEntity, querySpaceUid=<gen:1>, path=[org.api.entities.UserEntity.posts].<elements>)
-             - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:2>, path=[org.api.entities.UserEntity.posts].<elements>.abumEntityPost)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.AbumEntity.files, querySpaceUid=<gen:3>, path=[org.api.entities.UserEntity.posts].<elements>.abumEntityPost.files)
+             - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:2>, path=[org.api.entities.UserEntity.posts].<elements>.abumEntityPost)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.AlbumEntity.files, querySpaceUid=<gen:3>, path=[org.api.entities.UserEntity.posts].<elements>.abumEntityPost.files)
                    - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:4>, path=[org.api.entities.UserEntity.posts].<elements>.abumEntityPost.files.<elements>)
              - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:5>, path=[org.api.entities.UserEntity.posts].<elements>.comments)
                 - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:6>, path=[org.api.entities.UserEntity.posts].<elements>.comments.<elements>)
@@ -3468,7 +3468,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                 - alias suffix - 1_
                 - suffixed key columns - {id1_6_1_}
                 - JOIN (JoinDefinedByMetadata(abumEntityPost)) : <gen:1> -> <gen:2>
-                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=org.api.entities.AbumEntity)
+                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=org.api.entities.AlbumEntity)
                       - SQL table alias mapping - abumentity1_
                       - alias suffix - 2_
                       - suffixed key columns - {id1_0_2_}
@@ -3552,33 +3552,33 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:01.360 [restartedMain] DEBUG o.h.l.p.b.i.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:22> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@178e8c99]
 2023-05-24_23:22:01.360 [restartedMain] DEBUG o.h.l.p.b.i.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
 2023-05-24_23:22:01.360 [restartedMain] DEBUG o.h.l.p.e.i.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
-2023-05-24_23:22:01.361 [restartedMain] DEBUG o.h.l.p.b.spi.LoadPlanTreePrinter - LoadPlan(collection=org.api.entities.AbumEntity.files)
+2023-05-24_23:22:01.361 [restartedMain] DEBUG o.h.l.p.b.spi.LoadPlanTreePrinter - LoadPlan(collection=org.api.entities.AlbumEntity.files)
     - Returns
-       - CollectionReturnImpl(collection=org.api.entities.AbumEntity.files, querySpaceUid=<gen:0>, path=[org.api.entities.AbumEntity.files])
-          - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:1>, path=[org.api.entities.AbumEntity.files].<elements>)
-             - EntityAttributeFetchImpl(entity=org.api.entities.PostEntity, querySpaceUid=<gen:2>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity)
-                - EntityAttributeFetchImpl(entity=org.api.entities.AbumEntity, querySpaceUid=<gen:3>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.abumEntityPost)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:4>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.comments)
-                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:5>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.comments.<elements>)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.likes, querySpaceUid=<gen:6>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.likes)
-                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.LikeEntity, querySpaceUid=<gen:7>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.likes.<elements>)
-                - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.shares, querySpaceUid=<gen:8>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.shares)
-                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.ShareEntity, querySpaceUid=<gen:9>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.shares.<elements>)
-                - EntityAttributeFetchImpl(entity=org.api.entities.UserEntity, querySpaceUid=<gen:10>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost)
-                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.comments, querySpaceUid=<gen:11>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.comments)
-                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:12>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.comments.<elements>)
-                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.followers, querySpaceUid=<gen:13>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.followers)
-                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.payload.jpa.FollowEntity, querySpaceUid=<gen:14>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.followers.<elements>)
-                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.friendings, querySpaceUid=<gen:15>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.friendings)
-                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.RelationshipEntity, querySpaceUid=<gen:16>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.friendings.<elements>)
-                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.friends, querySpaceUid=<gen:17>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.friends)
-                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.RelationshipEntity, querySpaceUid=<gen:18>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.friends.<elements>)
-                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.likes, querySpaceUid=<gen:19>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.likes)
-                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.LikeEntity, querySpaceUid=<gen:20>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.likes.<elements>)
-                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.shares, querySpaceUid=<gen:21>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.shares)
-                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.ShareEntity, querySpaceUid=<gen:22>, path=[org.api.entities.AbumEntity.files].<elements>.postEntity.userEntityPost.shares.<elements>)
+       - CollectionReturnImpl(collection=org.api.entities.AlbumEntity.files, querySpaceUid=<gen:0>, path=[org.api.entities.AlbumEntity.files])
+          - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.FileEntity, querySpaceUid=<gen:1>, path=[org.api.entities.AlbumEntity.files].<elements>)
+             - EntityAttributeFetchImpl(entity=org.api.entities.PostEntity, querySpaceUid=<gen:2>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity)
+                - EntityAttributeFetchImpl(entity=org.api.entities.AlbumEntity, querySpaceUid=<gen:3>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.abumEntityPost)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.comments, querySpaceUid=<gen:4>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.comments)
+                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:5>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.comments.<elements>)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.likes, querySpaceUid=<gen:6>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.likes)
+                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.LikeEntity, querySpaceUid=<gen:7>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.likes.<elements>)
+                - CollectionAttributeFetchImpl(collection=org.api.entities.PostEntity.shares, querySpaceUid=<gen:8>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.shares)
+                   - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.ShareEntity, querySpaceUid=<gen:9>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.shares.<elements>)
+                - EntityAttributeFetchImpl(entity=org.api.entities.UserEntity, querySpaceUid=<gen:10>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost)
+                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.comments, querySpaceUid=<gen:11>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.comments)
+                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.CommentEntity, querySpaceUid=<gen:12>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.comments.<elements>)
+                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.followers, querySpaceUid=<gen:13>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.followers)
+                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.payload.jpa.FollowEntity, querySpaceUid=<gen:14>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.followers.<elements>)
+                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.friendings, querySpaceUid=<gen:15>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.friendings)
+                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.RelationshipEntity, querySpaceUid=<gen:16>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.friendings.<elements>)
+                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.friends, querySpaceUid=<gen:17>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.friends)
+                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.RelationshipEntity, querySpaceUid=<gen:18>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.friends.<elements>)
+                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.likes, querySpaceUid=<gen:19>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.likes)
+                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.LikeEntity, querySpaceUid=<gen:20>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.likes.<elements>)
+                   - CollectionAttributeFetchImpl(collection=org.api.entities.UserEntity.shares, querySpaceUid=<gen:21>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.shares)
+                      - (collection element) CollectionFetchableElementEntityGraph(entity=org.api.entities.ShareEntity, querySpaceUid=<gen:22>, path=[org.api.entities.AlbumEntity.files].<elements>.postEntity.userEntityPost.shares.<elements>)
     - QuerySpaces
-       - CollectionQuerySpaceImpl(uid=<gen:0>, collection=org.api.entities.AbumEntity.files)
+       - CollectionQuerySpaceImpl(uid=<gen:0>, collection=org.api.entities.AlbumEntity.files)
           - SQL table alias mapping - files0_
           - alias suffix - 0_
           - suffixed key columns - {id_abum7_2_0_}
@@ -3595,7 +3595,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                       - alias suffix - 2_
                       - suffixed key columns - {id1_6_2_}
                       - JOIN (JoinDefinedByMetadata(abumEntityPost)) : <gen:2> -> <gen:3>
-                         - EntityQuerySpaceImpl(uid=<gen:3>, entity=org.api.entities.AbumEntity)
+                         - EntityQuerySpaceImpl(uid=<gen:3>, entity=org.api.entities.AlbumEntity)
                             - SQL table alias mapping - abumentity2_
                             - alias suffix - 3_
                             - suffixed key columns - {id1_0_3_}
@@ -3605,7 +3605,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
                             - alias suffix - 4_
                             - suffixed key columns - {id1_8_4_}
 
-2023-05-24_23:22:01.361 [restartedMain] DEBUG o.h.l.c.plan.CollectionLoader - Static select for collection org.api.entities.AbumEntity.files: select files0_.id_abum as id_abum7_2_0_, files0_.id as id1_2_0_, files0_.id as id1_2_1_, files0_.create_date as create_d2_2_1_, files0_.del_flg as del_flg3_2_1_, files0_.update_date as update_d4_2_1_, files0_.id_abum as id_abum7_2_1_, files0_.active as active5_2_1_, files0_.file_name as file_nam6_2_1_, files0_.id_post as id_post8_2_1_, postentity1_.id as id1_6_2_, postentity1_.create_date as create_d2_6_2_, postentity1_.del_flg as del_flg3_6_2_, postentity1_.update_date as update_d4_6_2_, postentity1_.id_abum as id_abum8_6_2_, postentity1_.access_modifier_level as access_m5_6_2_, postentity1_.content as content6_6_2_, postentity1_.type_post as type_pos7_6_2_, postentity1_.id_user_create as id_user_9_6_2_, abumentity2_.id as id1_0_3_, abumentity2_.create_date as create_d2_0_3_, abumentity2_.del_flg as del_flg3_0_3_, abumentity2_.update_date as update_d4_0_3_, abumentity2_.name as name5_0_3_, abumentity2_.type_abum as type_abu6_0_3_, userentity3_.id as id1_8_4_, userentity3_.create_date as create_d2_8_4_, userentity3_.del_flg as del_flg3_8_4_, userentity3_.update_date as update_d4_8_4_, userentity3_.address as address5_8_4_, userentity3_.birth_day as birth_da6_8_4_, userentity3_.full_name as full_nam7_8_4_, userentity3_.gender as gender8_8_4_, userentity3_.last_login_date as last_log9_8_4_, userentity3_.link_ig as link_ig10_8_4_, userentity3_.link_tiktok as link_ti11_8_4_, userentity3_.link_youtube as link_yo12_8_4_, userentity3_.mail as mail13_8_4_, userentity3_.password as passwor14_8_4_, userentity3_.phone as phone15_8_4_, userentity3_.role as role16_8_4_ from t1_file_entity files0_ left outer join t1_post_entity postentity1_ on files0_.id_post=postentity1_.id left outer join t1_abum_entity abumentity2_ on postentity1_.id_abum=abumentity2_.id left outer join t1_user_entity userentity3_ on postentity1_.id_user_create=userentity3_.id where files0_.id_abum=?
+2023-05-24_23:22:01.361 [restartedMain] DEBUG o.h.l.c.plan.CollectionLoader - Static select for collection org.api.entities.AlbumEntity.files: select files0_.id_abum as id_abum7_2_0_, files0_.id as id1_2_0_, files0_.id as id1_2_1_, files0_.create_date as create_d2_2_1_, files0_.del_flg as del_flg3_2_1_, files0_.update_date as update_d4_2_1_, files0_.id_abum as id_abum7_2_1_, files0_.active as active5_2_1_, files0_.file_name as file_nam6_2_1_, files0_.id_post as id_post8_2_1_, postentity1_.id as id1_6_2_, postentity1_.create_date as create_d2_6_2_, postentity1_.del_flg as del_flg3_6_2_, postentity1_.update_date as update_d4_6_2_, postentity1_.id_abum as id_abum8_6_2_, postentity1_.access_modifier_level as access_m5_6_2_, postentity1_.content as content6_6_2_, postentity1_.type_post as type_pos7_6_2_, postentity1_.id_user_create as id_user_9_6_2_, abumentity2_.id as id1_0_3_, abumentity2_.create_date as create_d2_0_3_, abumentity2_.del_flg as del_flg3_0_3_, abumentity2_.update_date as update_d4_0_3_, abumentity2_.name as name5_0_3_, abumentity2_.type_abum as type_abu6_0_3_, userentity3_.id as id1_8_4_, userentity3_.create_date as create_d2_8_4_, userentity3_.del_flg as del_flg3_8_4_, userentity3_.update_date as update_d4_8_4_, userentity3_.address as address5_8_4_, userentity3_.birth_day as birth_da6_8_4_, userentity3_.full_name as full_nam7_8_4_, userentity3_.gender as gender8_8_4_, userentity3_.last_login_date as last_log9_8_4_, userentity3_.link_ig as link_ig10_8_4_, userentity3_.link_tiktok as link_ti11_8_4_, userentity3_.link_youtube as link_yo12_8_4_, userentity3_.mail as mail13_8_4_, userentity3_.password as passwor14_8_4_, userentity3_.phone as phone15_8_4_, userentity3_.role as role16_8_4_ from t1_file_entity files0_ left outer join t1_post_entity postentity1_ on files0_.id_post=postentity1_.id left outer join t1_abum_entity abumentity2_ on postentity1_.id_abum=abumentity2_.id left outer join t1_user_entity userentity3_ on postentity1_.id_user_create=userentity3_.id where files0_.id_abum=?
 2023-05-24_23:22:01.484 [restartedMain] DEBUG org.hibernate.mapping.Table - No alter strings for table : t1_abum_entity
 2023-05-24_23:22:01.485 [restartedMain] DEBUG org.hibernate.mapping.Table - No alter strings for table : t1_comment_entity
 2023-05-24_23:22:01.485 [restartedMain] DEBUG org.hibernate.mapping.Table - No alter strings for table : t1_file_entity
@@ -3712,7 +3712,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:02.442 [restartedMain] DEBUG o.s.beans.CachedIntrospectionResults - Not strongly caching class [org.api.payload.jpa.FollowEntity] because it is not cache-safe
 2023-05-24_23:22:02.460 [restartedMain] DEBUG o.s.beans.CachedIntrospectionResults - Not strongly caching class [org.api.entities.RelationshipEntity] because it is not cache-safe
 2023-05-24_23:22:02.474 [restartedMain] DEBUG o.s.beans.CachedIntrospectionResults - Not strongly caching class [org.api.entities.PostEntity] because it is not cache-safe
-2023-05-24_23:22:02.489 [restartedMain] DEBUG o.s.beans.CachedIntrospectionResults - Not strongly caching class [org.api.entities.AbumEntity] because it is not cache-safe
+2023-05-24_23:22:02.489 [restartedMain] DEBUG o.s.beans.CachedIntrospectionResults - Not strongly caching class [org.api.entities.AlbumEntity] because it is not cache-safe
 2023-05-24_23:22:02.501 [restartedMain] DEBUG o.s.beans.CachedIntrospectionResults - Not strongly caching class [org.api.entities.FileEntity] because it is not cache-safe
 2023-05-24_23:22:02.516 [restartedMain] DEBUG o.s.beans.CachedIntrospectionResults - Not strongly caching class [org.api.entities.LikeEntity] because it is not cache-safe
 2023-05-24_23:22:02.526 [restartedMain] DEBUG o.s.beans.CachedIntrospectionResults - Not strongly caching class [org.api.entities.ShareEntity] because it is not cache-safe
@@ -3756,7 +3756,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:03.273 [restartedMain] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'abumEntityServiceImpl'
 2023-05-24_23:22:03.275 [restartedMain] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'abumEntityJPA'
 2023-05-24_23:22:03.291 [restartedMain] DEBUG o.s.o.j.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler - Creating new EntityManager for shared EntityManager invocation
-2023-05-24_23:22:03.292 [restartedMain] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Initializing repository instance for org.api.repository.AbumEntityRepository…
+2023-05-24_23:22:03.292 [restartedMain] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Initializing repository instance for org.api.repository.AlbumEntityRepository…
 2023-05-24_23:22:03.293 [restartedMain] DEBUG o.s.o.j.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler - Creating new EntityManager for shared EntityManager invocation
 2023-05-24_23:22:03.319 [restartedMain] DEBUG o.s.d.j.repository.query.NamedQuery - Looking up named query AbumEntity.existsByTypeAbum
 2023-05-24_23:22:03.319 [restartedMain] DEBUG o.h.e.t.internal.TransactionImpl - On TransactionImpl creation, JpaCompliance#isJpaTransactionComplianceEnabled == false
@@ -3766,7 +3766,7 @@ org.springframework.boot.devtools.restart.classloader.RestartClassLoader@20d1cc5
 2023-05-24_23:22:03.320 [restartedMain] DEBUG o.h.e.t.internal.TransactionImpl - On TransactionImpl creation, JpaCompliance#isJpaTransactionComplianceEnabled == false
 2023-05-24_23:22:03.320 [restartedMain] DEBUG o.s.d.j.repository.query.NamedQuery - Did not find named query AbumEntity.findOneByTypeAbum
 2023-05-24_23:22:03.320 [restartedMain] DEBUG o.s.o.j.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler - Creating new EntityManager for shared EntityManager invocation
-2023-05-24_23:22:03.325 [restartedMain] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Finished creation of repository instance for org.api.repository.AbumEntityRepository.
+2023-05-24_23:22:03.325 [restartedMain] DEBUG o.s.d.r.c.s.RepositoryFactorySupport - Finished creation of repository instance for org.api.repository.AlbumEntityRepository.
 2023-05-24_23:22:03.353 [restartedMain] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'authenticationController'
 2023-05-24_23:22:03.354 [restartedMain] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'authenticationServiceImpl'
 2023-05-24_23:22:03.369 [restartedMain] DEBUG o.s.b.f.s.DefaultListableBeanFactory - Creating shared instance of singleton bean 'passwordEncoder'

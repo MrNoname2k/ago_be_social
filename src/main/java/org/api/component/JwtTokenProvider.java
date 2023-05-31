@@ -3,7 +3,6 @@ package org.api.component;
 import io.jsonwebtoken.*;
 import org.api.annotation.LogExecutionTime;
 import org.api.constants.ConstantJwt;
-import org.api.entities.UserEntity;
 import org.api.services.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

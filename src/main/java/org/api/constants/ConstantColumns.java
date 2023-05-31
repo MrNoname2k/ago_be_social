@@ -35,5 +35,7 @@ public class ConstantColumns {
     public static final String ID_ABUM = "idAbum";
     public static final String ID_POST = "idPost";
     public static final String ID_COMMENT = "idComment";
+    public static final String ID_USER_ONE = "idUserOne";
+    public static final String ID_USER_TOW = "idUserEntityTow";
 
 }

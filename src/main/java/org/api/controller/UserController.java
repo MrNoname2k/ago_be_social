@@ -47,30 +47,4 @@ public class UserController {
             return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_OK,ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
         }
     }
-
-//    @GetMapping(value = "/get-user", produces = { MediaType.APPLICATION_JSON_VALUE })
-//    public ResponseEntity<ResultBean> getUser(
-//            @RequestParam(value = "sort", defaultValue = "asc", required = false) String sort,
-//            @RequestParam(value = "column", defaultValue = "id", required = false) String column,
-//            @RequestParam(value = "keyWord", defaultValue = "", required = false) String keyWord,
-//            @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
-//            @RequestParam(value = "size", defaultValue = "10", required = false) Integer size) throws Exception {
-//        ResultBean resultBean = userEntityService.getUsers(sort,column, keyWord, page, size);
-//        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
-//    }
-
-//    @PostMapping(value = "/upload-avatar-image/{id}", produces = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
-//    public ResponseEntity<ResultBean> updateAvatar(@PathVariable String id, @RequestPart("file") MultipartFile file) throws Exception, ApiValidateException {
-//        ResultBean resultBean = userEntityService.updateAvatar(file, id);
-//        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
-//    }
-//
-//    @PostMapping(value = "/upload-banner-image/{id}", produces = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
-//    public ResponseEntity<ResultBean> updateBanner(@PathVariable String id, @RequestPart("file") MultipartFile file) throws Exception, ApiValidateException {
-//        ResultBean resultBean = userEntityService.updateBanner(file, id);
-//        return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
-//    }
-
-
-
 }

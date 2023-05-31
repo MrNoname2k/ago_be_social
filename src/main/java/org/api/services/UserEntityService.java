@@ -19,10 +19,6 @@ public interface UserEntityService {
 
     public UserEntity updateLastLogin(String mail) throws ApiValidateException, Exception;
 
-    public ResultBean updateAvatar(MultipartFile file, String id) throws ApiValidateException, Exception;
-
-    public ResultBean updateBanner(MultipartFile file, String id) throws ApiValidateException, Exception;
-
     public UserEntity findOneByMail(String mail) throws ApiValidateException, Exception;
 
     public UserEntity updateOnline(String mail, boolean online) throws ApiValidateException, Exception;

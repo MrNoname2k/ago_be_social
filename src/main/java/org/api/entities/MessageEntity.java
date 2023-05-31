@@ -23,7 +23,6 @@ public class MessageEntity extends CommonEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "custom-id")
     @GenericGenerator(name = "custom-id", strategy = "org.api.entities.CustomIdGenerator")

@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface RelationshipEntityRepository extends BaseRepository<RelationshipEntity, String> {
 
-    @Query("SELECT r FROM RelationshipEntity r WHERE r.userEntityOne.id = ?1 and r.status = 'friend'")
-    public List<RelationshipEntity> getRelationshipEntityByUserEntityOne(String ownerId);
+    public List<RelationshipEntity> findAllByUserEntityOneIdAndStatus(String id, String status);
+
 }

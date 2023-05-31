@@ -2,23 +2,26 @@ package org.api.services.impl;
 
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
+import org.api.entities.AlbumEntity;
 import org.api.payload.ResultBean;
-import org.api.entities.AbumEntity;
 import org.api.entities.FileEntity;
 import org.api.entities.PostEntity;
 import org.api.entities.UserEntity;
 import org.api.constants.*;
+import org.api.payload.response.PostResponse;
+import org.api.repository.FileEntityRepository;
 import org.api.repository.PostEntityRepository;
 import org.api.services.*;
 import org.api.utils.ApiValidateException;
 import org.api.utils.DataUtil;
 import org.api.utils.ValidateData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,10 +43,13 @@ public class PostEntityServiceImpl implements PostEntityService {
     private AuthenticationService authenticationService;
 
     @Autowired
-    private AbumEntityService abumEntityService;
+    private AlbumEntityService albumEntityService;
 
     @Autowired
     private FileEntityService fileEntityService;
+
+    @Autowired
+    private FileEntityRepository fileEntityRepository;
 
     @Autowired
     private RelationshipEntityService relationshipEntityService;
@@ -57,20 +63,19 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        if(abumEntityService.existsByTypeAbum(ConstantTypeAbum.POSTS)){
-            AbumEntity abumEntity = abumEntityService.findOneByTypeAbum(ConstantTypeAbum.POSTS).get();
-            entity.setAbumEntityPost(abumEntity);
+        if(albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.POSTS)){
+            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbum(ConstantTypeAlbum.POSTS).get();
+            entity.setAlbumEntityPost(albumEntity);
         }else {
-            AbumEntity abumEntity = abumEntityService.createAbumDefault(ConstantTypeAbum.POSTS);
-            entity.setAbumEntityPost(abumEntity);
-            //throw new ApiValidateException(ConstantMessage.ID_BKE00037, MessageUtils.getMessage(ConstantMessage.ID_BKE00037));
+            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.POSTS);
+            entity.setAlbumEntityPost(albumEntity);
         }
         PostEntity entityOld = postEntityRepository.save(entity);
         map.put(ConstantColumns.POST_ENTITY, entityOld);
         if (!DataUtil.isLengthImage(files)) {
             for (MultipartFile file: files) {
                 String fileName = firebaseService.uploadImage(file, entityOld.getId(), ConstantFirebase.FIREBASE_STORAGE_USER + userEntity.getId());
-                fileEntityService.createFile(entityOld.getAbumEntityPost(), entityOld, fileName);
+                fileEntityService.createFile(entityOld.getAlbumEntityPost(), entityOld, fileName);
             }
         }
 
@@ -86,19 +91,25 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        if(abumEntityService.existsByTypeAbum(ConstantTypeAbum.AVATAR)){
-            AbumEntity abumEntity = abumEntityService.findOneByTypeAbum(ConstantTypeAbum.AVATAR).get();
-            entity.setAbumEntityPost(abumEntity);
+        if(albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.AVATAR)){
+            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbum(ConstantTypeAlbum.AVATAR).get();
+            entity.setAlbumEntityPost(albumEntity);
+            List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.AVATAR);
+            if(!list.isEmpty()){
+                for (FileEntity fileEntity: list) {
+                    fileEntity.setIsCurrenAvatar(1);
+                    fileEntityRepository.save(fileEntity);
+                }
+            }
         }else {
-            AbumEntity abumEntity = abumEntityService.createAbumDefault(ConstantTypeAbum.AVATAR);
-            entity.setAbumEntityPost(abumEntity);
-            //throw new ApiValidateException(ConstantMessage.ID_BKE00035, MessageUtils.getMessage(ConstantMessage.ID_BKE00035));
+            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.AVATAR);
+            entity.setAlbumEntityPost(albumEntity);
         }
         PostEntity entityOld = postEntityRepository.save(entity);
         map.put(ConstantColumns.POST_ENTITY, entityOld);
         if (!DataUtil.isEmptyImage(file)) {
             String fileName = firebaseService.uploadImage(file, entityOld.getId(), ConstantFirebase.FIREBASE_STORAGE_USER + userEntity.getId());
-            fileEntityService.createFile(entityOld.getAbumEntityPost(), entityOld, fileName);
+            fileEntityService.createFile(entityOld.getAlbumEntityPost(), entityOld, fileName);
         }
         return new ResultBean(map, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
@@ -112,19 +123,25 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        if(abumEntityService.existsByTypeAbum(ConstantTypeAbum.BANNER)){
-            AbumEntity abumEntity = abumEntityService.findOneByTypeAbum(ConstantTypeAbum.BANNER).get();
-            entity.setAbumEntityPost(abumEntity);
+        if(albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.BANNER)){
+            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbum(ConstantTypeAlbum.BANNER).get();
+            entity.setAlbumEntityPost(albumEntity);
+            List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.BANNER);
+            if(!list.isEmpty()){
+                for (FileEntity fileEntity: list) {
+                    fileEntity.setIsCurrenAvatar(1);
+                    fileEntityRepository.save(fileEntity);
+                }
+            }
         }else {
-            AbumEntity abumEntity = abumEntityService.createAbumDefault(ConstantTypeAbum.BANNER);
-            entity.setAbumEntityPost(abumEntity);
-           // throw new ApiValidateException(ConstantMessage.ID_BKE00036, MessageUtils.getMessage(ConstantMessage.ID_BKE00036));
+            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.BANNER);
+            entity.setAlbumEntityPost(albumEntity);
         }
         PostEntity entityOld = postEntityRepository.save(entity);
         map.put(ConstantColumns.POST_ENTITY, entityOld);
         if (!DataUtil.isEmptyImage(file)) {
             String fileName = firebaseService.uploadImage(file, entityOld.getId(), ConstantFirebase.FIREBASE_STORAGE_USER + userEntity.getId());
-            fileEntityService.createFile(entityOld.getAbumEntityPost(), entityOld, fileName);
+            fileEntityService.createFile(entityOld.getAlbumEntityPost(), entityOld, fileName);
         }
         return new ResultBean(map, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
@@ -136,8 +153,15 @@ public class PostEntityServiceImpl implements PostEntityService {
     }
 
     @Override
-    public ResultBean findAllAvatarOrBannerByUser() throws ApiValidateException, Exception {
-        List<FileEntity> list = fileEntityService.findAllAvatarOrBannerByUser(authenticationService.authentication().getId(), ConstantTypeAbum.AVATAR);
+    public ResultBean getAllByPropertiesWhereIdUser(String accessModifierLevel, String typePost, String idUser, String typeAlbum, Date startDate, Date endDate) throws ApiValidateException, Exception {
+        List<PostResponse> list = postEntityRepository.getAllByPropertiesWhereIdUser(accessModifierLevel, typePost, idUser, typeAlbum, startDate, endDate);
+        if (list.isEmpty()) return new ResultBean(null, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);;
+        for (PostResponse postResponse: list) {
+            List<String> fileEntityList = fileEntityService.findAllByPostEntityId(postResponse.getId());
+            postResponse.setPostFiles(fileEntityList);
+            FileEntity fileEntity = fileEntityService.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbumAndIsCurrenAvatar(postResponse.getIdUser(), ConstantTypeAlbum.AVATAR, 0);
+            if(fileEntity != null) postResponse.setAvatarFile(fileEntity.getFileName());
+        }
         return new ResultBean(list, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
@@ -151,9 +175,5 @@ public class PostEntityServiceImpl implements PostEntityService {
         if (DataUtil.hasMember(json, ConstantColumns.TYPE_POST)) {
             entity.setTypePost(DataUtil.getJsonString(json, ConstantColumns.TYPE_POST));
         }
-//        if (DataUtil.hasMember(json, ConstantColumns.ID_ABUM)) {
-//            AbumEntity abumEntity = abumEntityService.findOneById(DataUtil.getJsonString(json, ConstantColumns.ID_ABUM));
-//            entity.setAbumEntityPost(abumEntity);
-//        }
     }
 }

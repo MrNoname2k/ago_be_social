@@ -1,11 +1,14 @@
 package org.api.services;
 
 import org.api.entities.RelationshipEntity;
-import org.api.entities.UserEntity;
+import org.api.payload.ResultBean;
 import org.api.utils.ApiValidateException;
 
 import java.util.List;
 
 public interface RelationshipEntityService {
-    public List<RelationshipEntity> getRelationshipsByOwnerPost(String ownerId) throws ApiValidateException;
+
+    public ResultBean findAllByUserEntityOneIdAndStatus(String id, String status) throws ApiValidateException, Exception;
+
+    public ResultBean friendOrUnFriend(String json, String status) throws ApiValidateException, Exception;
 }
