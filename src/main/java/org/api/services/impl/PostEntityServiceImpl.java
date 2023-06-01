@@ -72,6 +72,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         }
         PostEntity entityOld = postEntityRepository.save(entity);
         map.put(ConstantColumns.POST_ENTITY, entityOld);
+        map.put(ConstantColumns.USER_ENTITY, userEntity);
         if (!DataUtil.isLengthImage(files)) {
             for (MultipartFile file: files) {
                 String fileName = firebaseService.uploadImage(file, entityOld.getId(), ConstantFirebase.FIREBASE_STORAGE_USER + userEntity.getId());
