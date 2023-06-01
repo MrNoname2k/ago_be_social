@@ -1,6 +1,7 @@
 package org.api.component;
 
 import org.api.annotation.LogExecutionTime;
+import org.api.constants.ConstantJwt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
@@ -21,6 +22,6 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Wrong login or token expiration. Please log in again");
+		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConstantJwt.MESSAGE_SC_UNAUTHORIZED);
 	}
 }

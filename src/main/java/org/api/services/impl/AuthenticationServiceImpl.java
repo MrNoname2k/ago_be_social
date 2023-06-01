@@ -2,10 +2,12 @@ package org.api.services.impl;
 
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
+import org.api.entities.UserRoleEntity;
 import org.api.payload.ResultBean;
 import org.api.entities.UserEntity;
 import org.api.component.JwtTokenProvider;
 import org.api.constants.*;
+import org.api.repository.RoleRepository;
 import org.api.services.CustomUserDetailsService;
 import org.api.services.UserEntityService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +24,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @LogExecutionTime
 @Service
@@ -46,6 +50,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private UserEntityService userEntityService;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public ResultBean loginAuth(String json) throws ApiValidateException, Exception{
         UserEntity entity = new UserEntity();
@@ -59,7 +66,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try{
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(entity.getMail(), entity.getPassword()));
         }catch (Exception ex){
-            throw new ApiValidateException(ConstantMessage.ID_AUTH_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_AUTH_ERR00001));
+            ex.printStackTrace();
+//            throw new ApiValidateException(ConstantMessage.ID_AUTH_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_AUTH_ERR00001));
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         CustomUserDetailsService userDetails = (CustomUserDetailsService) authentication.getPrincipal();
@@ -82,7 +90,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_REGISTER_JSON_VALIDATE, jsonObject, false);
         this.convertJsonToEntityRegister(jsonObject, entity);
-        entity.setRole(ConstantRole.ROLE_USER);
+//        entity.setRole(ConstantRole.ROLE_USER);
+        UserRoleEntity userRole = this.roleRepository.findByAuthority(ConstantRole.ROLE_USER);
+        Set<UserRoleEntity> roles = new HashSet<>();
+        roles.add(userRole);
+        entity.setAuthorities(roles);
+
         if(Boolean.TRUE.equals(userEntityRepository.existsByMail(entity.getMail()))){
             throw new ApiValidateException(ConstantMessage.ID_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_ERR00001));
         }
@@ -93,8 +106,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public UserEntity authentication() throws ApiValidateException, Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetailsService userDetails = (CustomUserDetailsService) authentication.getPrincipal();
-        UserEntity entityOld = userEntityService.findOneByMail(userDetails.getUsername());
+        CustomUserDetailsService userPrincipal = (CustomUserDetailsService) authentication.getPrincipal();
+        UserEntity entityOld = userEntityService.findOneByMail(userPrincipal.getUsername());
         return entityOld;
     }
 

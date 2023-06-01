@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception ex) {
-            logger.error("Failed to set user authentication: ", ex);
+            logger.error(ConstantJwt.DO_FILTER_INTERNAL, ex);
         }
         filterChain.doFilter(request, response);
     }
@@ -54,7 +54,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String bearerToken = request.getHeader(evn.getProperty(ConstantJwt.HEADER_STRING));
         logger.info("Token: " + bearerToken);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(evn.getProperty(ConstantJwt.TOKEN_PREFIX) + " ")) {
-            return bearerToken.substring(7, bearerToken.length());
+            String jwt = bearerToken.substring(7, bearerToken.length());
+            return jwt;
         }
         return null;
     }

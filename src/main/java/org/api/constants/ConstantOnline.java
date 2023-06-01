@@ -1,6 +1,6 @@
 package org.api.constants;
 
 public class ConstantOnline {
-    public static final String ON = "on";
-    public static final String OFF = "off";
+    public static final boolean ON = true;
+    public static final boolean OFF = false;
 }

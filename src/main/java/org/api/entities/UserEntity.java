@@ -2,27 +2,18 @@ package org.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "t1_user_entity")
 @SQLDelete(sql = "UPDATE t1_user_entity SET del_flg = 1 WHERE id=?")
@@ -62,10 +53,6 @@ public class UserEntity extends CommonEntity implements Serializable {
     @JsonProperty("gender")
     private String gender;
 
-    @Column(name = "role")
-    @JsonProperty("role")
-    private String role;
-
     @Column(name = "password")
     @JsonProperty("password")
     private String password;
@@ -86,9 +73,9 @@ public class UserEntity extends CommonEntity implements Serializable {
     @JsonProperty("lastLoginDate")
     private Date lastLoginDate;
 
-    @Column(name = "online")
+    @Column(name = "online", columnDefinition = "BOOLEAN DEFAULT FALSE")
     @JsonProperty("online")
-    private String online;
+    private Boolean online;
 
     @JsonIgnore
     @OneToMany(mappedBy = "userEntityOne", cascade = CascadeType.ALL)
@@ -118,6 +105,14 @@ public class UserEntity extends CommonEntity implements Serializable {
     @OneToMany(mappedBy = "userEntityTo", cascade = CascadeType.ALL)
     private List<MessageEntity> messageTo;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name="t1_users_roles",
+            joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "id"))
+    private Set<UserRoleEntity> authorities;
 
-
+    @Override
+    public String toString() {
+        return getMail();
+    }
 }

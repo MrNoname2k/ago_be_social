@@ -24,11 +24,17 @@ public class JwtTokenProvider {
 
     public String generateJwtToken(Authentication authentication) {
         CustomUserDetailsService userPrincipal = (CustomUserDetailsService) authentication.getPrincipal();
+        String authority = userPrincipal.getAuthorities()
+                .stream()
+                .findFirst()
+                .orElse(null)
+                .getAuthority();
+
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + ConstantJwt.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
-                .claim("role", userPrincipal.getAuthorities())
+                .claim("role", authority)
                 .signWith(SignatureAlgorithm.HS512, evn.getProperty(ConstantJwt.SIGNING_KEY))
                 .compact();
     }

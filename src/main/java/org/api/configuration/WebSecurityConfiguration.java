@@ -60,7 +60,6 @@ public class WebSecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(
                         "/v1/api/auth/**",
-                        "/v1/api/abums/**",
                         "/v1/api/files/**",
                         "/socket/**"
                 ).permitAll()
@@ -69,7 +68,8 @@ public class WebSecurityConfiguration {
                         "/v1/api/posts/**",
                         "/v1/api/likes/**",
                         "/v1/api/profiles/**",
-                        "/v1/api/messages/**"
+                        "/v1/api/messages/**",
+                        "/v1/api/relationships/**"
                 ).access("hasRole('ROLE_USER')")
                 .antMatchers(
                         "/v1/api/messages/**"

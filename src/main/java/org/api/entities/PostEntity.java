@@ -51,9 +51,9 @@ public class PostEntity extends CommonEntity implements Serializable {
     private UserEntity userEntityPost;
 
     @ManyToOne
-    @JoinColumn(name = "id_abum")
-    @JsonProperty("idAbum")
-    private AbumEntity abumEntityPost;
+    @JoinColumn(name = "id_album")
+    @JsonProperty("idAlbum")
+    private AlbumEntity albumEntityPost;
 
     @JsonIgnore
     @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)

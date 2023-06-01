@@ -19,7 +19,6 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -77,10 +76,11 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     private JWTAuthenticationToken getJWTAuthenticationToken(String token) {
         if (StringUtils.hasText(token) && tokenProvider.validateJwtToken(token)) {
             String mail = tokenProvider.getMailFromJwtToken(token);
-            UserDetails userDetails = customUserDetailsServiceImpl.loadUserByUsername(mail);
+            CustomUserDetailsService userDetails = (CustomUserDetailsService) customUserDetailsServiceImpl.loadUserByUsername(mail);
+
             if (userDetails != null) {
-                CustomUserDetailsService user = (CustomUserDetailsService) userDetails;
-                JWTAuthenticationToken jwtAuthenticationToken = new JWTAuthenticationToken(userDetails.getAuthorities(), token, user.getUserEntity());
+                UserEntity user = userDetails.getUserEntity();
+                JWTAuthenticationToken jwtAuthenticationToken = new JWTAuthenticationToken(userDetails.getAuthorities(), token, user);
                 jwtAuthenticationToken.setAuthenticated(true);
                 return jwtAuthenticationToken;
             }
