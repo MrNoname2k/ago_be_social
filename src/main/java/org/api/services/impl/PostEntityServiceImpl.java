@@ -2,12 +2,11 @@ package org.api.services.impl;
 
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
-import org.api.entities.AlbumEntity;
+import org.api.entities.*;
 import org.api.payload.ResultBean;
-import org.api.entities.FileEntity;
-import org.api.entities.PostEntity;
-import org.api.entities.UserEntity;
 import org.api.constants.*;
+import org.api.payload.request.PageableRequest;
+import org.api.payload.response.PageResponse;
 import org.api.payload.response.PostResponse;
 import org.api.repository.FileEntityRepository;
 import org.api.repository.PostEntityRepository;
@@ -16,12 +15,12 @@ import org.api.utils.ApiValidateException;
 import org.api.utils.DataUtil;
 import org.api.utils.ValidateData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,17 +153,48 @@ public class PostEntityServiceImpl implements PostEntityService {
     }
 
     @Override
-    public ResultBean getAllByPropertiesWhereIdUser(String accessModifierLevel, String typePost, String idUser, String typeAlbum, Date startDate, Date endDate) throws ApiValidateException, Exception {
-        List<PostResponse> list = postEntityRepository.getAllByPropertiesWhereIdUser(accessModifierLevel, typePost, idUser, typeAlbum, startDate, endDate);
-        if (list.isEmpty()) return new ResultBean(null, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);;
-        for (PostResponse postResponse: list) {
-            List<String> fileEntityList = fileEntityService.findAllByPostEntityId(postResponse.getId());
-            postResponse.setPostFiles(fileEntityList);
-            FileEntity fileEntity = fileEntityService.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbumAndIsCurrenAvatar(postResponse.getIdUser(), ConstantTypeAlbum.AVATAR, 0);
-            if(fileEntity != null) postResponse.setAvatarFile(fileEntity.getFileName());
-        }
-        return new ResultBean(list, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    public ResultBean findAllByUserEntityPostId(int page, String idUser) throws ApiValidateException, Exception {
+        PageableRequest pageableRequest = new PageableRequest();
+        pageableRequest.setPage(page);
+        Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
+        PageResponse<PostEntity> pageResponse = new PageResponse<>();
+        pageResponse.setResultPage(pagePostEntity);
+        return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
+
+    @Override
+    public ResultBean findAllByUserEntityPostIdIn(int page, String idUser) throws ApiValidateException, Exception {
+        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrIdUserEntityTowAndStatus(idUser, idUser, ConstantRelationshipStatus.FRIEND);
+        if(!listFriends.isEmpty()){
+            List<String> listIdFriend = new ArrayList<>();
+            for (RelationshipEntity relationship: listFriends) {
+                if(!relationship.getUserEntityOne().getId().equals(idUser))
+                    listIdFriend.add(relationship.getUserEntityOne().getId());
+                else
+                    listIdFriend.add(relationship.getIdUserEntityTow());
+            }
+            PageableRequest pageableRequest = new PageableRequest();
+            pageableRequest.setPage(page);
+            Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostIdIn(listIdFriend, pageableRequest.getPageable());
+            PageResponse<PostEntity> pageResponse = new PageResponse<>();
+            pageResponse.setResultPage(pagePostEntity);
+            return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        }
+        return null;
+    }
+
+//    @Override
+//    public ResultBean getAllByPropertiesWhereIdUser(String accessModifierLevel, String typePost, String idUser, String typeAlbum, Date startDate, Date endDate) throws ApiValidateException, Exception {
+//        List<PostResponse> list = postEntityRepository.getAllByPropertiesWhereIdUser(accessModifierLevel, typePost, idUser, typeAlbum, startDate, endDate);
+//        if (list.isEmpty()) return new ResultBean(null, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);;
+//        for (PostResponse postResponse: list) {
+//            List<String> fileEntityList = fileEntityService.findAllByPostEntityId(postResponse.getId());
+//            postResponse.setPostFiles(fileEntityList);
+//            FileEntity fileEntity = fileEntityService.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbumAndIsCurrenAvatar(postResponse.getIdUser(), ConstantTypeAlbum.AVATAR, 0);
+//            if(fileEntity != null) postResponse.setAvatarFile(fileEntity.getFileName());
+//        }
+//        return new ResultBean(list, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+//    }
 
     private void convertJsonToEntity(JsonObject json, PostEntity entity) throws ApiValidateException {
         if (DataUtil.hasMember(json, ConstantColumns.CONTENT)) {

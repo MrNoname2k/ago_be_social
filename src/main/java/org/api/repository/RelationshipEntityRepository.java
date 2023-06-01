@@ -11,4 +11,6 @@ public interface RelationshipEntityRepository extends BaseRepository<Relationshi
 
     public List<RelationshipEntity> findAllByUserEntityOneIdAndStatus(String id, String status);
 
+    public List<RelationshipEntity> findAllByUserEntityOneIdOrIdUserEntityTowAndStatus(String idOne, String idTow, String status);
+
 }
