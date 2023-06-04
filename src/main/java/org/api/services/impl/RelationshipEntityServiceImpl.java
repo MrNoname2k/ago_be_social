@@ -48,6 +48,14 @@ public class RelationshipEntityServiceImpl implements RelationshipEntityService 
         return new ResultBean(entityOld, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
+    @Override
+    public List<RelationshipEntity> findAllByUserEntityOneIdOrIdUserEntityTowAndStatus(String idOne, String idTow, String status) {
+        List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdOrIdUserEntityTowAndStatus(idOne, idTow, status);
+        if(lists.isEmpty())
+            return null;
+        return lists;
+    }
+
     private void convertJsonToEntity(JsonObject json, RelationshipEntity entity, String status) throws ApiValidateException {
         entity.setStatus(status);
         if (DataUtil.hasMember(json, ConstantColumns.ID_USER_ONE)) {
