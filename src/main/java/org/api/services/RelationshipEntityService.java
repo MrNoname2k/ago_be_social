@@ -8,9 +8,13 @@ import java.util.List;
 
 public interface RelationshipEntityService {
 
-    public ResultBean findAllByUserEntityOneIdAndStatus(String id, String status) throws ApiValidateException, Exception;
+//    public ResultBean findAllByUserEntityOneIdAndStatus(String id, String status) throws ApiValidateException, Exception;
+//
+//    public ResultBean friendOrUnFriend(String json, String status) throws ApiValidateException, Exception;
+//
+//    public List<RelationshipEntity> findAllByUserEntityOneIdOrIdUserEntityTowAndStatus(String idOne, String idTow, String status);
 
-    public ResultBean friendOrUnFriend(String json, String status) throws ApiValidateException, Exception;
+    public RelationshipEntity findOneByStatus(String status);
 
-    public List<RelationshipEntity> findAllByUserEntityOneIdOrIdUserEntityTowAndStatus(String idOne, String idTow, String status);
+    public ResultBean createFriendOrUnFriend(String json ,String status) throws ApiValidateException, Exception ;
 }

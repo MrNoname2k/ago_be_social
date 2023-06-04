@@ -78,10 +78,6 @@ public class UserEntity extends CommonEntity implements Serializable {
     private Boolean online;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userEntityOne", cascade = CascadeType.ALL)
-    private List<RelationshipEntity> relationshipOne;
-
-    @JsonIgnore
     @OneToMany(mappedBy = "userEntityPost", cascade = CascadeType.ALL)
     private List<PostEntity> posts;
 
@@ -110,6 +106,12 @@ public class UserEntity extends CommonEntity implements Serializable {
             joinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "id"))
     private Set<UserRoleEntity> authorities;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name="t1_users_relationships",
+            joinColumns = @JoinColumn(name = "id_user_entity_one", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_user_entity_tow", referencedColumnName = "id"))
+    private Set<RelationshipEntity> relationships;
 
     @Override
     public String toString() {

@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @LogExecutionTime
 @Service
@@ -105,6 +102,14 @@ public class UserEntityServiceImpl implements UserEntityService {
             throw new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
                     MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS)));
         }
+    }
+
+    @Override
+    public List<UserEntity> findFriendsByUserId(String userId, String status) {
+        List<UserEntity> list = userEntityRepository.findFriendsByUserId(userId, status);
+        if(list.isEmpty())
+             return null;
+        return list;
     }
 
     private void convertJsonToEntity(JsonObject json, UserEntity entity) throws ApiValidateException {
