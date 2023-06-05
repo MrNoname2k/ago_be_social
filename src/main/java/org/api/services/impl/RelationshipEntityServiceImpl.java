@@ -29,40 +29,48 @@ public class RelationshipEntityServiceImpl implements RelationshipEntityService 
     @Autowired
     private RelationshipEntityRepository relationshipEntityRepository;
 
-    @Autowired
-    private UserEntityRepository userEntityRepository;
-
     @Override
-    public ResultBean findAllByUserEntityOneIdAndStatus(String id, String status) {
-        List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdAndStatus(id, status);
-        return new ResultBean(lists, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    public RelationshipEntity findOneByStatus(String status) {
+        return relationshipEntityRepository.findOneByStatus(status);
     }
 
     @Override
-    public ResultBean friendOrUnFriend(String json, String status) throws ApiValidateException, Exception {
-        RelationshipEntity entity = new RelationshipEntity();
-        JsonObject jsonObject = DataUtil.getJsonObject(json);
-        ValidateData.validate(ConstantJsonFileValidate.FILE_RELATIONSHIP_JSON_VALIDATE, jsonObject, false);
-        this.convertJsonToEntity(jsonObject, entity, status);
-        RelationshipEntity entityOld = relationshipEntityRepository.save(entity);
-        return new ResultBean(entityOld, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    public ResultBean createFriendOrUnFriend(String json, String status) throws ApiValidateException, Exception {
+
+        return null;
     }
 
-    @Override
-    public List<RelationshipEntity> findAllByUserEntityOneIdOrIdUserEntityTowAndStatus(String idOne, String idTow, String status) {
-        List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdOrIdUserEntityTowAndStatus(idOne, idTow, status);
-        if(lists.isEmpty())
-            return null;
-        return lists;
-    }
-
-    private void convertJsonToEntity(JsonObject json, RelationshipEntity entity, String status) throws ApiValidateException {
-        entity.setStatus(status);
-        if (DataUtil.hasMember(json, ConstantColumns.ID_USER_ONE)) {
-            entity.setUserEntityOne(userEntityRepository.findOneById(DataUtil.getJsonString(json, ConstantColumns.ID_USER_ONE)).get());
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.ID_USER_TOW)) {
-            entity.setIdUserEntityTow(DataUtil.getJsonString(json, ConstantColumns.ID_USER_TOW));
-        }
-    }
+//    @Override
+//    public ResultBean findAllByUserEntityOneIdAndStatus(String id, String status) {
+//        List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdAndStatus(id, status);
+//        return new ResultBean(null, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+//    }
+//
+//    @Override
+//    public ResultBean friendOrUnFriend(String json, String status) throws ApiValidateException, Exception {
+//        RelationshipEntity entity = new RelationshipEntity();
+//        JsonObject jsonObject = DataUtil.getJsonObject(json);
+//        ValidateData.validate(ConstantJsonFileValidate.FILE_RELATIONSHIP_JSON_VALIDATE, jsonObject, false);
+//        this.convertJsonToEntity(jsonObject, entity, status);
+//        RelationshipEntity entityOld = relationshipEntityRepository.save(entity);
+//        return new ResultBean(entityOld, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+//    }
+//
+//    @Override
+//    public List<RelationshipEntity> findAllByUserEntityOneIdOrIdUserEntityTowAndStatus(String idOne, String idTow, String status) {
+//        List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdOrIdUserEntityTowAndStatus(idOne, idTow, status);
+//        if(lists.isEmpty())
+//            return null;
+//        return lists;
+//    }
+//
+//    private void convertJsonToEntity(JsonObject json, RelationshipEntity entity, String status) throws ApiValidateException {
+//        entity.setStatus(status);
+//        if (DataUtil.hasMember(json, ConstantColumns.ID_USER_ONE)) {
+//            entity.setUserEntityOne(userEntityRepository.findOneById(DataUtil.getJsonString(json, ConstantColumns.ID_USER_ONE)).get());
+//        }
+//        if (DataUtil.hasMember(json, ConstantColumns.ID_USER_TOW)) {
+//            entity.setIdUserEntityTow(DataUtil.getJsonString(json, ConstantColumns.ID_USER_TOW));
+//        }
+//    }
 }

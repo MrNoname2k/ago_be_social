@@ -20,8 +20,8 @@ public interface PostEntityService {
 
     //public ResultBean getAllByPropertiesWhereIdUser(String accessModifierLevel, String typePost, String idUser, String typeAlbum, Date startDate, Date endDate) throws ApiValidateException, Exception;
 
-    public ResultBean findAllByUserEntityPostId(int  page, String idUser) throws ApiValidateException, Exception;
+    public ResultBean findAllByUserEntityPostId(int  size, String idUser) throws ApiValidateException, Exception;
 
-    public ResultBean findAllByUserEntityPostIdIn(int  page, String idUser) throws ApiValidateException, Exception;
+    public ResultBean findAllByUserEntityPostIdIn(int  size, String idUser) throws ApiValidateException, Exception;
 
 }

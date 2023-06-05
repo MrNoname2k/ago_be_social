@@ -28,10 +28,10 @@ public class AgoHomeController {
     private PostEntityService postEntityService;
 
     @GetMapping(value = "/find-all-by-user-id-in", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<ResultBean> getAllByPropertiesWhereIdUser(@RequestParam(name = "page", required = false) Integer page,
+    public ResponseEntity<ResultBean> getAllByPropertiesWhereIdUser(@RequestParam(name = "size", required = false) Integer size,
                                                                     @RequestParam(name = "idUser", required = false) String idUser) {
         try{
-            ResultBean resultBean = postEntityService.findAllByUserEntityPostIdIn(page, idUser);
+            ResultBean resultBean = postEntityService.findAllByUserEntityPostIdIn(size, idUser);
             return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
         }catch (ApiValidateException ex){
             return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);

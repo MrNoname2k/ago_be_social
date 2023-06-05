@@ -13,6 +13,8 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -36,16 +38,10 @@ public class RelationshipEntity extends CommonEntity implements Serializable {
     @JsonProperty("status")
     private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "id_user_one")
-    @JsonProperty("idUserOne")
-    private UserEntity userEntityOne;
-
-    @Column(name = "id_user_entity_tow")
-    @JsonProperty("idUserEntityTow")
-    private String idUserEntityTow;
-
     @JsonIgnore
     @OneToMany(mappedBy = "relationship", cascade = CascadeType.ALL)
     private List<MessageEntity> messages;
+
+    @ManyToMany
+    private Set<UserEntity> userEntities;
 }

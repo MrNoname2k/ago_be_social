@@ -46,16 +46,15 @@ public class PostController {
     @Autowired
     private UserEntityRepository userEntityRepository;
 
-
     @PostMapping(value = "/create-post",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<ResultBean> createPost(@RequestPart("json") String json, @RequestPart("files") MultipartFile[] files) {
         try{
             ResultBean resultBean = postEntityService.createPost(json, files);
             Map<String, Object> data = (Map<String, Object>) resultBean.getData();
             UserEntity user = (UserEntity) data.get("userEntity");
-            List<RelationshipEntity> friends = user.getRelationshipOne();
+            List<RelationshipEntity> friends = null;  // user.getRelationshipOne();
             for (RelationshipEntity friend : friends) {
-                UserEntity friendInfo = userEntityRepository.findOneById(friend.getIdUserEntityTow()).get();
+                UserEntity friendInfo = null;  //userEntityRepository.findOneById(friend.getIdUserEntityTow()).get();
                 String destination = "/user/" + friendInfo.getMail() + "/notifications";
                 String message = "Người bạn " + user.getMail() + " đã đăng một bài viết mới";
                 messagingTemplate.convertAndSend(destination, message);
