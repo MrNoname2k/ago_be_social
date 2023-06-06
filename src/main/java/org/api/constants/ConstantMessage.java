@@ -34,4 +34,10 @@ public class ConstantMessage {
     public static final String ID_BKE00036 = "BKE00036";
     public static final String ID_BKE00037 = "BKE00037";
     public static final String ID_AUTH_ERR00001 = "AUTH_ERR00001";
+
+    public static final String ID_NOTIFICATION_001 = "NOTIFICATION001";
+    public static final String ID_NOTIFICATION_002 = "NOTIFICATION002";
+    public static final String ID_NOTIFICATION_003 = "NOTIFICATION003";
+    public static final String ID_NOTIFICATION_004 = "NOTIFICATION004";
+    public static final String ID_NOTIFICATION_005 = "NOTIFICATION005";
 }

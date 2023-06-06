@@ -1,6 +1,7 @@
 package org.api.repository;
 
 import org.api.entities.PostEntity;
+import org.api.entities.UserEntity;
 import org.api.payload.response.PostResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,8 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface PostEntityRepository extends BaseRepository<PostEntity, String>  {
+
+    public Optional<PostEntity> findOneById(String id);
 
     public Page<PostEntity> findAllByUserEntityPostId(String idUser, Pageable pageable);
 

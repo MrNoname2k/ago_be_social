@@ -42,6 +42,13 @@ public class RelationshipEntity extends CommonEntity implements Serializable {
     @OneToMany(mappedBy = "relationship", cascade = CascadeType.ALL)
     private List<MessageEntity> messages;
 
-    @ManyToMany
-    private Set<UserEntity> userEntities;
+    @ManyToOne
+    @JoinColumn(name = "id_user_one")
+    @JsonProperty("idUserOne")
+    private UserEntity userEntityOne;
+
+    @ManyToOne
+    @JoinColumn(name = "id_user_tow")
+    @JsonProperty("idUserTow")
+    private UserEntity userEntityTow;
 }
