@@ -6,14 +6,11 @@ import org.api.constants.*;
 import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
 import org.api.repository.UserEntityRepository;
-import org.api.services.CustomUserDetailsService;
-import org.api.services.FirebaseService;
 import org.api.services.UserEntityService;
 import org.api.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -26,9 +23,6 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Autowired
     private UserEntityRepository userEntityRepository;
-
-    @Autowired
-    private FirebaseService firebaseService;
 
     @Override
     public ResultBean createUser(String json) throws ApiValidateException, Exception {
@@ -102,14 +96,6 @@ public class UserEntityServiceImpl implements UserEntityService {
             throw new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
                     MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS)));
         }
-    }
-
-    @Override
-    public List<UserEntity> findFriendsByUserId(String userId, String status) {
-        List<UserEntity> list = userEntityRepository.findFriendsByUserId(userId, status);
-        if(list.isEmpty())
-             return null;
-        return list;
     }
 
     private void convertJsonToEntity(JsonObject json, UserEntity entity) throws ApiValidateException {

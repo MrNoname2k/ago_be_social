@@ -107,11 +107,17 @@ public class UserEntity extends CommonEntity implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "id"))
     private Set<UserRoleEntity> authorities;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(name="t1_users_relationships",
-            joinColumns = @JoinColumn(name = "id_user_entity_one", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id_user_entity_tow", referencedColumnName = "id"))
-    private Set<RelationshipEntity> relationships;
+    @JsonIgnore
+    @OneToMany(mappedBy = "userEntityOne", cascade = CascadeType.ALL)
+    private List<RelationshipEntity> relationshipEntitiesOne;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userEntityTow", cascade = CascadeType.ALL)
+    private List<RelationshipEntity> relationshipEntitiesTow;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<NotificationEntity> notifications;
 
     @Override
     public String toString() {

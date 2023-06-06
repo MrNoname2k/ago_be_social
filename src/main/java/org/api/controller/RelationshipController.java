@@ -32,15 +32,15 @@ public class RelationshipController {
         try{
             ResultBean resultBean = null;
             if (request.getRequestURI().contains("/friend")) {
-                //resultBean = relationshipEntityService.friendOrUnFriend(json, ConstantRelationshipStatus.FRIEND);
+                resultBean = relationshipEntityService.friendOrUnFriend(json, ConstantRelationshipStatus.FRIEND);
             } else if (request.getRequestURI().contains("/unFriend")) {
-                //resultBean = relationshipEntityService.friendOrUnFriend(json, ConstantRelationshipStatus.UN_FRIEND);;
+                resultBean = relationshipEntityService.friendOrUnFriend(json, ConstantRelationshipStatus.UN_FRIEND);;
             }
             return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
         }
-//        catch (ApiValidateException ex){
-//            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
-//        }
+        catch (ApiValidateException ex){
+            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
+        }
         catch (Exception ex) {
             return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_OK,ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
         }
@@ -51,15 +51,15 @@ public class RelationshipController {
         try{
             ResultBean resultBean = null;
             if (request.getRequestURI().contains("/friend/")) {
-                //resultBean = relationshipEntityService.findAllByUserEntityOneIdAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
+                resultBean = relationshipEntityService.findAllByUserEntityOneIdAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
             } else if (request.getRequestURI().contains("/unFriend/")) {
-                //resultBean = relationshipEntityService.findAllByUserEntityOneIdAndStatus(idUser, ConstantRelationshipStatus.UN_FRIEND);
+                resultBean = relationshipEntityService.findAllByUserEntityOneIdAndStatus(idUser, ConstantRelationshipStatus.UN_FRIEND);
             }
             return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
         }
-//        catch (ApiValidateException ex){
-//            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
-//        }
+        catch (ApiValidateException ex){
+            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
+        }
         catch (Exception ex) {
             return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_OK,ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
         }

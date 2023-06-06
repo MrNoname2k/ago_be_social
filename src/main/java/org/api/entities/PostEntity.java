@@ -70,4 +70,8 @@ public class PostEntity extends CommonEntity implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
     private List<FileEntity> fileEntities;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
+    private List<NotificationEntity> notifications;
 }

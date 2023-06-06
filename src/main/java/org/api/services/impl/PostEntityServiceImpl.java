@@ -7,10 +7,8 @@ import org.api.payload.ResultBean;
 import org.api.constants.*;
 import org.api.payload.request.PageableRequest;
 import org.api.payload.response.PageResponse;
-import org.api.payload.response.PostResponse;
 import org.api.repository.FileEntityRepository;
 import org.api.repository.PostEntityRepository;
-import org.api.repository.UserEntityRepository;
 import org.api.services.*;
 import org.api.utils.ApiValidateException;
 import org.api.utils.DataUtil;
@@ -55,7 +53,7 @@ public class PostEntityServiceImpl implements PostEntityService {
     private RelationshipEntityService relationshipEntityService;
 
     @Autowired
-    private UserEntityService userEntityService;
+    private NotificationEntityService notificationEntityService;
 
     @Override
     public ResultBean createPost(String json, MultipartFile[] files) throws ApiValidateException, Exception {
@@ -82,7 +80,8 @@ public class PostEntityServiceImpl implements PostEntityService {
                 fileEntityService.createFile(entityOld.getAlbumEntityPost(), entityOld, fileName);
             }
         }
-
+        NotificationEntity notificationEntity = notificationEntityService.create(entity.getUserEntityPost().getId(), entity.getId(), ConstantNotificationType.POST_CREATE);
+        notificationEntityService.sendNotification(notificationEntity);
         return new ResultBean(map, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
@@ -168,11 +167,14 @@ public class PostEntityServiceImpl implements PostEntityService {
 
     @Override
     public ResultBean findAllByUserEntityPostIdIn(int size, String idUser) throws ApiValidateException, Exception {
-        List<UserEntity> listFriends = userEntityService.findFriendsByUserId(idUser, ConstantRelationshipStatus.FRIEND);
+        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser,idUser, ConstantRelationshipStatus.FRIEND);
         if(!listFriends.isEmpty()){
             List<String> listIdFriend = new ArrayList<>();
-            for (UserEntity friend: listFriends) {
-                listIdFriend.add(friend.getId());
+            for (RelationshipEntity friend: listFriends) {
+                if(!friend.getUserEntityOne().getId().equals(idUser))
+                    listIdFriend.add(friend.getUserEntityTow().getId());
+                else if(!friend.getUserEntityTow().getId().equals(idUser))
+                    listIdFriend.add(friend.getUserEntityOne().getId());
             }
             PageableRequest pageableRequest = new PageableRequest();
             pageableRequest.setSize(size);
@@ -183,19 +185,6 @@ public class PostEntityServiceImpl implements PostEntityService {
         }
         return null;
     }
-
-//    @Override
-//    public ResultBean getAllByPropertiesWhereIdUser(String accessModifierLevel, String typePost, String idUser, String typeAlbum, Date startDate, Date endDate) throws ApiValidateException, Exception {
-//        List<PostResponse> list = postEntityRepository.getAllByPropertiesWhereIdUser(accessModifierLevel, typePost, idUser, typeAlbum, startDate, endDate);
-//        if (list.isEmpty()) return new ResultBean(null, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);;
-//        for (PostResponse postResponse: list) {
-//            List<String> fileEntityList = fileEntityService.findAllByPostEntityId(postResponse.getId());
-//            postResponse.setPostFiles(fileEntityList);
-//            FileEntity fileEntity = fileEntityService.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbumAndIsCurrenAvatar(postResponse.getIdUser(), ConstantTypeAlbum.AVATAR, 0);
-//            if(fileEntity != null) postResponse.setAvatarFile(fileEntity.getFileName());
-//        }
-//        return new ResultBean(list, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
-//    }
 
     private void convertJsonToEntity(JsonObject json, PostEntity entity) throws ApiValidateException {
         if (DataUtil.hasMember(json, ConstantColumns.CONTENT)) {
