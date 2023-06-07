@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @LogExecutionTime
 @Service
-@Transactional(rollbackFor = { ApiValidateException.class, Exception.class })
+@Transactional(rollbackFor = {ApiValidateException.class, Exception.class})
 public class AlbumEntityServiceImpl implements AlbumEntityService {
 
     public static final String ALIAS = "Album";
@@ -22,7 +22,7 @@ public class AlbumEntityServiceImpl implements AlbumEntityService {
     private AlbumEntityRepository albumEntityRepository;
 
     @Override
-    public AlbumEntity createAlbumDefault(String type){
+    public AlbumEntity createAlbumDefault(String type) {
         AlbumEntity entity = new AlbumEntity();
         entity.setName(type);
         entity.setTypeAlbum(type);
@@ -31,7 +31,7 @@ public class AlbumEntityServiceImpl implements AlbumEntityService {
 
     @Override
     public Boolean existsByTypeAlbum(String tpeAlbum) {
-        if(Boolean.TRUE.equals(albumEntityRepository.existsByTypeAlbum(tpeAlbum))){
+        if (Boolean.TRUE.equals(albumEntityRepository.existsByTypeAlbum(tpeAlbum))) {
             return true;
         }
         return false;

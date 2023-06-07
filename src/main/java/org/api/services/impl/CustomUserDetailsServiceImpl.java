@@ -12,11 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 @LogExecutionTime
 @Service
-@Transactional(rollbackFor = { ApiValidateException.class, Exception.class })
+@Transactional(rollbackFor = {ApiValidateException.class, Exception.class})
 public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired

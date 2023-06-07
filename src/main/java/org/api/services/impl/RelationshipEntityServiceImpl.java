@@ -22,7 +22,7 @@ import java.util.List;
 
 @LogExecutionTime
 @Service
-@Transactional(rollbackFor = { ApiValidateException.class, Exception.class })
+@Transactional(rollbackFor = {ApiValidateException.class, Exception.class})
 public class RelationshipEntityServiceImpl implements RelationshipEntityService {
 
     @Autowired
@@ -50,7 +50,7 @@ public class RelationshipEntityServiceImpl implements RelationshipEntityService 
     @Override
     public List<RelationshipEntity> findAllByUserEntityOneIdOrUserEntityTowAndStatus(String idOne, String idTow, String status) {
         List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idOne, idTow, status);
-        if(lists.isEmpty())
+        if (lists.isEmpty())
             return null;
         return lists;
     }

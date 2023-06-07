@@ -2,27 +2,31 @@ package org.api.services.impl;
 
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
-import org.api.entities.UserRoleEntity;
-import org.api.payload.ResultBean;
-import org.api.entities.UserEntity;
 import org.api.component.JwtTokenProvider;
 import org.api.constants.*;
+import org.api.entities.UserEntity;
+import org.api.entities.UserRoleEntity;
+import org.api.payload.ResultBean;
 import org.api.repository.RoleRepository;
-import org.api.services.CustomUserDetailsService;
-import org.api.services.UserEntityService;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.api.repository.UserEntityRepository;
 import org.api.services.AuthenticationService;
-import org.api.utils.*;
+import org.api.services.CustomUserDetailsService;
+import org.api.services.UserEntityService;
+import org.api.utils.ApiValidateException;
+import org.api.utils.DataUtil;
+import org.api.utils.MessageUtils;
+import org.api.utils.ValidateData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -30,7 +34,7 @@ import java.util.Set;
 
 @LogExecutionTime
 @Service
-@Transactional(rollbackFor = { ApiValidateException.class, Exception.class })
+@Transactional(rollbackFor = {ApiValidateException.class, Exception.class})
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
@@ -54,18 +58,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private RoleRepository roleRepository;
 
     @Override
-    public ResultBean loginAuth(String json) throws ApiValidateException, Exception{
+    public ResultBean loginAuth(String json) throws ApiValidateException, Exception {
         UserEntity entity = new UserEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_LOGIN_JSON_VALIDATE, jsonObject, false);
         this.convertJsonToEntityLogin(jsonObject, entity);
-        if(Boolean.FALSE.equals(userEntityRepository.existsByMail(entity.getMail()))){
+        if (Boolean.FALSE.equals(userEntityRepository.existsByMail(entity.getMail()))) {
             throw new ApiValidateException(ConstantMessage.ID_ERR00004, MessageUtils.getMessage(ConstantMessage.ID_ERR00004));
         }
         Authentication authentication = null;
-        try{
+        try {
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(entity.getMail(), entity.getPassword()));
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
 //            throw new ApiValidateException(ConstantMessage.ID_AUTH_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_AUTH_ERR00001));
         }
@@ -80,12 +84,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public ResultBean tokenAuth(String token) throws ApiValidateException, Exception{
+    public ResultBean tokenAuth(String token) throws ApiValidateException, Exception {
         return null;
     }
 
     @Override
-    public ResultBean registerAuth(String json) throws ApiValidateException, Exception{
+    public ResultBean registerAuth(String json) throws ApiValidateException, Exception {
         UserEntity entity = new UserEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_REGISTER_JSON_VALIDATE, jsonObject, false);
@@ -96,7 +100,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         roles.add(userRole);
         entity.setAuthorities(roles);
 
-        if(Boolean.TRUE.equals(userEntityRepository.existsByMail(entity.getMail()))){
+        if (Boolean.TRUE.equals(userEntityRepository.existsByMail(entity.getMail()))) {
             throw new ApiValidateException(ConstantMessage.ID_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_ERR00001));
         }
         userEntityRepository.save(entity);

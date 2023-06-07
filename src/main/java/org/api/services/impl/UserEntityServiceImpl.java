@@ -2,7 +2,10 @@ package org.api.services.impl;
 
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
-import org.api.constants.*;
+import org.api.constants.ConstantColumns;
+import org.api.constants.ConstantJsonFileValidate;
+import org.api.constants.ConstantMessage;
+import org.api.constants.ConstantStatus;
 import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
 import org.api.repository.UserEntityRepository;
@@ -12,11 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @LogExecutionTime
 @Service
-@Transactional(rollbackFor = { ApiValidateException.class, Exception.class })
+@Transactional(rollbackFor = {ApiValidateException.class, Exception.class})
 public class UserEntityServiceImpl implements UserEntityService {
 
     public static final String ALIAS = "User";
@@ -30,7 +36,7 @@ public class UserEntityServiceImpl implements UserEntityService {
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_USER_JSON_VALIDATE, jsonObject, false);
         this.convertJsonToEntity(jsonObject, entity);
-        if(userEntityRepository.existsByMail(entity.getMail())){
+        if (userEntityRepository.existsByMail(entity.getMail())) {
             throw new ApiValidateException(ConstantMessage.ID_ERR00003, MessageUtils.getMessage(ConstantMessage.ID_ERR00003));
         }
         UserEntity entityOld = userEntityRepository.save(entity);

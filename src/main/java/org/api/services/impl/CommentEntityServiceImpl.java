@@ -2,14 +2,14 @@ package org.api.services.impl;
 
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
-import org.api.payload.ResultBean;
-import org.api.entities.CommentEntity;
-import org.api.entities.PostEntity;
-import org.api.entities.UserEntity;
 import org.api.constants.ConstantColumns;
 import org.api.constants.ConstantJsonFileValidate;
 import org.api.constants.ConstantMessage;
 import org.api.constants.ConstantStatus;
+import org.api.entities.CommentEntity;
+import org.api.entities.PostEntity;
+import org.api.entities.UserEntity;
+import org.api.payload.ResultBean;
 import org.api.repository.CommentEntityRepository;
 import org.api.services.AuthenticationService;
 import org.api.services.CommentEntityService;
@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @LogExecutionTime
 @Service
-@Transactional(rollbackFor = { ApiValidateException.class, Exception.class })
+@Transactional(rollbackFor = {ApiValidateException.class, Exception.class})
 public class CommentEntityServiceImpl implements CommentEntityService {
 
     @Autowired

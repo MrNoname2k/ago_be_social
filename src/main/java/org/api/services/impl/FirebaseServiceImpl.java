@@ -19,13 +19,13 @@ import java.util.UUID;
 
 @LogExecutionTime
 @Service
-@Transactional(rollbackFor = { ApiValidateException.class, Exception.class })
+@Transactional(rollbackFor = {ApiValidateException.class, Exception.class})
 public class FirebaseServiceImpl implements FirebaseService {
 
     public static final String ALIAS = "Image";
 
     @Override
-    public String uploadImage(MultipartFile file, String key, String store) throws Exception{
+    public String uploadImage(MultipartFile file, String key, String store) throws Exception {
         UUID uuid = UUID.randomUUID();
         String uuidString = uuid.toString();
         String fileName = this.getStorageFilename(file, uuidString, key);
@@ -39,12 +39,12 @@ public class FirebaseServiceImpl implements FirebaseService {
     }
 
     @Override
-    public Map<String, String> uploadImages(MultipartFile[] file) throws Exception{
+    public Map<String, String> uploadImages(MultipartFile[] file) throws Exception {
         return null;
     }
 
     @Override
-    public String getStorageFilename(MultipartFile file, String uuid, String key) throws Exception{
+    public String getStorageFilename(MultipartFile file, String uuid, String key) throws Exception {
         String ext = FilenameUtils.getExtension(file.getOriginalFilename());
         return key + "-" + uuid + "." + ext;
     }
