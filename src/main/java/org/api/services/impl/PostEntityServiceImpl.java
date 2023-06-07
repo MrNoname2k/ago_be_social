@@ -171,9 +171,9 @@ public class PostEntityServiceImpl implements PostEntityService {
         if (!listFriends.isEmpty()) {
             List<String> listIdFriend = new ArrayList<>();
             for (RelationshipEntity friend : listFriends) {
-                if (!friend.getUserEntityOne().getId().equals(idUser))
+                if (friend.getUserEntityOne().getId().equals(idUser))
                     listIdFriend.add(friend.getUserEntityTow().getId());
-                else if (!friend.getUserEntityTow().getId().equals(idUser))
+                else if (friend.getUserEntityTow().getId().equals(idUser))
                     listIdFriend.add(friend.getUserEntityOne().getId());
             }
             PageableRequest pageableRequest = new PageableRequest();

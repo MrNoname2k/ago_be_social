@@ -10,6 +10,7 @@ import org.api.entities.PostEntity;
 import org.api.entities.RelationshipEntity;
 import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
+import org.api.payload.WebNotification;
 import org.api.payload.request.PageableRequest;
 import org.api.payload.response.PageResponse;
 import org.api.repository.NotificationEntityRepository;
@@ -25,7 +26,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @LogExecutionTime
@@ -73,23 +73,29 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
     @Override
     public void sendNotification(NotificationEntity notificationEntity) {
         if (notificationEntity.getType().equals(ConstantNotificationType.LIKE) || notificationEntity.getType().equals(ConstantNotificationType.COMMENT)) {
-            String destination = "/user/" + notificationEntity.getPostEntity().getUserEntityPost().getMail() + "/notifications";
-            String message = notificationEntity.getContent();
-            messagingTemplate.convertAndSend(destination, message);
+            WebNotification webNotification = new WebNotification();
+            webNotification.setUserEntity(notificationEntity.getPostEntity().getUserEntityPost());
+            webNotification.setTitle("/user/" + notificationEntity.getPostEntity().getUserEntityPost().getMail() + "/notifications");
+            webNotification.setContent(notificationEntity.getContent());
+            messagingTemplate.convertAndSend(webNotification);
         } else {
-            List<String> destinations = new ArrayList<>();
-            String message = notificationEntity.getContent();
             List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(notificationEntity.getUserEntity().getId(), notificationEntity.getUserEntity().getId(), ConstantRelationshipStatus.FRIEND);
             if (!listFriends.isEmpty()) {
                 for (RelationshipEntity friend : listFriends) {
-                    if (!friend.getUserEntityOne().getId().equals(notificationEntity.getUserEntity().getId()))
-                        destinations.add(friend.getUserEntityTow().getMail());
-                    else if (!friend.getUserEntityTow().getId().equals(notificationEntity.getUserEntity().getId()))
-                        destinations.add(friend.getUserEntityOne().getMail());
+                    if (friend.getUserEntityOne().getId().equals(notificationEntity.getUserEntity().getId())) {
+                        WebNotification webNotification = new WebNotification();
+                        webNotification.setUserEntity(friend.getUserEntityTow());
+                        webNotification.setTitle("/user/" + friend.getUserEntityTow().getMail() + "/notifications");
+                        webNotification.setContent(notificationEntity.getContent());
+                        messagingTemplate.convertAndSend(webNotification);
+                    } else if (friend.getUserEntityTow().getId().equals(notificationEntity.getUserEntity().getId())) {
+                        WebNotification webNotification = new WebNotification();
+                        webNotification.setUserEntity(friend.getUserEntityOne());
+                        webNotification.setTitle("/user/" + friend.getUserEntityOne().getMail() + "/notifications");
+                        webNotification.setContent(notificationEntity.getContent());
+                        messagingTemplate.convertAndSend(webNotification);
+                    }
                 }
-            }
-            for (String str : destinations) {
-                messagingTemplate.convertAndSend("/user/" + str + "/notifications", message);
             }
         }
     }

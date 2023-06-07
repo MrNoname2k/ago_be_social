@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @LogExecutionTime
@@ -50,11 +48,9 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Override
     public ResultBean getById(String id) throws ApiValidateException, Exception {
-        Map<String, Object> map = new HashMap<String, Object>();
         Optional<UserEntity> userOptional = userEntityRepository.findOneById(id);
         if (userOptional.isPresent()) {
-            map.put(ConstantColumns.USER_ENTITY, userOptional.get());
-            return new ResultBean(map, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+            return new ResultBean(userOptional.get(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
         } else {
             throw new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
                     MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS)));
