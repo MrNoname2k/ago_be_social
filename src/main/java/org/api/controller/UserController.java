@@ -1,9 +1,9 @@
 package org.api.controller;
 
 import org.api.annotation.LogExecutionTime;
-import org.api.payload.ResultBean;
 import org.api.constants.ConstantMessage;
 import org.api.constants.ConstantStatus;
+import org.api.payload.ResultBean;
 import org.api.services.UserEntityService;
 import org.api.utils.ApiValidateException;
 import org.slf4j.Logger;
@@ -24,27 +24,27 @@ public class UserController {
     @Autowired
     private UserEntityService userEntityService;
 
-    @PostMapping(value = "/create-user", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<ResultBean> createUser(@RequestBody String json){
-        try{
+    @PostMapping(value = "/create-user", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResultBean> createUser(@RequestBody String json) {
+        try {
             ResultBean resultBean = userEntityService.createUser(json);
             return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
-        }catch (ApiValidateException ex){
+        } catch (ApiValidateException ex) {
             return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
         }
     }
 
-    @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResultBean> getUserById(@PathVariable String id) {
-        try{
+        try {
             ResultBean resultBean = userEntityService.getById(id);
             return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
-        }catch (ApiValidateException ex){
+        } catch (ApiValidateException ex) {
             return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_OK,ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
+            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
         }
     }
 }

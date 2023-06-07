@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @LogExecutionTime
 @Service
-@Transactional(rollbackFor = { ApiValidateException.class, Exception.class })
+@Transactional(rollbackFor = {ApiValidateException.class, Exception.class})
 public class MessageEntityServiceImpl implements MessageEntityService {
 
     @Autowired

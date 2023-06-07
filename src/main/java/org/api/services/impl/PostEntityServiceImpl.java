@@ -2,9 +2,9 @@ package org.api.services.impl;
 
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
+import org.api.constants.*;
 import org.api.entities.*;
 import org.api.payload.ResultBean;
-import org.api.constants.*;
 import org.api.payload.request.PageableRequest;
 import org.api.payload.response.PageResponse;
 import org.api.repository.FileEntityRepository;
@@ -26,7 +26,7 @@ import java.util.Map;
 
 @LogExecutionTime
 @Service
-@Transactional(rollbackFor = { ApiValidateException.class, Exception.class })
+@Transactional(rollbackFor = {ApiValidateException.class, Exception.class})
 public class PostEntityServiceImpl implements PostEntityService {
 
     public static final String ALIAS = "Post";
@@ -64,10 +64,10 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        if(albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.POSTS)){
+        if (albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.POSTS)) {
             AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbum(ConstantTypeAlbum.POSTS).get();
             entity.setAlbumEntityPost(albumEntity);
-        }else {
+        } else {
             AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.POSTS);
             entity.setAlbumEntityPost(albumEntity);
         }
@@ -75,7 +75,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         map.put(ConstantColumns.POST_ENTITY, entityOld);
         map.put(ConstantColumns.USER_ENTITY, userEntity);
         if (!DataUtil.isLengthImage(files)) {
-            for (MultipartFile file: files) {
+            for (MultipartFile file : files) {
                 String fileName = firebaseService.uploadImage(file, entityOld.getId(), ConstantFirebase.FIREBASE_STORAGE_USER + userEntity.getId());
                 fileEntityService.createFile(entityOld.getAlbumEntityPost(), entityOld, fileName);
             }
@@ -94,17 +94,17 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        if(albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.AVATAR)){
+        if (albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.AVATAR)) {
             AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbum(ConstantTypeAlbum.AVATAR).get();
             entity.setAlbumEntityPost(albumEntity);
             List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.AVATAR);
-            if(!list.isEmpty()){
-                for (FileEntity fileEntity: list) {
+            if (!list.isEmpty()) {
+                for (FileEntity fileEntity : list) {
                     fileEntity.setIsCurrenAvatar(1);
                     fileEntityRepository.save(fileEntity);
                 }
             }
-        }else {
+        } else {
             AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.AVATAR);
             entity.setAlbumEntityPost(albumEntity);
         }
@@ -126,17 +126,17 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        if(albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.BANNER)){
+        if (albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.BANNER)) {
             AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbum(ConstantTypeAlbum.BANNER).get();
             entity.setAlbumEntityPost(albumEntity);
             List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.BANNER);
-            if(!list.isEmpty()){
-                for (FileEntity fileEntity: list) {
+            if (!list.isEmpty()) {
+                for (FileEntity fileEntity : list) {
                     fileEntity.setIsCurrenAvatar(1);
                     fileEntityRepository.save(fileEntity);
                 }
             }
-        }else {
+        } else {
             AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.BANNER);
             entity.setAlbumEntityPost(albumEntity);
         }
@@ -167,13 +167,13 @@ public class PostEntityServiceImpl implements PostEntityService {
 
     @Override
     public ResultBean findAllByUserEntityPostIdIn(int size, String idUser) throws ApiValidateException, Exception {
-        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser,idUser, ConstantRelationshipStatus.FRIEND);
-        if(!listFriends.isEmpty()){
+        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, idUser, ConstantRelationshipStatus.FRIEND);
+        if (!listFriends.isEmpty()) {
             List<String> listIdFriend = new ArrayList<>();
-            for (RelationshipEntity friend: listFriends) {
-                if(!friend.getUserEntityOne().getId().equals(idUser))
+            for (RelationshipEntity friend : listFriends) {
+                if (!friend.getUserEntityOne().getId().equals(idUser))
                     listIdFriend.add(friend.getUserEntityTow().getId());
-                else if(!friend.getUserEntityTow().getId().equals(idUser))
+                else if (!friend.getUserEntityTow().getId().equals(idUser))
                     listIdFriend.add(friend.getUserEntityOne().getId());
             }
             PageableRequest pageableRequest = new PageableRequest();

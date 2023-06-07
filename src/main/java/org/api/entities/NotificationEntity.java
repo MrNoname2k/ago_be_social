@@ -49,5 +49,4 @@ public class NotificationEntity extends CommonEntity implements Serializable {
     @JsonProperty("idPost")
     private PostEntity postEntity;
 
-
 }

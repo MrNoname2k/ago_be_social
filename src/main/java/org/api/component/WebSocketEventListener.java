@@ -1,9 +1,9 @@
 package org.api.component;
 
-
-import org.api.payload.WebSocketMessage;
-import org.api.entities.UserEntity;
 import org.api.constants.ConstantOnline;
+import org.api.entities.UserEntity;
+import org.api.enumeration.WebSocketEventNameEnum;
+import org.api.payload.WebSocketMessage;
 import org.api.services.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -12,7 +12,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-import org.api.enumeration.WebSocketEventNameEnum;
 
 @Component
 public class WebSocketEventListener {
