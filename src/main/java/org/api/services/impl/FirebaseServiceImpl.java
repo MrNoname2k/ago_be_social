@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
 import java.util.UUID;
 
 @LogExecutionTime
@@ -29,18 +28,12 @@ public class FirebaseServiceImpl implements FirebaseService {
         UUID uuid = UUID.randomUUID();
         String uuidString = uuid.toString();
         String fileName = this.getStorageFilename(file, uuidString, key);
-        this.storeUpload(file, fileName, store);
-        return fileName;
+        return this.storeUpload(file, fileName, store);
     }
 
     @Override
     public byte[] readImage(String fileName, String store) throws Exception {
         return this.storeRead(fileName, store);
-    }
-
-    @Override
-    public Map<String, String> uploadImages(MultipartFile[] file) throws Exception {
-        return null;
     }
 
     @Override
