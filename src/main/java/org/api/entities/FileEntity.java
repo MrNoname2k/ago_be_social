@@ -1,5 +1,6 @@
 package org.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,10 +46,12 @@ public class FileEntity extends CommonEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_album")
     @JsonProperty("idAlbum")
+    @JsonBackReference
     private AlbumEntity albumEntityFile;
 
     @ManyToOne
     @JoinColumn(name = "id_post")
     @JsonProperty("idPost")
+    @JsonBackReference
     private PostEntity postEntity;
 }
