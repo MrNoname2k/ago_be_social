@@ -1,7 +1,11 @@
 package org.api.component;
 
 import org.api.constants.ConstantJwt;
+import org.api.constants.ConstantMessage;
 import org.api.services.impl.CustomUserDetailsServiceImpl;
+import org.api.utils.MessageUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +23,8 @@ import java.io.IOException;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+
     @Autowired
     private JwtTokenProvider tokenProvider;
 
@@ -30,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-            HttpServletResponse response, FilterChain filterChain)
+                                    HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         try {
             String jwt = getJwtFromRequest(request);
@@ -45,14 +51,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception ex) {
-            logger.error(ConstantJwt.DO_FILTER_INTERNAL, ex);
+            log.error(MessageUtils.getMessage(ConstantMessage.ID_MESSAGE_SC_UNAUTHORIZED, null, null), ex);
         }
         filterChain.doFilter(request, response);
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader(evn.getProperty(ConstantJwt.HEADER_STRING));
-        logger.info("Token: " + bearerToken);
+        log.info("Token: " + bearerToken);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(evn.getProperty(ConstantJwt.TOKEN_PREFIX) + " ")) {
             String jwt = bearerToken.substring(7, bearerToken.length());
             return jwt;

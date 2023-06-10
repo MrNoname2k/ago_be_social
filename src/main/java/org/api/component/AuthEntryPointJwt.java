@@ -1,7 +1,8 @@
 package org.api.component;
 
 import org.api.annotation.LogExecutionTime;
-import org.api.constants.ConstantJwt;
+import org.api.constants.ConstantMessage;
+import org.api.utils.MessageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
@@ -17,11 +18,11 @@ import java.io.IOException;
 @LogExecutionTime
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
-	private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
 
-	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException authException) throws IOException, ServletException {
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ConstantJwt.MESSAGE_SC_UNAUTHORIZED);
-	}
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+                         AuthenticationException authException) throws IOException, ServletException {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, MessageUtils.getMessage(ConstantMessage.ID_MESSAGE_SC_UNAUTHORIZED, null, null));
+    }
 }

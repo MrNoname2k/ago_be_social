@@ -35,7 +35,7 @@ public class NotificationEntity extends CommonEntity implements Serializable {
     @JsonProperty("type")
     private String type;
 
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "varchar(1000)")
     @JsonProperty("content")
     private String content;
 
