@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @LogExecutionTime
 @Service
@@ -64,12 +61,12 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        if (albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.POSTS)) {
-            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.POSTS, userEntity.getId()).get();
+        AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.POSTS, userEntity.getId()).get();
+        if (albumEntity != null) {
             entity.setAlbumEntityPost(albumEntity);
         } else {
-            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.POSTS, userEntity);
-            entity.setAlbumEntityPost(albumEntity);
+            AlbumEntity albumEntityOld = albumEntityService.createAlbumDefault(ConstantTypeAlbum.POSTS, userEntity);
+            entity.setAlbumEntityPost(albumEntityOld);
         }
         PostEntity entityOld = postEntityRepository.save(entity);
         map.put(ConstantColumns.POST_ENTITY, entityOld);
@@ -94,8 +91,8 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        if (albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.AVATAR)) {
-            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.AVATAR, userEntity.getId()).get();
+        AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.AVATAR, userEntity.getId()).get();
+        if (albumEntity != null) {
             entity.setAlbumEntityPost(albumEntity);
             List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.AVATAR);
             if (!list.isEmpty()) {
@@ -105,8 +102,8 @@ public class PostEntityServiceImpl implements PostEntityService {
                 }
             }
         } else {
-            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.AVATAR, userEntity);
-            entity.setAlbumEntityPost(albumEntity);
+            AlbumEntity albumEntityOld = albumEntityService.createAlbumDefault(ConstantTypeAlbum.AVATAR, userEntity);
+            entity.setAlbumEntityPost(albumEntityOld);
         }
         PostEntity entityOld = postEntityRepository.save(entity);
         map.put(ConstantColumns.POST_ENTITY, entityOld);
@@ -126,8 +123,8 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        if (albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.BANNER)) {
-            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.BANNER, userEntity.getId()).get();
+        AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.BANNER, userEntity.getId()).get();
+        if (albumEntity != null) {
             entity.setAlbumEntityPost(albumEntity);
             List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.BANNER);
             if (!list.isEmpty()) {
@@ -137,8 +134,8 @@ public class PostEntityServiceImpl implements PostEntityService {
                 }
             }
         } else {
-            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.BANNER, userEntity);
-            entity.setAlbumEntityPost(albumEntity);
+            AlbumEntity albumEntityOld = albumEntityService.createAlbumDefault(ConstantTypeAlbum.BANNER, userEntity);
+            entity.setAlbumEntityPost(albumEntityOld);
         }
         PostEntity entityOld = postEntityRepository.save(entity);
         map.put(ConstantColumns.POST_ENTITY, entityOld);
@@ -151,8 +148,8 @@ public class PostEntityServiceImpl implements PostEntityService {
 
     @Override
     public PostEntity findOneById(String id) throws ApiValidateException, Exception {
-        PostEntity entity = postEntityRepository.findById(id).get();
-        return entity;
+        Optional<PostEntity> entity = Optional.ofNullable(postEntityRepository.findById(id).orElseThrow(Exception::new));
+        return entity.get();
     }
 
     @Override
