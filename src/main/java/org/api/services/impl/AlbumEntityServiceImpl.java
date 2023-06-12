@@ -9,9 +9,7 @@ import org.api.payload.ResultBean;
 import org.api.repository.AlbumEntityRepository;
 import org.api.services.AlbumEntityService;
 import org.api.services.AuthenticationService;
-import org.api.utils.ApiValidateException;
-import org.api.utils.DataUtil;
-import org.api.utils.ValidateData;
+import org.api.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,11 +45,11 @@ public class AlbumEntityServiceImpl implements AlbumEntityService {
     }
 
     @Override
-    public Optional<AlbumEntity> findOneByTypeAlbumAndUserEntityId(String tpeAlbum, String idUser) {
-        Optional<AlbumEntity> entity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(tpeAlbum, idUser);
-        if(entity.isEmpty())
-            return null;
-        return entity;
+    public ResultBean findOneByTypeAlbumAndUserEntityId(String tpeAlbum, String idUser) throws ApiValidateException, Exception {
+        AlbumEntity entity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(tpeAlbum, idUser).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, "album",
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName("album", ALIAS))));
+
+        return new ResultBean(entity, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override

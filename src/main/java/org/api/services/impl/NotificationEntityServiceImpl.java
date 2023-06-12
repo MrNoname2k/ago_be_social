@@ -12,7 +12,9 @@ import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
 import org.api.payload.WebNotification;
 import org.api.payload.request.PageableRequest;
+import org.api.payload.response.NotifiPageResponse;
 import org.api.payload.response.PageResponse;
+import org.api.payload.response.PostPageResponse;
 import org.api.repository.NotificationEntityRepository;
 import org.api.repository.PostEntityRepository;
 import org.api.repository.UserEntityRepository;
@@ -22,6 +24,7 @@ import org.api.utils.ApiValidateException;
 import org.api.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,13 +74,13 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
     }
 
     @Override
-    public void sendNotification(NotificationEntity notificationEntity) {
+    public void sendNotification(NotificationEntity notificationEntity) throws ApiValidateException, Exception{
         if (notificationEntity.getType().equals(ConstantNotificationType.LIKE) || notificationEntity.getType().equals(ConstantNotificationType.COMMENT)) {
             WebNotification webNotification = new WebNotification();
             webNotification.setUserEntity(notificationEntity.getPostEntity().getUserEntityPost());
-            webNotification.setTitle("/user/" + notificationEntity.getPostEntity().getUserEntityPost().getMail() + "/notifications");
+            String url = "/user/" + notificationEntity.getPostEntity().getUserEntityPost().getMail() + "/notifications";
             webNotification.setContent(notificationEntity.getContent());
-            messagingTemplate.convertAndSend(webNotification);
+            messagingTemplate.convertAndSend(url, webNotification);
         } else {
             List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(notificationEntity.getUserEntity().getId(), notificationEntity.getUserEntity().getId(), ConstantRelationshipStatus.FRIEND);
             if (!listFriends.isEmpty()) {
@@ -85,15 +88,15 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
                     if (friend.getUserEntityOne().getId().equals(notificationEntity.getUserEntity().getId())) {
                         WebNotification webNotification = new WebNotification();
                         webNotification.setUserEntity(friend.getUserEntityTow());
-                        webNotification.setTitle("/user/" + friend.getUserEntityTow().getMail() + "/notifications");
+                        String url = "/user/" + friend.getUserEntityTow().getMail() + "/notifications";
                         webNotification.setContent(notificationEntity.getContent());
-                        messagingTemplate.convertAndSend(webNotification);
+                        messagingTemplate.convertAndSend(url, webNotification);
                     } else if (friend.getUserEntityTow().getId().equals(notificationEntity.getUserEntity().getId())) {
                         WebNotification webNotification = new WebNotification();
                         webNotification.setUserEntity(friend.getUserEntityOne());
-                        webNotification.setTitle("/user/" + friend.getUserEntityOne().getMail() + "/notifications");
+                        String url = "/user/" + friend.getUserEntityOne().getMail() + "/notifications";
                         webNotification.setContent(notificationEntity.getContent());
-                        messagingTemplate.convertAndSend(webNotification);
+                        messagingTemplate.convertAndSend(url, webNotification);
                     }
                 }
             }
@@ -104,14 +107,40 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
     public ResultBean findAllByPostEntityUserEntityPostId(int size, String idUser) throws ApiValidateException, Exception {
         PageableRequest pageableRequest = new PageableRequest();
         pageableRequest.setSize(size);
+        pageableRequest.setSort(Sort.by("id").ascending());
+        pageableRequest.setPage(1);
         Page<NotificationEntity> notificationEntityPage = notificationEntityRepository.findAllByPostEntityUserEntityPostId(idUser, pageableRequest.getPageable());
-        PageResponse<NotificationEntity> pageResponse = new PageResponse<>();
+        NotifiPageResponse pageResponse = new NotifiPageResponse();
         if (notificationEntityPage.hasContent()) {
-            pageResponse.setResultPage(notificationEntityPage);
-        } else {
-            pageResponse.setResultPage(null);
+            pageResponse.setResults(notificationEntityPage.getContent());
+            pageResponse.setCurrentPage(notificationEntityPage.getNumber());
+            pageResponse.setNoRecordInPage(notificationEntityPage.getSize());
+            pageResponse.setTotalPage(notificationEntityPage.getTotalPages());
+            pageResponse.setTotalRecords(notificationEntityPage.getTotalElements());
+        }else {
+
         }
-        return new ResultBean(pageResponse.getResults(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    }
+
+    @Override
+    public NotifiPageResponse findAllByPostEntityUserEntityPostIdPage(int size, String idUser) throws ApiValidateException, Exception {
+        PageableRequest pageableRequest = new PageableRequest();
+        pageableRequest.setSize(size);
+        pageableRequest.setSort(Sort.by("id").ascending());
+        pageableRequest.setPage(1);
+        Page<NotificationEntity> notificationEntityPage = notificationEntityRepository.findAllByPostEntityUserEntityPostId(idUser, pageableRequest.getPageable());
+        NotifiPageResponse pageResponse = new NotifiPageResponse();
+        if (notificationEntityPage.hasContent()) {
+            pageResponse.setResults(notificationEntityPage.getContent());
+            pageResponse.setCurrentPage(notificationEntityPage.getNumber());
+            pageResponse.setNoRecordInPage(notificationEntityPage.getSize());
+            pageResponse.setTotalPage(notificationEntityPage.getTotalPages());
+            pageResponse.setTotalRecords(notificationEntityPage.getTotalElements());
+        }else {
+
+        }
+        return pageResponse;
     }
 
 }
