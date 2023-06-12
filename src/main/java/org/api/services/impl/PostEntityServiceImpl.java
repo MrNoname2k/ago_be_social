@@ -6,7 +6,10 @@ import org.api.constants.*;
 import org.api.entities.*;
 import org.api.payload.ResultBean;
 import org.api.payload.request.PageableRequest;
+import org.api.payload.response.NotifiPageResponse;
 import org.api.payload.response.PageResponse;
+import org.api.payload.response.PostPageResponse;
+import org.api.repository.AlbumEntityRepository;
 import org.api.repository.FileEntityRepository;
 import org.api.repository.PostEntityRepository;
 import org.api.services.*;
@@ -15,6 +18,7 @@ import org.api.utils.DataUtil;
 import org.api.utils.ValidateData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,6 +56,9 @@ public class PostEntityServiceImpl implements PostEntityService {
     @Autowired
     private NotificationEntityService notificationEntityService;
 
+    @Autowired
+    private AlbumEntityRepository albumEntityRepository;
+
     @Override
     public ResultBean createPost(String json, MultipartFile[] files) throws ApiValidateException, Exception {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -61,9 +68,9 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.POSTS, userEntity.getId()).get();
-        if (albumEntity != null) {
-            entity.setAlbumEntityPost(albumEntity);
+        Optional<AlbumEntity> albumEntity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.POSTS, userEntity.getId());
+        if (albumEntity.isPresent()) {
+            entity.setAlbumEntityPost(albumEntity.get());
         } else {
             AlbumEntity albumEntityOld = albumEntityService.createAlbumDefault(ConstantTypeAlbum.POSTS, userEntity);
             entity.setAlbumEntityPost(albumEntityOld);
@@ -79,7 +86,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         }
         NotificationEntity notificationEntity = notificationEntityService.create(entity.getUserEntityPost().getId(), entity.getId(), ConstantNotificationType.POST_CREATE);
         notificationEntityService.sendNotification(notificationEntity);
-        return new ResultBean(map, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        return new ResultBean(map, ConstantStatus.STATUS_201, ConstantMessage.MESSAGE_OK);
     }
 
     @Override
@@ -91,9 +98,9 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.AVATAR, userEntity.getId()).get();
-        if (albumEntity != null) {
-            entity.setAlbumEntityPost(albumEntity);
+        Optional<AlbumEntity> albumEntity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.AVATAR, userEntity.getId());
+        if (albumEntity.isPresent()) {
+            entity.setAlbumEntityPost(albumEntity.get());
             List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.AVATAR);
             if (!list.isEmpty()) {
                 for (FileEntity fileEntity : list) {
@@ -123,9 +130,9 @@ public class PostEntityServiceImpl implements PostEntityService {
         this.convertJsonToEntity(jsonObject, entity);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
-        AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.BANNER, userEntity.getId()).get();
-        if (albumEntity != null) {
-            entity.setAlbumEntityPost(albumEntity);
+        Optional<AlbumEntity> albumEntity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.BANNER, userEntity.getId());
+        if (albumEntity.isPresent()) {
+            entity.setAlbumEntityPost(albumEntity.get());
             List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.BANNER);
             if (!list.isEmpty()) {
                 for (FileEntity fileEntity : list) {
@@ -154,12 +161,29 @@ public class PostEntityServiceImpl implements PostEntityService {
 
     @Override
     public ResultBean findAllByUserEntityPostId(int size, String idUser) throws ApiValidateException, Exception {
+//        PageableRequest pageableRequest = new PageableRequest();
+//        pageableRequest.setSize(size);
+//        Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
+//        PageResponse<PostEntity> pageResponse = new PageResponse<>();
+//        pageResponse.setResultPage(pagePostEntity);
+//        return new ResultBean(pageResponse.getResults(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+
         PageableRequest pageableRequest = new PageableRequest();
         pageableRequest.setSize(size);
+        pageableRequest.setSort(Sort.by("id").ascending());
+        pageableRequest.setPage(1);
         Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
-        PageResponse<PostEntity> pageResponse = new PageResponse<>();
-        pageResponse.setResultPage(pagePostEntity);
-        return new ResultBean(pageResponse.getResults(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        PostPageResponse pageResponse = new PostPageResponse();
+        if (pagePostEntity.hasContent()) {
+            pageResponse.setResults(pagePostEntity.getContent());
+            pageResponse.setCurrentPage(pagePostEntity.getNumber());
+            pageResponse.setNoRecordInPage(pagePostEntity.getSize());
+            pageResponse.setTotalPage(pagePostEntity.getTotalPages());
+            pageResponse.setTotalRecords(pagePostEntity.getTotalElements());
+        }else {
+
+        }
+        return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override
@@ -173,16 +197,54 @@ public class PostEntityServiceImpl implements PostEntityService {
                 else if (friend.getUserEntityTow().getId().equals(idUser))
                     listIdFriend.add(friend.getUserEntityOne().getId());
             }
+
             PageableRequest pageableRequest = new PageableRequest();
             pageableRequest.setSize(size);
-            Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostIdIn(listIdFriend, pageableRequest.getPageable());
-            PageResponse<PostEntity> pageResponse = new PageResponse<>();
+            pageableRequest.setSort(Sort.by("id").ascending());
+            pageableRequest.setPage(1);
+            Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
+            PostPageResponse pageResponse = new PostPageResponse();
             if (pagePostEntity.hasContent()) {
-                pageResponse.setResultPage(pagePostEntity);
-            } else {
-                pageResponse.setResultPage(null);
+                pageResponse.setResults(pagePostEntity.getContent());
+                pageResponse.setCurrentPage(pagePostEntity.getNumber());
+                pageResponse.setNoRecordInPage(pagePostEntity.getSize());
+                pageResponse.setTotalPage(pagePostEntity.getTotalPages());
+                pageResponse.setTotalRecords(pagePostEntity.getTotalElements());
+            }else {
+
             }
-            return new ResultBean(pageResponse.getResults(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+            return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        }
+        return null;
+    }
+
+    @Override
+    public PostPageResponse findAllByUserEntityPostIdInPage(int size, String idUser) throws ApiValidateException, Exception {
+        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, idUser, ConstantRelationshipStatus.FRIEND);
+        if (!listFriends.isEmpty()) {
+            List<String> listIdFriend = new ArrayList<>();
+            for (RelationshipEntity friend : listFriends) {
+                if (friend.getUserEntityOne().getId().equals(idUser))
+                    listIdFriend.add(friend.getUserEntityTow().getId());
+                else if (friend.getUserEntityTow().getId().equals(idUser))
+                    listIdFriend.add(friend.getUserEntityOne().getId());
+            }
+            PageableRequest pageableRequest = new PageableRequest();
+            pageableRequest.setSize(size);
+            pageableRequest.setSort(Sort.by("id").ascending());
+            pageableRequest.setPage(1);
+            Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
+            PostPageResponse pageResponse = new PostPageResponse();
+            if (pagePostEntity.hasContent()) {
+                pageResponse.setResults(pagePostEntity.getContent());
+                pageResponse.setCurrentPage(pagePostEntity.getNumber());
+                pageResponse.setNoRecordInPage(pagePostEntity.getSize());
+                pageResponse.setTotalPage(pagePostEntity.getTotalPages());
+                pageResponse.setTotalRecords(pagePostEntity.getTotalElements());
+            }else {
+
+            }
+            return pageResponse;
         }
         return null;
     }

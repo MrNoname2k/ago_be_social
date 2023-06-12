@@ -13,7 +13,7 @@ public interface AlbumEntityService {
 
     public AlbumEntity findOneById(String id);
 
-    public Optional<AlbumEntity> findOneByTypeAlbumAndUserEntityId(String tpeAlbum, String idUser);
+    public ResultBean findOneByTypeAlbumAndUserEntityId(String tpeAlbum, String idUser)  throws ApiValidateException, Exception;
 
     public ResultBean createNewAlbum(String json) throws ApiValidateException, Exception;
 
