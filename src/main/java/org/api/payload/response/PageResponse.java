@@ -66,7 +66,9 @@ public class PageResponse<T> extends PageCommon implements Serializable {
     }
 
     public List<T> getResults() {
-        return resultPage.getContent();
+        if(resultPage != null || resultPage.hasContent())
+            return resultPage.getContent();
+        return null;
     }
 
     public PageResponse() {
