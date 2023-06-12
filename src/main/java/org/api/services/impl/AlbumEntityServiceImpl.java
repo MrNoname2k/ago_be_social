@@ -41,14 +41,6 @@ public class AlbumEntityServiceImpl implements AlbumEntityService {
     }
 
     @Override
-    public Boolean existsByTypeAlbum(String tpeAlbum) {
-        if (Boolean.TRUE.equals(albumEntityRepository.existsByTypeAlbum(tpeAlbum))) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public AlbumEntity findOneById(String id) {
         AlbumEntity entity = albumEntityRepository.findById(id).get();
         return entity;
@@ -57,6 +49,8 @@ public class AlbumEntityServiceImpl implements AlbumEntityService {
     @Override
     public Optional<AlbumEntity> findOneByTypeAlbumAndUserEntityId(String tpeAlbum, String idUser) {
         Optional<AlbumEntity> entity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(tpeAlbum, idUser);
+        if(entity.isEmpty())
+            return null;
         return entity;
     }
 

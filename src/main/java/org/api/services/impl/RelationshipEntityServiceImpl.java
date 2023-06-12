@@ -48,7 +48,7 @@ public class RelationshipEntityServiceImpl implements RelationshipEntityService 
     }
 
     @Override
-    public List<RelationshipEntity> findAllByUserEntityOneIdOrUserEntityTowAndStatus(String idOne, String idTow, String status) {
+    public List<RelationshipEntity> findAllByUserEntityOneIdOrUserEntityTowAndStatus(String idOne, String idTow, String status) throws ApiValidateException, Exception{
         List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idOne, idTow, status);
         if (lists.isEmpty())
             return null;

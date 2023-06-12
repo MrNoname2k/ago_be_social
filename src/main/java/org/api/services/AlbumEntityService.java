@@ -11,8 +11,6 @@ public interface AlbumEntityService {
 
     public AlbumEntity createAlbumDefault(String type, UserEntity userEntity);
 
-    public Boolean existsByTypeAlbum(String tpeAlbum);
-
     public AlbumEntity findOneById(String id);
 
     public Optional<AlbumEntity> findOneByTypeAlbumAndUserEntityId(String tpeAlbum, String idUser);

@@ -6,8 +6,6 @@ import java.util.Optional;
 
 public interface AlbumEntityRepository extends BaseRepository<AlbumEntity, String> {
 
-    public Boolean existsByTypeAlbum(String tpeAlbum);
-
     public Optional<AlbumEntity> findOneByTypeAlbumAndUserEntityId(String tpeAlbum, String idUser);
 
 }
