@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @JsonSerialize
-public class PageResponse<R> extends PageCommon implements Serializable {
+public class PageResponse<R> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     protected Integer totalPage;

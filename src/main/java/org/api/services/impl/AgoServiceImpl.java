@@ -51,7 +51,7 @@ public class AgoServiceImpl implements AgoService {
         ResultBean resultBeanUser = userEntityService.getById(idUser);
         UserEntity userEntity = (UserEntity) resultBeanUser.getData();
 
-        List<RelationshipEntity> relationshipEntityList = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, idUser, ConstantRelationshipStatus.FRIEND);
+        List<RelationshipEntity> relationshipEntityList = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
 
 //        ResultBean resultBeanPost = postEntityService.findAllByUserEntityPostIdIn(10, idUser);
 //        List<PostEntity> postEntityPage = (List<PostEntity>) resultBeanPost.getData();

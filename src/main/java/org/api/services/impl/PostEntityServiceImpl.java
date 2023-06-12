@@ -171,7 +171,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         PageableRequest pageableRequest = new PageableRequest();
         pageableRequest.setSize(size);
         pageableRequest.setSort(Sort.by("id").ascending());
-        pageableRequest.setPage(1);
+        pageableRequest.setPage(0);
         Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
         PostPageResponse pageResponse = new PostPageResponse();
         if (pagePostEntity.hasContent()) {
@@ -188,7 +188,7 @@ public class PostEntityServiceImpl implements PostEntityService {
 
     @Override
     public ResultBean findAllByUserEntityPostIdIn(int size, String idUser) throws ApiValidateException, Exception {
-        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, idUser, ConstantRelationshipStatus.FRIEND);
+        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
         if (!listFriends.isEmpty()) {
             List<String> listIdFriend = new ArrayList<>();
             for (RelationshipEntity friend : listFriends) {
@@ -201,8 +201,8 @@ public class PostEntityServiceImpl implements PostEntityService {
             PageableRequest pageableRequest = new PageableRequest();
             pageableRequest.setSize(size);
             pageableRequest.setSort(Sort.by("id").ascending());
-            pageableRequest.setPage(1);
-            Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
+            pageableRequest.setPage(0);
+            Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostIdIn(listIdFriend, pageableRequest.getPageable());
             PostPageResponse pageResponse = new PostPageResponse();
             if (pagePostEntity.hasContent()) {
                 pageResponse.setResults(pagePostEntity.getContent());
@@ -220,7 +220,7 @@ public class PostEntityServiceImpl implements PostEntityService {
 
     @Override
     public PostPageResponse findAllByUserEntityPostIdInPage(int size, String idUser) throws ApiValidateException, Exception {
-        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, idUser, ConstantRelationshipStatus.FRIEND);
+        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
         if (!listFriends.isEmpty()) {
             List<String> listIdFriend = new ArrayList<>();
             for (RelationshipEntity friend : listFriends) {
@@ -230,11 +230,13 @@ public class PostEntityServiceImpl implements PostEntityService {
                     listIdFriend.add(friend.getUserEntityOne().getId());
             }
             PageableRequest pageableRequest = new PageableRequest();
+            PostPageResponse pageResponse = new PostPageResponse();
+
             pageableRequest.setSize(size);
             pageableRequest.setSort(Sort.by("id").ascending());
-            pageableRequest.setPage(1);
-            Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
-            PostPageResponse pageResponse = new PostPageResponse();
+            pageableRequest.setPage(0);
+            Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostIdIn(listIdFriend, pageableRequest.getPageable());
+
             if (pagePostEntity.hasContent()) {
                 pageResponse.setResults(pagePostEntity.getContent());
                 pageResponse.setCurrentPage(pagePostEntity.getNumber());

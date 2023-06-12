@@ -12,5 +12,5 @@ public interface RelationshipEntityService {
 
     public ResultBean friendOrUnFriend(String json, String status) throws ApiValidateException, Exception;
 
-    public List<RelationshipEntity> findAllByUserEntityOneIdOrUserEntityTowAndStatus(String idOne, String idTow, String status) throws ApiValidateException, Exception;
+    public List<RelationshipEntity> findAllByUserEntityOneIdOrUserEntityTowAndStatus(String idOne, String status) throws ApiValidateException, Exception;
 }

@@ -82,7 +82,7 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
             webNotification.setContent(notificationEntity.getContent());
             messagingTemplate.convertAndSend(url, webNotification);
         } else {
-            List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(notificationEntity.getUserEntity().getId(), notificationEntity.getUserEntity().getId(), ConstantRelationshipStatus.FRIEND);
+            List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(notificationEntity.getUserEntity().getId(), ConstantRelationshipStatus.FRIEND);
             if (!listFriends.isEmpty()) {
                 for (RelationshipEntity friend : listFriends) {
                     if (friend.getUserEntityOne().getId().equals(notificationEntity.getUserEntity().getId())) {
@@ -108,7 +108,7 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
         PageableRequest pageableRequest = new PageableRequest();
         pageableRequest.setSize(size);
         pageableRequest.setSort(Sort.by("id").ascending());
-        pageableRequest.setPage(1);
+        pageableRequest.setPage(0);
         Page<NotificationEntity> notificationEntityPage = notificationEntityRepository.findAllByPostEntityUserEntityPostId(idUser, pageableRequest.getPageable());
         NotifiPageResponse pageResponse = new NotifiPageResponse();
         if (notificationEntityPage.hasContent()) {
@@ -128,7 +128,7 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
         PageableRequest pageableRequest = new PageableRequest();
         pageableRequest.setSize(size);
         pageableRequest.setSort(Sort.by("id").ascending());
-        pageableRequest.setPage(1);
+        pageableRequest.setPage(0);
         Page<NotificationEntity> notificationEntityPage = notificationEntityRepository.findAllByPostEntityUserEntityPostId(idUser, pageableRequest.getPageable());
         NotifiPageResponse pageResponse = new NotifiPageResponse();
         if (notificationEntityPage.hasContent()) {
