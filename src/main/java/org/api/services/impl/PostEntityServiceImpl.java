@@ -180,7 +180,11 @@ public class PostEntityServiceImpl implements PostEntityService {
             pageableRequest.setSize(size);
             Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostIdIn(listIdFriend, pageableRequest.getPageable());
             PageResponse<PostEntity> pageResponse = new PageResponse<>();
-            pageResponse.setResultPage(pagePostEntity);
+            if (pagePostEntity.hasContent()) {
+                pageResponse.setResultPage(pagePostEntity);
+            } else {
+                pageResponse.setResultPage(null);
+            }
             return new ResultBean(pageResponse.getResults(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
         }
         return null;

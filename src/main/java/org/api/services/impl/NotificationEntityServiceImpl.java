@@ -106,7 +106,11 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
         pageableRequest.setSize(size);
         Page<NotificationEntity> notificationEntityPage = notificationEntityRepository.findAllByPostEntityUserEntityPostId(idUser, pageableRequest.getPageable());
         PageResponse<NotificationEntity> pageResponse = new PageResponse<>();
-        pageResponse.setResultPage(notificationEntityPage);
+        if (notificationEntityPage.hasContent()) {
+            pageResponse.setResultPage(notificationEntityPage);
+        } else {
+            pageResponse.setResultPage(null);
+        }
         return new ResultBean(pageResponse.getResults(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
