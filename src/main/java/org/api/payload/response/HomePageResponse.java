@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.api.entities.*;
-import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,7 +21,7 @@ public class HomePageResponse implements Serializable {
 
     private UserEntity userEntity;
     private List<RelationshipEntity> relationshipEntities;
-    private Page<PostEntity> postEntityPage;
-    private Page<MessageEntity> messageEntityPage;
-    private Page<NotificationEntity> notificationEntityPage;
+    private List<PostEntity> postEntityPage;
+    private List<MessageEntity> messageEntityPage;
+    private List<NotificationEntity> notificationEntityPage;
 }

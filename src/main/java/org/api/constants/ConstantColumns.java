@@ -33,6 +33,7 @@ public class ConstantColumns {
     public static final String ACCESS_MODIFIER_LEVEL = "accessModifierLevel";
     public static final String TYPE_POST = "typePost";
     public static final String ID_ABUM = "idAbum";
+    public static final String NAME_ALBUM = "name";
     public static final String ID_POST = "idPost";
     public static final String ID_COMMENT = "idComment";
     public static final String ID_USER_ONE = "idUserOne";

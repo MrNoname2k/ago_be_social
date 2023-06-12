@@ -119,6 +119,10 @@ public class UserEntity extends CommonEntity implements Serializable {
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     private List<NotificationEntity> notifications;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<AlbumEntity> albumEntities;
+
     @Override
     public String toString() {
         return getMail();

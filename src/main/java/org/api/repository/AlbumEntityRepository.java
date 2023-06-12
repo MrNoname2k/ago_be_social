@@ -8,6 +8,6 @@ public interface AlbumEntityRepository extends BaseRepository<AlbumEntity, Strin
 
     public Boolean existsByTypeAlbum(String tpeAlbum);
 
-    public Optional<AlbumEntity> findOneByTypeAlbum(String tpeAlbum);
+    public Optional<AlbumEntity> findOneByTypeAlbumAndUserEntityId(String tpeAlbum, String idUser);
 
 }

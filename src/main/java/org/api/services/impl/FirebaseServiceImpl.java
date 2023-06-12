@@ -28,7 +28,8 @@ public class FirebaseServiceImpl implements FirebaseService {
         UUID uuid = UUID.randomUUID();
         String uuidString = uuid.toString();
         String fileName = this.getStorageFilename(file, uuidString, key);
-        return this.storeUpload(file, fileName, store);
+        this.storeUpload(file, fileName, store);
+        return fileName;
     }
 
     @Override

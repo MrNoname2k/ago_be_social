@@ -13,7 +13,6 @@ import org.api.payload.response.HomePageResponse;
 import org.api.services.*;
 import org.api.utils.ApiValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,13 +40,13 @@ public class AgoServiceImpl implements AgoService {
         ResultBean resultBeanUser = userEntityService.getById(idUser);
         UserEntity userEntity = (UserEntity) resultBeanUser.getData();
 
-        List<RelationshipEntity> relationshipEntityList = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser,idUser, ConstantRelationshipStatus.FRIEND);
+        List<RelationshipEntity> relationshipEntityList = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, idUser, ConstantRelationshipStatus.FRIEND);
 
         ResultBean resultBeanPost = postEntityService.findAllByUserEntityPostIdIn(10, idUser);
-        Page<PostEntity> postEntityPage = (Page<PostEntity>) resultBeanPost.getData();
+        List<PostEntity> postEntityPage = (List<PostEntity>) resultBeanPost.getData();
 
-        ResultBean resultBeanNotification = notificationEntityService.findAllByPostEntityUserEntityPostId(10,idUser);
-        Page<NotificationEntity> notificationEntityPage = (Page<NotificationEntity>) resultBeanNotification.getData();
+        ResultBean resultBeanNotification = notificationEntityService.findAllByPostEntityUserEntityPostId(10, idUser);
+        List<NotificationEntity> notificationEntityPage = (List<NotificationEntity>) resultBeanNotification.getData();
 
         HomePageResponse homePageResponse = new HomePageResponse();
         homePageResponse.setUserEntity(userEntity);
