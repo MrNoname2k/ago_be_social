@@ -107,7 +107,7 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
         Page<NotificationEntity> notificationEntityPage = notificationEntityRepository.findAllByPostEntityUserEntityPostId(idUser, pageableRequest.getPageable());
         PageResponse<NotificationEntity> pageResponse = new PageResponse<>();
         pageResponse.setResultPage(notificationEntityPage);
-        return new ResultBean(pageResponse.getResultPage(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        return new ResultBean(pageResponse.getResults(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
 }

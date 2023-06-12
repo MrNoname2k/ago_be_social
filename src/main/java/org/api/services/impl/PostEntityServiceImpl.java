@@ -65,10 +65,10 @@ public class PostEntityServiceImpl implements PostEntityService {
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
         if (albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.POSTS)) {
-            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbum(ConstantTypeAlbum.POSTS).get();
+            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.POSTS, userEntity.getId()).get();
             entity.setAlbumEntityPost(albumEntity);
         } else {
-            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.POSTS);
+            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.POSTS, userEntity);
             entity.setAlbumEntityPost(albumEntity);
         }
         PostEntity entityOld = postEntityRepository.save(entity);
@@ -95,7 +95,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
         if (albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.AVATAR)) {
-            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbum(ConstantTypeAlbum.AVATAR).get();
+            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.AVATAR, userEntity.getId()).get();
             entity.setAlbumEntityPost(albumEntity);
             List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.AVATAR);
             if (!list.isEmpty()) {
@@ -105,7 +105,7 @@ public class PostEntityServiceImpl implements PostEntityService {
                 }
             }
         } else {
-            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.AVATAR);
+            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.AVATAR, userEntity);
             entity.setAlbumEntityPost(albumEntity);
         }
         PostEntity entityOld = postEntityRepository.save(entity);
@@ -127,7 +127,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
         if (albumEntityService.existsByTypeAlbum(ConstantTypeAlbum.BANNER)) {
-            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbum(ConstantTypeAlbum.BANNER).get();
+            AlbumEntity albumEntity = albumEntityService.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.BANNER, userEntity.getId()).get();
             entity.setAlbumEntityPost(albumEntity);
             List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.BANNER);
             if (!list.isEmpty()) {
@@ -137,7 +137,7 @@ public class PostEntityServiceImpl implements PostEntityService {
                 }
             }
         } else {
-            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.BANNER);
+            AlbumEntity albumEntity = albumEntityService.createAlbumDefault(ConstantTypeAlbum.BANNER, userEntity);
             entity.setAlbumEntityPost(albumEntity);
         }
         PostEntity entityOld = postEntityRepository.save(entity);
@@ -162,7 +162,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
         PageResponse<PostEntity> pageResponse = new PageResponse<>();
         pageResponse.setResultPage(pagePostEntity);
-        return new ResultBean(pageResponse.getResultPage(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        return new ResultBean(pageResponse.getResults(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override
@@ -181,7 +181,7 @@ public class PostEntityServiceImpl implements PostEntityService {
             Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostIdIn(listIdFriend, pageableRequest.getPageable());
             PageResponse<PostEntity> pageResponse = new PageResponse<>();
             pageResponse.setResultPage(pagePostEntity);
-            return new ResultBean(pageResponse.getResultPage(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+            return new ResultBean(pageResponse.getResults(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
         }
         return null;
     }

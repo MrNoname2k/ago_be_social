@@ -27,24 +27,7 @@ public class NotificationController {
     @Autowired
     private NotificationEntityService notificationEntityService;
 
-//    @PostMapping("/push")
-//    public ResponseEntity<WebNotification> sendWebNotification(@RequestBody WebNotification request) {
-//        try {
-//            WebpushConfig.Builder builder = WebpushConfig.builder()
-//                    .setNotification(new WebpushNotification(request.getTitle(), request.getBody()));
-//            FirebaseMessaging.getInstance().send(Message.builder()
-//                    .setToken(request.getToken())
-//                    .setWebpushConfig(builder.build())
-//                    .build());
-//
-//            return new ResponseEntity<>(request, HttpStatus.OK);
-//        } catch (FirebaseMessagingException e) {
-//            System.out.println(e);
-//            return new ResponseEntity<>(request, HttpStatus.EXPECTATION_FAILED);
-//        }
-//    }
-
-    @GetMapping(value = "/get-all-notification-by-id-user", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/get-all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResultBean> getAllNotificationByIdUser(@RequestParam(name = "size", required = false) Integer size,
                                                                  @RequestParam(name = "idUser", required = false) String idUser) {
         try {

@@ -30,7 +30,7 @@ public class MessageEntity extends CommonEntity implements Serializable {
     @JsonProperty("id")
     private String id;
 
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "varchar(1000)")
     @JsonProperty("content")
     private String content;
 

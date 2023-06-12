@@ -7,4 +7,5 @@ public class ConstantJsonFileValidate {
     public static final String FILE_POST_JSON_VALIDATE = "post.json";
     public static final String FILE_LIKE_JSON_VALIDATE = "like.json";
     public static final String FILE_RELATIONSHIP_JSON_VALIDATE = "relationship.json";
+    public static final String FILE_ALBUM_JSON_VALIDATE = "album.json";
 }

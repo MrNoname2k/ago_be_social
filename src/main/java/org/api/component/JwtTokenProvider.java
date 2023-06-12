@@ -52,7 +52,7 @@ public class JwtTokenProvider {
     }
 
     public boolean hasTokenExpired(String token) {
-        Claims claims= Jwts.parser().setSigningKey(evn.getProperty(ConstantJwt.SIGNING_KEY)).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parser().setSigningKey(evn.getProperty(ConstantJwt.SIGNING_KEY)).parseClaimsJws(token).getBody();
         Date tokenExpirationDate = claims.getExpiration();
         Date today = new Date();
         return tokenExpirationDate.before(today);

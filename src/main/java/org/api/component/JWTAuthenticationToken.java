@@ -13,7 +13,7 @@ public class JWTAuthenticationToken extends AbstractAuthenticationToken implemen
 
     public JWTAuthenticationToken(Collection<? extends GrantedAuthority> authorities, String token, UserEntity principal) {
         super(authorities);
-        this.token =  token;
+        this.token = token;
         this.principal = principal;
     }
 

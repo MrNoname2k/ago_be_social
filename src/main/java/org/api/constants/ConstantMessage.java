@@ -40,4 +40,6 @@ public class ConstantMessage {
     public static final String ID_NOTIFICATION_003 = "NOTIFICATION003";
     public static final String ID_NOTIFICATION_004 = "NOTIFICATION004";
     public static final String ID_NOTIFICATION_005 = "NOTIFICATION005";
+    public static final String ID_MESSAGE_SC_UNAUTHORIZED = "MESSAGE_SC_UNAUTHORIZED";
+    public static final String ID_DO_FILTER_INTERNAL = "DO_FILTER_INTERNAL";
 }

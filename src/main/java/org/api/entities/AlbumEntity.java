@@ -40,6 +40,11 @@ public class AlbumEntity extends CommonEntity implements Serializable {
     @JsonProperty("typeAlbum")
     private String typeAlbum;
 
+    @ManyToOne
+    @JoinColumn(name = "id_user_create")
+    @JsonProperty("idUserCreate")
+    private UserEntity userEntity;
+
     @JsonIgnore
     @OneToMany(mappedBy = "albumEntityPost", cascade = CascadeType.ALL)
     private List<PostEntity> posts;
