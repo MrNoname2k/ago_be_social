@@ -17,6 +17,7 @@ public interface PostEntityRepository extends BaseRepository<PostEntity, String>
 
     public Page<PostEntity> findAllByUserEntityPostId(String idUser, Pageable pageable);
 
+    @Query("select p FROM PostEntity p WHERE p.userEntityPost.id in ?1")
     public Page<PostEntity> findAllByUserEntityPostIdIn(List<String> idUser, Pageable pageable);
 
 //    @Query("SELECT new org.api.payload.response.PostResponse(" +

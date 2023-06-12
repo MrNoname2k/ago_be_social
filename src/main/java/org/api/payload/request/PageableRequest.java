@@ -16,20 +16,16 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageableRequest extends PageCommon implements Serializable {
+public class PageableRequest implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Pageable pageable;
     private Sort sort;
-
-    public Sort getSort() {
-        if(getSorts().equals(SortEnum.ASC.getText()))
-            return Sort.by(Direction.ASC, getField());
-        return Sort.by(Direction.DESC, getField());
-    }
+    private int page;
+    private int size;
 
     public Pageable getPageable() {
-        return PageRequest.of(getPage() - 1, getSize(), getSort());
+        return PageRequest.of(this.page, this.size, this.sort);
     }
 
 }
