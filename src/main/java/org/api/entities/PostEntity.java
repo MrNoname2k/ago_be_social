@@ -55,15 +55,15 @@ public class PostEntity extends CommonEntity implements Serializable {
     @JsonProperty("idAlbum")
     private AlbumEntity albumEntityPost;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
     private List<LikeEntity> likes;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
     private List<ShareEntity> shares;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
     private List<CommentEntity> comments;
 

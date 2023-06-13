@@ -1,10 +1,8 @@
 package org.api.services.impl;
 
+import com.google.gson.Gson;
 import org.api.annotation.LogExecutionTime;
-import org.api.constants.ConstantMessage;
-import org.api.constants.ConstantNotificationType;
-import org.api.constants.ConstantRelationshipStatus;
-import org.api.constants.ConstantStatus;
+import org.api.constants.*;
 import org.api.entities.NotificationEntity;
 import org.api.entities.PostEntity;
 import org.api.entities.RelationshipEntity;
@@ -21,6 +19,7 @@ import org.api.repository.UserEntityRepository;
 import org.api.services.NotificationEntityService;
 import org.api.services.RelationshipEntityService;
 import org.api.utils.ApiValidateException;
+import org.api.utils.ItemNameUtils;
 import org.api.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,10 +50,14 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
     @Autowired
     private RelationshipEntityService relationshipEntityService;
 
+
+
     @Override
-    public NotificationEntity create(String idUser, String idPost, String type) {
-        UserEntity userEntity = userEntityRepository.findOneById(idUser).get();
-        PostEntity postEntity = postEntityRepository.findOneById(idPost).get();
+    public NotificationEntity create(String idUser, String idPost, String type) throws ApiValidateException, Exception{
+        UserEntity userEntity = userEntityRepository.findOneById(idUser).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, "Notification"))));
+        PostEntity postEntity = postEntityRepository.findOneById(idPost).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.POST_ID,
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.POST_ID, "Notification"))));
         NotificationEntity entity = new NotificationEntity();
         entity.setUserEntity(userEntity);
         entity.setPostEntity(postEntity);
@@ -117,8 +120,6 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
             pageResponse.setNoRecordInPage(notificationEntityPage.getSize());
             pageResponse.setTotalPage(notificationEntityPage.getTotalPages());
             pageResponse.setTotalRecords(notificationEntityPage.getTotalElements());
-        }else {
-
         }
         return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
@@ -137,8 +138,6 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
             pageResponse.setNoRecordInPage(notificationEntityPage.getSize());
             pageResponse.setTotalPage(notificationEntityPage.getTotalPages());
             pageResponse.setTotalRecords(notificationEntityPage.getTotalElements());
-        }else {
-
         }
         return pageResponse;
     }

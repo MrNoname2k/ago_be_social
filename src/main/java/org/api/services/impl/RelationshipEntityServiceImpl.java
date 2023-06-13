@@ -1,5 +1,6 @@
 package org.api.services.impl;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
 import org.api.constants.ConstantColumns;
@@ -31,6 +32,9 @@ public class RelationshipEntityServiceImpl implements RelationshipEntityService 
     @Autowired
     private UserEntityRepository userEntityRepository;
 
+    @Autowired
+    private Gson gson;
+
     @Override
     public ResultBean findAllByUserEntityOneIdAndStatus(String id, String status) {
         List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdAndStatus(id, status);
@@ -42,7 +46,7 @@ public class RelationshipEntityServiceImpl implements RelationshipEntityService 
         RelationshipEntity entity = new RelationshipEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_RELATIONSHIP_JSON_VALIDATE, jsonObject, false);
-        this.convertJsonToEntity(jsonObject, entity, status);
+        entity = gson.fromJson(jsonObject, RelationshipEntity.class);
         RelationshipEntity entityOld = relationshipEntityRepository.save(entity);
         return new ResultBean(entityOld, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
@@ -50,8 +54,6 @@ public class RelationshipEntityServiceImpl implements RelationshipEntityService 
     @Override
     public List<RelationshipEntity> findAllByUserEntityOneIdOrUserEntityTowAndStatus(String idOne, String status) throws ApiValidateException, Exception{
         List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idOne, status);
-        if (lists.isEmpty())
-            return null;
         return lists;
     }
 

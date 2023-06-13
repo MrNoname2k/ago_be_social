@@ -1,6 +1,7 @@
 package org.api.services.impl;
 
 import org.api.annotation.LogExecutionTime;
+import org.api.constants.ConstantColumns;
 import org.api.constants.ConstantMessage;
 import org.api.constants.ConstantRelationshipStatus;
 import org.api.constants.ConstantStatus;
@@ -15,8 +16,12 @@ import org.api.payload.response.PageResponse;
 import org.api.payload.response.PostPageResponse;
 import org.api.repository.NotificationEntityRepository;
 import org.api.repository.PostEntityRepository;
+import org.api.repository.RelationshipEntityRepository;
+import org.api.repository.UserEntityRepository;
 import org.api.services.*;
 import org.api.utils.ApiValidateException;
+import org.api.utils.ItemNameUtils;
+import org.api.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +34,10 @@ import java.util.List;
 public class AgoServiceImpl implements AgoService {
 
     @Autowired
-    private UserEntityService userEntityService;
+    private UserEntityRepository userEntityRepository;
 
     @Autowired
-    private RelationshipEntityService relationshipEntityService;
+    private RelationshipEntityRepository relationshipEntityRepository;
 
     @Autowired
     private PostEntityService postEntityService;
@@ -40,27 +45,20 @@ public class AgoServiceImpl implements AgoService {
     @Autowired
     private NotificationEntityService notificationEntityService;
 
-    @Autowired
-    private PostEntityRepository postEntityRepository;
-
-    @Autowired
-    private NotificationEntityRepository notificationEntityRepository;
 
     @Override
     public ResultBean homePage(String idUser) throws ApiValidateException, Exception {
-        ResultBean resultBeanUser = userEntityService.getById(idUser);
-        UserEntity userEntity = (UserEntity) resultBeanUser.getData();
+        UserEntity userEntity = userEntityRepository.findOneById(idUser).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, "Home"))));
 
-        List<RelationshipEntity> relationshipEntityList = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
+        List<RelationshipEntity> relationshipEntityList = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(userEntity.getId(), ConstantRelationshipStatus.FRIEND);
+        if(relationshipEntityList.isEmpty()) {
+            new ApiValidateException(ConstantMessage.ID_ERR00005, "Relationships",
+                    MessageUtils.getMessage(ConstantMessage.ID_ERR00005, null, ItemNameUtils.getItemName("Relationships", "Home")));
+        }
 
-//        ResultBean resultBeanPost = postEntityService.findAllByUserEntityPostIdIn(10, idUser);
-//        List<PostEntity> postEntityPage = (List<PostEntity>) resultBeanPost.getData();
-//
-//        ResultBean resultBeanNotification = notificationEntityService.findAllByPostEntityUserEntityPostId(10, idUser);
-//        List<NotificationEntity> notificationEntityPage = (List<NotificationEntity>) resultBeanNotification.getData();
-        PostPageResponse postEntityPage = postEntityService.findAllByUserEntityPostIdInPage(10, idUser);
-        NotifiPageResponse notificationEntityPage = notificationEntityService.findAllByPostEntityUserEntityPostIdPage(10, idUser);
-
+        PostPageResponse postEntityPage = postEntityService.findAllByUserEntityPostIdInPage(10, userEntity.getId());
+        NotifiPageResponse notificationEntityPage = notificationEntityService.findAllByPostEntityUserEntityPostIdPage(10, userEntity.getId());
 
         HomePageResponse homePageResponse = new HomePageResponse();
         homePageResponse.setUserEntity(userEntity);

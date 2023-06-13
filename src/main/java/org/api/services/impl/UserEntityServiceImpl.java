@@ -1,5 +1,6 @@
 package org.api.services.impl;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
 import org.api.constants.ConstantColumns;
@@ -28,17 +29,20 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Autowired
     private UserEntityRepository userEntityRepository;
 
+    @Autowired
+    private Gson gson;
+
     @Override
     public ResultBean createUser(String json) throws ApiValidateException, Exception {
         UserEntity entity = new UserEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_USER_JSON_VALIDATE, jsonObject, false);
-        this.convertJsonToEntity(jsonObject, entity);
+        entity = gson.fromJson(jsonObject, UserEntity.class);
         if (userEntityRepository.existsByMail(entity.getMail())) {
             throw new ApiValidateException(ConstantMessage.ID_ERR00003, MessageUtils.getMessage(ConstantMessage.ID_ERR00003));
         }
         UserEntity entityOld = userEntityRepository.save(entity);
-        return new ResultBean(entityOld, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        return new ResultBean(entityOld, ConstantStatus.STATUS_201, ConstantMessage.MESSAGE_OK);
     }
 
     @Override
@@ -48,13 +52,10 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Override
     public ResultBean getById(String id) throws ApiValidateException, Exception {
-        Optional<UserEntity> userOptional = userEntityRepository.findOneById(id);
-        if (userOptional.isPresent()) {
-            return new ResultBean(userOptional.get(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
-        } else {
-            throw new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
-                    MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS)));
-        }
+        UserEntity user = userEntityRepository.findOneById(id).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS))));
+
+            return new ResultBean(user, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override
@@ -69,15 +70,12 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Override
     public UserEntity updateLastLogin(String mail) throws ApiValidateException, Exception {
-        Optional<UserEntity> userOptional = userEntityRepository.findOneByMail(mail);
-        if (userOptional.isPresent()) {
-            userOptional.get().setLastLoginDate(new Date());
-            UserEntity entityOld = userEntityRepository.save(userOptional.get());
-            return entityOld;
-        } else {
-            throw new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
-                    MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS)));
-        }
+        UserEntity user = userEntityRepository.findOneByMail(mail).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.MAIL,
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.MAIL, ALIAS))));
+
+        user.setLastLoginDate(new Date());
+        UserEntity entityOld = userEntityRepository.save(user);
+        return entityOld;
     }
 
     @Override
@@ -88,45 +86,10 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Override
     public UserEntity updateOnline(String mail, boolean online) throws ApiValidateException, Exception {
-        Optional<UserEntity> userOptional = userEntityRepository.findOneByMail(mail);
-        if (userOptional.isPresent()) {
-            userOptional.get().setOnline(online);
-            UserEntity entityOld = userEntityRepository.save(userOptional.get());
-
+        UserEntity user = userEntityRepository.findOneByMail(mail).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.MAIL,
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.MAIL, ALIAS))));
+            user.setOnline(online);
+            UserEntity entityOld = userEntityRepository.save(user);
             return entityOld;
-        } else {
-            throw new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
-                    MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS)));
-        }
-    }
-
-    private void convertJsonToEntity(JsonObject json, UserEntity entity) throws ApiValidateException {
-        if (DataUtil.hasMember(json, ConstantColumns.FULL_NAME)) {
-            entity.setFullName(DataUtil.getJsonString(json, ConstantColumns.FULL_NAME));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.MAIL)) {
-            entity.setMail(DataUtil.getJsonString(json, ConstantColumns.MAIL));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.PHONE)) {
-            entity.setPhone(DataUtil.getJsonString(json, ConstantColumns.PHONE));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.ADDRESS)) {
-            entity.setAddress(DataUtil.getJsonString(json, ConstantColumns.ADDRESS));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.BIRTHDAY)) {
-            entity.setBirthDay(DataUtil.getJsonString(json, ConstantColumns.BIRTHDAY));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.GENDER)) {
-            entity.setGender(DataUtil.getJsonString(json, ConstantColumns.GENDER));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.LINK_IG)) {
-            entity.setLinkIg(DataUtil.getJsonString(json, ConstantColumns.LINK_IG));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.LINK_YOUTUBE)) {
-            entity.setLinkYoutube(DataUtil.getJsonString(json, ConstantColumns.LINK_YOUTUBE));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.LINK_TIKTOK)) {
-            entity.setLinkTiktok(DataUtil.getJsonString(json, ConstantColumns.LINK_TIKTOK));
-        }
     }
 }

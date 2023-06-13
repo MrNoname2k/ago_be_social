@@ -1,5 +1,6 @@
 package org.api.services.impl;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
 import org.api.constants.*;
@@ -12,10 +13,9 @@ import org.api.payload.response.PostPageResponse;
 import org.api.repository.AlbumEntityRepository;
 import org.api.repository.FileEntityRepository;
 import org.api.repository.PostEntityRepository;
+import org.api.repository.RelationshipEntityRepository;
 import org.api.services.*;
-import org.api.utils.ApiValidateException;
-import org.api.utils.DataUtil;
-import org.api.utils.ValidateData;
+import org.api.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -51,7 +51,7 @@ public class PostEntityServiceImpl implements PostEntityService {
     private FileEntityRepository fileEntityRepository;
 
     @Autowired
-    private RelationshipEntityService relationshipEntityService;
+    private RelationshipEntityRepository relationshipEntityRepository;
 
     @Autowired
     private NotificationEntityService notificationEntityService;
@@ -59,22 +59,27 @@ public class PostEntityServiceImpl implements PostEntityService {
     @Autowired
     private AlbumEntityRepository albumEntityRepository;
 
+    @Autowired
+    private Gson gson;
+
     @Override
     public ResultBean createPost(String json, MultipartFile[] files) throws ApiValidateException, Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         PostEntity entity = new PostEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_POST_JSON_VALIDATE, jsonObject, false);
-        this.convertJsonToEntity(jsonObject, entity);
+        entity = gson.fromJson(jsonObject, PostEntity.class);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
         Optional<AlbumEntity> albumEntity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.POSTS, userEntity.getId());
+
         if (albumEntity.isPresent()) {
             entity.setAlbumEntityPost(albumEntity.get());
         } else {
             AlbumEntity albumEntityOld = albumEntityService.createAlbumDefault(ConstantTypeAlbum.POSTS, userEntity);
             entity.setAlbumEntityPost(albumEntityOld);
         }
+
         PostEntity entityOld = postEntityRepository.save(entity);
         map.put(ConstantColumns.POST_ENTITY, entityOld);
         map.put(ConstantColumns.USER_ENTITY, userEntity);
@@ -95,7 +100,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         PostEntity entity = new PostEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_POST_JSON_VALIDATE, jsonObject, false);
-        this.convertJsonToEntity(jsonObject, entity);
+        entity = gson.fromJson(jsonObject, PostEntity.class);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
         Optional<AlbumEntity> albumEntity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.AVATAR, userEntity.getId());
@@ -127,7 +132,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         PostEntity entity = new PostEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_POST_JSON_VALIDATE, jsonObject, false);
-        this.convertJsonToEntity(jsonObject, entity);
+        entity = gson.fromJson(jsonObject, PostEntity.class);
         UserEntity userEntity = authenticationService.authentication();
         entity.setUserEntityPost(userEntity);
         Optional<AlbumEntity> albumEntity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.BANNER, userEntity.getId());
@@ -155,19 +160,13 @@ public class PostEntityServiceImpl implements PostEntityService {
 
     @Override
     public PostEntity findOneById(String id) throws ApiValidateException, Exception {
-        Optional<PostEntity> entity = Optional.ofNullable(postEntityRepository.findById(id).orElseThrow(Exception::new));
-        return entity.get();
+        PostEntity entity = postEntityRepository.findById(id).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.POST_ID,
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.POST_ID, ALIAS))));
+        return entity;
     }
 
     @Override
     public ResultBean findAllByUserEntityPostId(int size, String idUser) throws ApiValidateException, Exception {
-//        PageableRequest pageableRequest = new PageableRequest();
-//        pageableRequest.setSize(size);
-//        Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
-//        PageResponse<PostEntity> pageResponse = new PageResponse<>();
-//        pageResponse.setResultPage(pagePostEntity);
-//        return new ResultBean(pageResponse.getResults(), ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
-
         PageableRequest pageableRequest = new PageableRequest();
         pageableRequest.setSize(size);
         pageableRequest.setSort(Sort.by("id").ascending());
@@ -180,15 +179,13 @@ public class PostEntityServiceImpl implements PostEntityService {
             pageResponse.setNoRecordInPage(pagePostEntity.getSize());
             pageResponse.setTotalPage(pagePostEntity.getTotalPages());
             pageResponse.setTotalRecords(pagePostEntity.getTotalElements());
-        }else {
-
         }
         return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override
     public ResultBean findAllByUserEntityPostIdIn(int size, String idUser) throws ApiValidateException, Exception {
-        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
+        List<RelationshipEntity> listFriends = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
         if (!listFriends.isEmpty()) {
             List<String> listIdFriend = new ArrayList<>();
             for (RelationshipEntity friend : listFriends) {
@@ -210,19 +207,19 @@ public class PostEntityServiceImpl implements PostEntityService {
                 pageResponse.setNoRecordInPage(pagePostEntity.getSize());
                 pageResponse.setTotalPage(pagePostEntity.getTotalPages());
                 pageResponse.setTotalRecords(pagePostEntity.getTotalElements());
-            }else {
-
             }
             return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
         }
-        return null;
+        throw new ApiValidateException(ConstantMessage.ID_ERR00005, "RelationShips",
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00005, null, ItemNameUtils.getItemName("RelationShips", ALIAS)));
     }
 
     @Override
     public PostPageResponse findAllByUserEntityPostIdInPage(int size, String idUser) throws ApiValidateException, Exception {
-        List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
+        List<RelationshipEntity> listFriends = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
         if (!listFriends.isEmpty()) {
             List<String> listIdFriend = new ArrayList<>();
+
             for (RelationshipEntity friend : listFriends) {
                 if (friend.getUserEntityOne().getId().equals(idUser))
                     listIdFriend.add(friend.getUserEntityTow().getId());
@@ -243,23 +240,10 @@ public class PostEntityServiceImpl implements PostEntityService {
                 pageResponse.setNoRecordInPage(pagePostEntity.getSize());
                 pageResponse.setTotalPage(pagePostEntity.getTotalPages());
                 pageResponse.setTotalRecords(pagePostEntity.getTotalElements());
-            }else {
-
             }
             return pageResponse;
         }
-        return null;
-    }
-
-    private void convertJsonToEntity(JsonObject json, PostEntity entity) throws ApiValidateException {
-        if (DataUtil.hasMember(json, ConstantColumns.CONTENT)) {
-            entity.setContent(DataUtil.getJsonString(json, ConstantColumns.CONTENT));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.ACCESS_MODIFIER_LEVEL)) {
-            entity.setAccessModifierLevel(DataUtil.getJsonString(json, ConstantColumns.ACCESS_MODIFIER_LEVEL));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.TYPE_POST)) {
-            entity.setTypePost(DataUtil.getJsonString(json, ConstantColumns.TYPE_POST));
-        }
+        throw new ApiValidateException(ConstantMessage.ID_ERR00005, "RelationShips",
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00005, null, ItemNameUtils.getItemName("RelationShips", ALIAS)));
     }
 }

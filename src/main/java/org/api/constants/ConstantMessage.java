@@ -9,6 +9,8 @@ public class ConstantMessage {
     public static final String ID_ERR00003 = "ERR00003";
     public static final String ID_ERR00004 = "ERR00004";
 
+    public static final String ID_ERR00005 = "ERR00005";
+
     public static final String ID_BKE00004 = "BKE00004";
     public static final String ID_BKE00005 = "BKE00005";
     public static final String ID_BKE00006 = "BKE00006";
