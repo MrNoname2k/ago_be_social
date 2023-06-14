@@ -1,13 +1,5 @@
 {
   "alias": "like.info",
   "checks": [
-    {
-      "id": "idPost",
-      "required": "0"
-    },
-    {
-      "id": "delFlg",
-      "required": "0"
-    }
   ]
 }

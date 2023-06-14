@@ -2,8 +2,7 @@ package org.api.services;
 
 import org.api.payload.ResultBean;
 import org.api.entities.PostEntity;
-import org.api.payload.response.PageResponse;
-import org.api.payload.response.PostPageResponse;
+import org.api.payload.response.homePageResponses.PostHomePageResponse;
 import org.api.utils.ApiValidateException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +20,6 @@ public interface PostEntityService {
 
     public ResultBean findAllByUserEntityPostIdIn(int  size, String idUser) throws ApiValidateException, Exception;
 
-    public PostPageResponse findAllByUserEntityPostIdInPage(int  size, String idUser) throws ApiValidateException, Exception;
+    public PostHomePageResponse findAllByUserEntityPostIdInPage(int  size, String idUser) throws ApiValidateException, Exception;
 
 }

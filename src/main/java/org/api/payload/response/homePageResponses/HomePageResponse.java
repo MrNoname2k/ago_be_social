@@ -1,11 +1,12 @@
-package org.api.payload.response;
+package org.api.payload.response.homePageResponses;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.api.entities.*;
+import org.api.payload.response.RelationshipResponse;
+import org.api.payload.response.pageResponse.MessagePageResponse;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,9 +20,8 @@ public class HomePageResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private UserEntity userEntity;
-    private List<RelationshipEntity> relationshipEntities;
-    private PostPageResponse postEntityPage;
+    private List<RelationshipResponse> relationshipEntities;
+    private PostHomePageResponse postEntityPage;
     private MessagePageResponse messageEntityPage;
-    private NotifiPageResponse notificationEntityPage;
+    private NotifiHomePageResponse notificationEntityPage;
 }

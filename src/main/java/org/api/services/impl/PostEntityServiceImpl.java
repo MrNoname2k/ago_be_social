@@ -7,15 +7,15 @@ import org.api.constants.*;
 import org.api.entities.*;
 import org.api.payload.ResultBean;
 import org.api.payload.request.PageableRequest;
-import org.api.payload.response.NotifiPageResponse;
-import org.api.payload.response.PageResponse;
-import org.api.payload.response.PostPageResponse;
+import org.api.payload.response.homePageResponses.PostHomeRespon;
+import org.api.payload.response.homePageResponses.PostHomePageResponse;
 import org.api.repository.AlbumEntityRepository;
 import org.api.repository.FileEntityRepository;
 import org.api.repository.PostEntityRepository;
 import org.api.repository.RelationshipEntityRepository;
 import org.api.services.*;
 import org.api.utils.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @LogExecutionTime
 @Service
@@ -58,9 +59,11 @@ public class PostEntityServiceImpl implements PostEntityService {
 
     @Autowired
     private AlbumEntityRepository albumEntityRepository;
-
     @Autowired
     private Gson gson;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public ResultBean createPost(String json, MultipartFile[] files) throws ApiValidateException, Exception {
@@ -106,7 +109,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         Optional<AlbumEntity> albumEntity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.AVATAR, userEntity.getId());
         if (albumEntity.isPresent()) {
             entity.setAlbumEntityPost(albumEntity.get());
-            List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.AVATAR);
+            List<FileEntity> list = fileEntityRepository.findAllByUserIdAndAlbumType(userEntity.getId(), ConstantTypeAlbum.AVATAR);
             if (!list.isEmpty()) {
                 for (FileEntity fileEntity : list) {
                     fileEntity.setIsCurrenAvatar(1);
@@ -138,7 +141,7 @@ public class PostEntityServiceImpl implements PostEntityService {
         Optional<AlbumEntity> albumEntity = albumEntityRepository.findOneByTypeAlbumAndUserEntityId(ConstantTypeAlbum.BANNER, userEntity.getId());
         if (albumEntity.isPresent()) {
             entity.setAlbumEntityPost(albumEntity.get());
-            List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(userEntity.getId(), ConstantTypeAlbum.BANNER);
+            List<FileEntity> list = fileEntityRepository.findAllByUserIdAndAlbumType(userEntity.getId(), ConstantTypeAlbum.BANNER);
             if (!list.isEmpty()) {
                 for (FileEntity fileEntity : list) {
                     fileEntity.setIsCurrenAvatar(1);
@@ -167,55 +170,57 @@ public class PostEntityServiceImpl implements PostEntityService {
 
     @Override
     public ResultBean findAllByUserEntityPostId(int size, String idUser) throws ApiValidateException, Exception {
-        PageableRequest pageableRequest = new PageableRequest();
-        pageableRequest.setSize(size);
-        pageableRequest.setSort(Sort.by("id").ascending());
-        pageableRequest.setPage(0);
-        Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
-        PostPageResponse pageResponse = new PostPageResponse();
-        if (pagePostEntity.hasContent()) {
-            pageResponse.setResults(pagePostEntity.getContent());
-            pageResponse.setCurrentPage(pagePostEntity.getNumber());
-            pageResponse.setNoRecordInPage(pagePostEntity.getSize());
-            pageResponse.setTotalPage(pagePostEntity.getTotalPages());
-            pageResponse.setTotalRecords(pagePostEntity.getTotalElements());
-        }
-        return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+//        PageableRequest pageableRequest = new PageableRequest();
+//        pageableRequest.setSize(size);
+//        pageableRequest.setSort(Sort.by("id").ascending());
+//        pageableRequest.setPage(0);
+//        Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostId(idUser, pageableRequest.getPageable());
+//        PostPageResponse pageResponse = new PostPageResponse();
+//        if (pagePostEntity.hasContent()) {
+//            pageResponse.setResults(pagePostEntity.getContent());
+//            pageResponse.setCurrentPage(pagePostEntity.getNumber());
+//            pageResponse.setNoRecordInPage(pagePostEntity.getSize());
+//            pageResponse.setTotalPage(pagePostEntity.getTotalPages());
+//            pageResponse.setTotalRecords(pagePostEntity.getTotalElements());
+//        }
+//        return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        return null;
     }
 
     @Override
     public ResultBean findAllByUserEntityPostIdIn(int size, String idUser) throws ApiValidateException, Exception {
-        List<RelationshipEntity> listFriends = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
-        if (!listFriends.isEmpty()) {
-            List<String> listIdFriend = new ArrayList<>();
-            for (RelationshipEntity friend : listFriends) {
-                if (friend.getUserEntityOne().getId().equals(idUser))
-                    listIdFriend.add(friend.getUserEntityTow().getId());
-                else if (friend.getUserEntityTow().getId().equals(idUser))
-                    listIdFriend.add(friend.getUserEntityOne().getId());
-            }
-
-            PageableRequest pageableRequest = new PageableRequest();
-            pageableRequest.setSize(size);
-            pageableRequest.setSort(Sort.by("id").ascending());
-            pageableRequest.setPage(0);
-            Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostIdIn(listIdFriend, pageableRequest.getPageable());
-            PostPageResponse pageResponse = new PostPageResponse();
-            if (pagePostEntity.hasContent()) {
-                pageResponse.setResults(pagePostEntity.getContent());
-                pageResponse.setCurrentPage(pagePostEntity.getNumber());
-                pageResponse.setNoRecordInPage(pagePostEntity.getSize());
-                pageResponse.setTotalPage(pagePostEntity.getTotalPages());
-                pageResponse.setTotalRecords(pagePostEntity.getTotalElements());
-            }
-            return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
-        }
-        throw new ApiValidateException(ConstantMessage.ID_ERR00005, "RelationShips",
-                MessageUtils.getMessage(ConstantMessage.ID_ERR00005, null, ItemNameUtils.getItemName("RelationShips", ALIAS)));
+//        List<RelationshipEntity> listFriends = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
+//        if (!listFriends.isEmpty()) {
+//            List<String> listIdFriend = new ArrayList<>();
+//            for (RelationshipEntity friend : listFriends) {
+//                if (friend.getUserEntityOne().getId().equals(idUser))
+//                    listIdFriend.add(friend.getUserEntityTow().getId());
+//                else if (friend.getUserEntityTow().getId().equals(idUser))
+//                    listIdFriend.add(friend.getUserEntityOne().getId());
+//            }
+//
+//            PageableRequest pageableRequest = new PageableRequest();
+//            pageableRequest.setSize(size);
+//            pageableRequest.setSort(Sort.by("id").ascending());
+//            pageableRequest.setPage(0);
+//            Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostIdIn(listIdFriend, pageableRequest.getPageable());
+//            PostPageResponse pageResponse = new PostPageResponse();
+//            if (pagePostEntity.hasContent()) {
+//                pageResponse.setResults(pagePostEntity.getContent());
+//                pageResponse.setCurrentPage(pagePostEntity.getNumber());
+//                pageResponse.setNoRecordInPage(pagePostEntity.getSize());
+//                pageResponse.setTotalPage(pagePostEntity.getTotalPages());
+//                pageResponse.setTotalRecords(pagePostEntity.getTotalElements());
+//            }
+//            return new ResultBean(pageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+//        }
+//        throw new ApiValidateException(ConstantMessage.ID_ERR00005, "RelationShips",
+//                MessageUtils.getMessage(ConstantMessage.ID_ERR00005, null, ItemNameUtils.getItemName("RelationShips", ALIAS)));
+        return null;
     }
 
     @Override
-    public PostPageResponse findAllByUserEntityPostIdInPage(int size, String idUser) throws ApiValidateException, Exception {
+    public PostHomePageResponse findAllByUserEntityPostIdInPage(int size, String idUser) throws ApiValidateException, Exception {
         List<RelationshipEntity> listFriends = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
         if (!listFriends.isEmpty()) {
             List<String> listIdFriend = new ArrayList<>();
@@ -227,15 +232,16 @@ public class PostEntityServiceImpl implements PostEntityService {
                     listIdFriend.add(friend.getUserEntityOne().getId());
             }
             PageableRequest pageableRequest = new PageableRequest();
-            PostPageResponse pageResponse = new PostPageResponse();
+            PostHomePageResponse pageResponse = new PostHomePageResponse();
 
             pageableRequest.setSize(size);
             pageableRequest.setSort(Sort.by("id").ascending());
             pageableRequest.setPage(0);
             Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostIdIn(listIdFriend, pageableRequest.getPageable());
-
+            List<PostEntity> postEntities = pagePostEntity.getContent();
+            List<PostHomeRespon> homeRespons = postEntities.stream().map(postEntity -> modelMapper.map(postEntity, PostHomeRespon.class)).collect(Collectors.toList());
             if (pagePostEntity.hasContent()) {
-                pageResponse.setResults(pagePostEntity.getContent());
+                pageResponse.setResults(homeRespons);
                 pageResponse.setCurrentPage(pagePostEntity.getNumber());
                 pageResponse.setNoRecordInPage(pagePostEntity.getSize());
                 pageResponse.setTotalPage(pagePostEntity.getTotalPages());

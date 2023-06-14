@@ -1,19 +1,12 @@
-package org.api.payload.response;
+package org.api.payload.response.pageResponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
-import org.api.payload.PageCommon;
-import org.springframework.data.domain.Page;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @JsonSerialize
 public class PageResponse<R> implements Serializable {

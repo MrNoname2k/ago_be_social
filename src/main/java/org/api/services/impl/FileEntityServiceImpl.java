@@ -32,7 +32,6 @@ public class FileEntityServiceImpl implements FileEntityService {
     @Override
     public FileEntity createFile(AlbumEntity album, PostEntity post, String fileName) {
         FileEntity entity = new FileEntity();
-        entity.setAlbumEntityFile(album);
         entity.setFileName(fileName);
         entity.setPostEntity(post);
         return fileEntityRepository.save(entity);
@@ -40,7 +39,7 @@ public class FileEntityServiceImpl implements FileEntityService {
 
     @Override
     public ResultBean findAllByUserAndTypeAlbum(String idUser, String typeAlbum) throws ApiValidateException, Exception {
-        List<FileEntity> list = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbum(idUser, typeAlbum);
+        List<FileEntity> list = fileEntityRepository.findAllByUserIdAndAlbumType(idUser, typeAlbum);
         return new ResultBean(list, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
@@ -57,14 +56,14 @@ public class FileEntityServiceImpl implements FileEntityService {
 
     @Override
     public FileEntity findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbumAndIsCurrenAvatar(String idUser, String typeAlbum, int isCurrenAvatar) {
-        Optional<FileEntity> entity = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbumAndIsCurrenAvatar(idUser, typeAlbum, isCurrenAvatar);
+        Optional<FileEntity> entity = fileEntityRepository.findByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbumAndIsCurrenAvatar(idUser, typeAlbum, isCurrenAvatar);
         if (entity.isEmpty()) return null;
         return entity.get();
     }
 
     @Override
     public FileEntity findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbumAndIsCurrenBanner(String idUser, String typeAlbum, int isCurrenBanner) {
-        Optional<FileEntity> entity = fileEntityRepository.findAllByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbumAndIsCurrenBanner(idUser, typeAlbum, isCurrenBanner);
+        Optional<FileEntity> entity = fileEntityRepository.findByPostEntityUserEntityPostIdAndAlbumEntityFileTypeAlbumAndIsCurrenBanner(idUser, typeAlbum, isCurrenBanner);
         if (entity.isEmpty()) return null;
         return entity.get();
     }

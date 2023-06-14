@@ -44,12 +44,6 @@ public class FileEntity extends CommonEntity implements Serializable {
     private Integer isCurrenBanner = 0;
 
     @ManyToOne
-    @JoinColumn(name = "id_album")
-    @JsonProperty("idAlbum")
-    @JsonBackReference
-    private AlbumEntity albumEntityFile;
-
-    @ManyToOne
     @JoinColumn(name = "id_post")
     @JsonProperty("idPost")
     @JsonBackReference

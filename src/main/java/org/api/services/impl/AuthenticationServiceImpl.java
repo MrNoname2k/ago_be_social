@@ -7,6 +7,7 @@ import org.api.constants.*;
 import org.api.entities.UserEntity;
 import org.api.entities.UserRoleEntity;
 import org.api.payload.ResultBean;
+import org.api.payload.response.UserResponse.UserResponse;
 import org.api.repository.RoleRepository;
 import org.api.repository.UserEntityRepository;
 import org.api.services.AuthenticationService;
@@ -16,6 +17,7 @@ import org.api.utils.ApiValidateException;
 import org.api.utils.DataUtil;
 import org.api.utils.MessageUtils;
 import org.api.utils.ValidateData;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +59,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public ResultBean loginAuth(String json) throws ApiValidateException, Exception {
         UserEntity entity = new UserEntity();
@@ -77,8 +82,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         CustomUserDetailsService userDetails = (CustomUserDetailsService) authentication.getPrincipal();
         String token = tokenProvider.generateJwtToken(authentication);
         UserEntity entityOld = userEntityService.updateLastLogin(userDetails.getUsername());
+        UserResponse response = modelMapper.map(entityOld, UserResponse.class);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(ConstantColumns.USER_ENTITY, entityOld);
+        map.put(ConstantColumns.USER_ENTITY, response);
         map.put(ConstantColumns.TOKEN, token);
         return new ResultBean(map, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }

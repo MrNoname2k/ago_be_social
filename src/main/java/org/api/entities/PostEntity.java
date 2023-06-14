@@ -1,6 +1,8 @@
 package org.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,15 +57,15 @@ public class PostEntity extends CommonEntity implements Serializable {
     @JsonProperty("idAlbum")
     private AlbumEntity albumEntityPost;
 
-//    @JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
     private List<LikeEntity> likes;
 
-//    @JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
     private List<ShareEntity> shares;
 
-//    @JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "postEntity", cascade = CascadeType.ALL)
     private List<CommentEntity> comments;
 

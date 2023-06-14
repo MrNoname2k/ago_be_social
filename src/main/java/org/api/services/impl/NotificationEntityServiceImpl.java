@@ -1,6 +1,5 @@
 package org.api.services.impl;
 
-import com.google.gson.Gson;
 import org.api.annotation.LogExecutionTime;
 import org.api.constants.*;
 import org.api.entities.NotificationEntity;
@@ -10,9 +9,8 @@ import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
 import org.api.payload.WebNotification;
 import org.api.payload.request.PageableRequest;
-import org.api.payload.response.NotifiPageResponse;
-import org.api.payload.response.PageResponse;
-import org.api.payload.response.PostPageResponse;
+import org.api.payload.response.homePageResponses.NotificationHomeResponse;
+import org.api.payload.response.homePageResponses.NotifiHomePageResponse;
 import org.api.repository.NotificationEntityRepository;
 import org.api.repository.PostEntityRepository;
 import org.api.repository.UserEntityRepository;
@@ -21,6 +19,7 @@ import org.api.services.RelationshipEntityService;
 import org.api.utils.ApiValidateException;
 import org.api.utils.ItemNameUtils;
 import org.api.utils.MessageUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -29,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @LogExecutionTime
 @Service
@@ -49,6 +49,9 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
 
     @Autowired
     private RelationshipEntityService relationshipEntityService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
 
 
@@ -113,9 +116,11 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
         pageableRequest.setSort(Sort.by("id").ascending());
         pageableRequest.setPage(0);
         Page<NotificationEntity> notificationEntityPage = notificationEntityRepository.findAllByPostEntityUserEntityPostId(idUser, pageableRequest.getPageable());
-        NotifiPageResponse pageResponse = new NotifiPageResponse();
+        List<NotificationEntity> notificationEntities = notificationEntityPage.getContent();
+        List<NotificationHomeResponse> responses = notificationEntities.stream().map(notificationEntity -> modelMapper.map(notificationEntity, NotificationHomeResponse.class)).collect(Collectors.toList());
+        NotifiHomePageResponse pageResponse = new NotifiHomePageResponse();
         if (notificationEntityPage.hasContent()) {
-            pageResponse.setResults(notificationEntityPage.getContent());
+            pageResponse.setResults(responses);
             pageResponse.setCurrentPage(notificationEntityPage.getNumber());
             pageResponse.setNoRecordInPage(notificationEntityPage.getSize());
             pageResponse.setTotalPage(notificationEntityPage.getTotalPages());
@@ -125,15 +130,17 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
     }
 
     @Override
-    public NotifiPageResponse findAllByPostEntityUserEntityPostIdPage(int size, String idUser) throws ApiValidateException, Exception {
+    public NotifiHomePageResponse findAllByPostEntityUserEntityPostIdPage(int size, String idUser) throws ApiValidateException, Exception {
         PageableRequest pageableRequest = new PageableRequest();
         pageableRequest.setSize(size);
         pageableRequest.setSort(Sort.by("id").ascending());
         pageableRequest.setPage(0);
         Page<NotificationEntity> notificationEntityPage = notificationEntityRepository.findAllByPostEntityUserEntityPostId(idUser, pageableRequest.getPageable());
-        NotifiPageResponse pageResponse = new NotifiPageResponse();
+        List<NotificationEntity> notificationEntities = notificationEntityPage.getContent();
+        List<NotificationHomeResponse> responses = notificationEntities.stream().map(notificationEntity -> modelMapper.map(notificationEntity, NotificationHomeResponse.class)).collect(Collectors.toList());
+        NotifiHomePageResponse pageResponse = new NotifiHomePageResponse();
         if (notificationEntityPage.hasContent()) {
-            pageResponse.setResults(notificationEntityPage.getContent());
+            pageResponse.setResults(responses);
             pageResponse.setCurrentPage(notificationEntityPage.getNumber());
             pageResponse.setNoRecordInPage(notificationEntityPage.getSize());
             pageResponse.setTotalPage(notificationEntityPage.getTotalPages());

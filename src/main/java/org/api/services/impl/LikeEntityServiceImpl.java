@@ -1,5 +1,6 @@
 package org.api.services.impl;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
 import org.api.constants.ConstantColumns;
@@ -14,9 +15,7 @@ import org.api.repository.LikeEntityRepository;
 import org.api.services.AuthenticationService;
 import org.api.services.LikeEntityService;
 import org.api.services.PostEntityService;
-import org.api.utils.ApiValidateException;
-import org.api.utils.DataUtil;
-import org.api.utils.ValidateData;
+import org.api.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,9 +32,11 @@ public class LikeEntityServiceImpl implements LikeEntityService {
 
     @Autowired
     private PostEntityService postEntityService;
-
     @Autowired
     private AuthenticationService authenticationService;
+
+    @Autowired
+    private Gson gson;
 
     @Override
     public ResultBean likeOrUnlike(String json) throws ApiValidateException, Exception {
@@ -45,15 +46,22 @@ public class LikeEntityServiceImpl implements LikeEntityService {
         entity.setUserEntityLike(userEntity);
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_LIKE_JSON_VALIDATE, jsonObject, false);
-        this.convertJsonToEntity(jsonObject, entity);
-        Optional<LikeEntity> likeEntityOptional = likeEntityRepository.findOneByPostEntityIdAndUserEntityLikeId(entity.getPostEntity().getId(), entity.getUserEntityLike().getId());
-        if (likeEntityOptional.isEmpty() && entity.getDelFlg() == 0) {
-            entity.setDelFlg(0);
+        PostEntity postEntity = gson.fromJson(jsonObject, PostEntity.class);
+
+        Optional<LikeEntity> likeEntityOptional = likeEntityRepository.findOneByPostEntityIdAndUserEntityLikeId(postEntity.getId(), entity.getUserEntityLike().getId());
+        if(likeEntityOptional.isPresent()) {
+            if(likeEntityOptional.get().getDelFlg() == 1) {
+                entity.setDelFlg(0);
+            }else {
+                entity.setDelFlg(1);
+            }
+            entity.setId(likeEntityOptional.get().getId());
             entityOld = likeEntityRepository.save(entity);
-        } else if (!likeEntityOptional.isEmpty() && entity.getDelFlg() == 1) {
-            likeEntityOptional.get().setDelFlg(1);
-            entityOld = likeEntityRepository.save(likeEntityOptional.get());
+        }else {
+            entity.setPostEntity(postEntity);
+            entityOld = likeEntityRepository.save(entity);
         }
+
         return new ResultBean(entityOld, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 

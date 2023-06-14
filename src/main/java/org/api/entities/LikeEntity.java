@@ -37,6 +37,6 @@ public class LikeEntity extends CommonEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_user_create")
-    @JsonProperty("idUserCreate")
+    @JsonProperty("userEntityLike")
     private UserEntity userEntityLike;
 }

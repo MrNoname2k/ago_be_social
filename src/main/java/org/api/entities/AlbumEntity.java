@@ -48,8 +48,4 @@ public class AlbumEntity extends CommonEntity implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "albumEntityPost", cascade = CascadeType.ALL)
     private List<PostEntity> posts;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "albumEntityFile", cascade = CascadeType.ALL)
-    private List<FileEntity> files;
 }

@@ -2,8 +2,7 @@ package org.api.services;
 
 import org.api.entities.NotificationEntity;
 import org.api.payload.ResultBean;
-import org.api.payload.response.NotifiPageResponse;
-import org.api.payload.response.PageResponse;
+import org.api.payload.response.homePageResponses.NotifiHomePageResponse;
 import org.api.utils.ApiValidateException;
 
 public interface NotificationEntityService {
@@ -13,6 +12,6 @@ public interface NotificationEntityService {
     public void sendNotification(NotificationEntity notificationEntity) throws ApiValidateException, Exception;
 
     public ResultBean findAllByPostEntityUserEntityPostId(int size, String idUser) throws ApiValidateException, Exception;
-    public NotifiPageResponse findAllByPostEntityUserEntityPostIdPage(int size, String idUser) throws ApiValidateException, Exception;
+    public NotifiHomePageResponse findAllByPostEntityUserEntityPostIdPage(int size, String idUser) throws ApiValidateException, Exception;
 
 }
