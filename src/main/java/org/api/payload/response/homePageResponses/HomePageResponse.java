@@ -19,7 +19,7 @@ import java.util.List;
 public class HomePageResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    private UserHomeRespon userEntity;
     private List<RelationshipResponse> relationshipEntities;
     private PostHomePageResponse postEntityPage;
     private MessagePageResponse messageEntityPage;

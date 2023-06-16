@@ -12,6 +12,7 @@ import org.api.payload.response.*;
 import org.api.payload.response.homePageResponses.HomePageResponse;
 import org.api.payload.response.homePageResponses.NotifiHomePageResponse;
 import org.api.payload.response.homePageResponses.PostHomePageResponse;
+import org.api.payload.response.homePageResponses.UserHomeRespon;
 import org.api.repository.RelationshipEntityRepository;
 import org.api.repository.UserEntityRepository;
 import org.api.services.AgoService;
@@ -62,6 +63,7 @@ public class AgoServiceImpl implements AgoService {
         NotifiHomePageResponse notificationEntityPage = notificationEntityService.findAllByPostEntityUserEntityPostIdPage(10, userEntity.getId());
 
         HomePageResponse homePageResponse = new HomePageResponse();
+        homePageResponse.setUserEntity(modelMapper.map(userEntity, UserHomeRespon.class));
         homePageResponse.setRelationshipEntities(responseList);
         homePageResponse.setPostEntityPage(postEntityPage);
         homePageResponse.setNotificationEntityPage(notificationEntityPage);

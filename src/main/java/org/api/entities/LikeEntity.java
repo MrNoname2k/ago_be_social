@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 @Setter
 @Getter
@@ -17,8 +17,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "t1_like_entity")
-@SQLDelete(sql = "UPDATE t1_like_entity SET del_flg = 1 WHERE id=?")
-@Where(clause = "del_flg=0")
 public class LikeEntity extends CommonEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
