@@ -41,5 +41,5 @@ public class PostHomeRespon extends CommonResponse {
     private List<ShareHomeResponse> shares;
 
     @JsonProperty("comments")
-    private List<CommentEntity> comments;
+    private List<CommentHomeResponse> comments;
 }

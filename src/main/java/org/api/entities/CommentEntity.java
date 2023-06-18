@@ -45,6 +45,6 @@ public class CommentEntity extends CommonEntity implements Serializable  {
 
     @ManyToOne
     @JoinColumn(name = "id_user_create")
-    @JsonProperty("idUserCreate")
+    @JsonProperty("userEntityComment")
     private UserEntity userEntityComment;
 }

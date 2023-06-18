@@ -19,6 +19,6 @@ public class CommentHomeResponse extends CommonResponse {
     @JsonProperty("idComment")
     private String idComment;
 
-    @JsonProperty("idUserCreate")
+    @JsonProperty("userEntityComment")
     private UserHomeRespon userEntityComment;
 }
