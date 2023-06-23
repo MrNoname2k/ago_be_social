@@ -9,9 +9,11 @@ import org.api.constants.ConstantMessage;
 import org.api.constants.ConstantStatus;
 import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
+import org.api.payload.response.UserResponse.UserResponse;
 import org.api.repository.UserEntityRepository;
 import org.api.services.UserEntityService;
 import org.api.utils.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,9 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Autowired
     private Gson gson;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public ResultBean createUser(String json) throws ApiValidateException, Exception {
@@ -55,7 +60,8 @@ public class UserEntityServiceImpl implements UserEntityService {
         UserEntity user = userEntityRepository.findOneById(id).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
                 MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS))));
 
-            return new ResultBean(user, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        UserResponse response = modelMapper.map(user, UserResponse.class);
+            return new ResultBean(response, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override

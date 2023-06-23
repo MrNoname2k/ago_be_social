@@ -15,8 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 public class UserResponse extends CommonResponse {
 
-    @JsonProperty("fullName")
-    private String fullName;
+    @JsonProperty("firstName")
+    private String firstName;
+
+    @JsonProperty("lastName")
+    private String lastName;
 
     @JsonProperty("phone")
     private String phone;
@@ -27,6 +30,9 @@ public class UserResponse extends CommonResponse {
     @JsonProperty("address")
     private String address;
 
+    @JsonProperty("city")
+    private String city;
+
     @JsonProperty("birthDay")
     private String birthDay;
 
@@ -36,11 +42,8 @@ public class UserResponse extends CommonResponse {
     @JsonProperty("linkIg")
     private String linkIg;
 
-    @JsonProperty("linkYoutube")
-    private String linkYoutube;
-
-    @JsonProperty("linkTiktok")
-    private String linkTiktok;
+    @JsonProperty("linkFacebook")
+    private String linkFacebook;
 
     @JsonProperty("lastLoginDate")
     private Date lastLoginDate;
@@ -50,4 +53,11 @@ public class UserResponse extends CommonResponse {
 
     @JsonProperty("posts")
     private List<PostResponse> posts;
+
+    @JsonProperty("status")
+    private String status;
+
+    @JsonProperty("description")
+    private String description;
+
 }

@@ -1,5 +1,6 @@
 package org.api.services.impl;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
 import org.api.component.JwtTokenProvider;
@@ -62,12 +63,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private Gson gson;
+
     @Override
     public ResultBean loginAuth(String json) throws ApiValidateException, Exception {
         UserEntity entity = new UserEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_LOGIN_JSON_VALIDATE, jsonObject, false);
-        this.convertJsonToEntityLogin(jsonObject, entity);
+//        this.convertJsonToEntityLogin(jsonObject, entity);
+        entity =  gson.fromJson(jsonObject, UserEntity.class);
         if (Boolean.FALSE.equals(userEntityRepository.existsByMail(entity.getMail()))) {
             throw new ApiValidateException(ConstantMessage.ID_ERR00004, MessageUtils.getMessage(ConstantMessage.ID_ERR00004));
         }
@@ -99,8 +104,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UserEntity entity = new UserEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_REGISTER_JSON_VALIDATE, jsonObject, false);
-        this.convertJsonToEntityRegister(jsonObject, entity);
+//        this.convertJsonToEntityRegister(jsonObject, entity);
 //        entity.setRole(ConstantRole.ROLE_USER);
+        entity = gson.fromJson(jsonObject, UserEntity.class);
         UserRoleEntity userRole = this.roleRepository.findByAuthority(ConstantRole.ROLE_USER);
         Set<UserRoleEntity> roles = new HashSet<>();
         roles.add(userRole);
@@ -121,20 +127,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return entityOld;
     }
 
-    private void convertJsonToEntityRegister(JsonObject json, UserEntity entity) throws ApiValidateException {
-        if (DataUtil.hasMember(json, ConstantColumns.FULL_NAME)) {
-            entity.setFullName(DataUtil.getJsonString(json, ConstantColumns.FULL_NAME));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.MAIL)) {
-            entity.setMail(DataUtil.getJsonString(json, ConstantColumns.MAIL));
-        }
-        if (DataUtil.hasMember(json, ConstantColumns.PASSWORD)) {
-            entity.setPassword(encoder.encode(DataUtil.getJsonString(json, ConstantColumns.PASSWORD)));
-        }
-//        if (DataUtil.hasMember(json, ConstantColumns.ROLE)) {
-//            entity.setRole(DataUtil.getJsonString(json, ConstantColumns.ROLE));
+//    private void convertJsonToEntityRegister(JsonObject json, UserEntity entity) throws ApiValidateException {
+//        if (DataUtil.hasMember(json, ConstantColumns.FULL_NAME)) {
+//            entity.setFirstName(DataUtil.getJsonString(json, ConstantColumns.FULL_NAME));
 //        }
-    }
+//        if (DataUtil.hasMember(json, ConstantColumns.MAIL)) {
+//            entity.setMail(DataUtil.getJsonString(json, ConstantColumns.MAIL));
+//        }
+//        if (DataUtil.hasMember(json, ConstantColumns.PASSWORD)) {
+//            entity.setPassword(encoder.encode(DataUtil.getJsonString(json, ConstantColumns.PASSWORD)));
+//        }
+////        if (DataUtil.hasMember(json, ConstantColumns.ROLE)) {
+////            entity.setRole(DataUtil.getJsonString(json, ConstantColumns.ROLE));
+////        }
+//    }
 
     private void convertJsonToEntityLogin(JsonObject json, UserEntity entity) throws ApiValidateException {
         if (DataUtil.hasMember(json, ConstantColumns.MAIL)) {

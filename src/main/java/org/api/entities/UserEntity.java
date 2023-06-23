@@ -31,9 +31,13 @@ public class UserEntity extends CommonEntity implements Serializable {
     @JsonProperty("id")
     private String id;
 
-    @Column(name = "full_name")
-    @JsonProperty("fullName")
-    private String fullName;
+    @Column(name = "first_name")
+    @JsonProperty("firstName")
+    private String firstName;
+
+    @Column(name = "last_name")
+    @JsonProperty("lastName")
+    private String lastName;
 
     @Column(name = "phone")
     @JsonProperty("phone")
@@ -47,9 +51,13 @@ public class UserEntity extends CommonEntity implements Serializable {
     @JsonProperty("address")
     private String address;
 
+    @Column(name = "city")
+    @JsonProperty("city")
+    private String city;
+
     @Column(name = "birthDay")
     @JsonProperty("birthDay")
-    private String birthDay;
+    private Date birthDay;
 
     @Column(name = "gender")
     @JsonProperty("gender")
@@ -63,13 +71,13 @@ public class UserEntity extends CommonEntity implements Serializable {
     @JsonProperty("linkIg")
     private String linkIg;
 
-    @Column(name = "link_youtube")
-    @JsonProperty("linkYoutube")
-    private String linkYoutube;
+    @Column(name = "link_facebook")
+    @JsonProperty("linkFacebook")
+    private String linkFacebook;
 
-    @Column(name = "link_tiktok")
-    @JsonProperty("linkTiktok")
-    private String linkTiktok;
+    @Column(name = "description")
+    @JsonProperty("description")
+    private String description;
 
     @Column(name = "last_login_date")
     @JsonProperty("lastLoginDate")
@@ -78,6 +86,10 @@ public class UserEntity extends CommonEntity implements Serializable {
     @Column(name = "online", columnDefinition = "BOOLEAN DEFAULT FALSE")
     @JsonProperty("online")
     private Boolean online;
+
+    @Column(name = "status")
+    @JsonProperty("status")
+    private String status;
 
     @JsonIgnore
     @OneToMany(mappedBy = "userEntityPost", cascade = CascadeType.ALL)
@@ -128,5 +140,9 @@ public class UserEntity extends CommonEntity implements Serializable {
     @Override
     public String toString() {
         return getMail();
+    }
+
+    public String getFullName() {
+        return this.lastName + ' ' + this.firstName;
     }
 }

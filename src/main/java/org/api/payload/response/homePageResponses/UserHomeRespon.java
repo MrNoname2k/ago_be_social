@@ -14,8 +14,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserHomeRespon extends CommonResponse {
-    @JsonProperty("fullName")
-    private String fullName;
+
+    @JsonProperty("firstName")
+    private String firstName;
+
+    @JsonProperty("lastName")
+    private String lastName;
 
     @JsonProperty("phone")
     private String phone;
@@ -26,6 +30,9 @@ public class UserHomeRespon extends CommonResponse {
     @JsonProperty("address")
     private String address;
 
+    @JsonProperty("city")
+    private String city;
+
     @JsonProperty("birthDay")
     private String birthDay;
 
@@ -35,15 +42,18 @@ public class UserHomeRespon extends CommonResponse {
     @JsonProperty("linkIg")
     private String linkIg;
 
-    @JsonProperty("linkYoutube")
-    private String linkYoutube;
-
-    @JsonProperty("linkTiktok")
-    private String linkTiktok;
+    @JsonProperty("linkFacebook")
+    private String linkFacebook;
 
     @JsonProperty("lastLoginDate")
     private Date lastLoginDate;
 
     @JsonProperty("online")
     private Boolean online;
+
+    @JsonProperty("status")
+    private String status;
+
+    @JsonProperty("description")
+    private String description;
 }

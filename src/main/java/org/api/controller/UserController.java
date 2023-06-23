@@ -36,11 +36,11 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResultBean> getUserById(@PathVariable String id) {
         try {
             ResultBean resultBean = userEntityService.getById(id);
-            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
         } catch (ApiValidateException ex) {
             return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
         } catch (Exception ex) {

@@ -5,7 +5,9 @@ public class ConstantColumns {
     public static final String TOKEN = "token";
     public static final String USER_ENTITY = "userEntity";
     public static final String USER_ID = "id";
-    public static final String FULL_NAME = "fullName";
+    public static final String FIRST_NAME = "firstName";
+    public static final String LAST_NAME = "lastName";
+
     public static final String MAIL = "mail";
     public static final String PASSWORD = "password";
     public static final String ID = "id";
