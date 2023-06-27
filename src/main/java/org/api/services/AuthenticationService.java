@@ -12,6 +12,8 @@ public interface AuthenticationService {
 
     public ResultBean registerAuth(String json) throws ApiValidateException, Exception;
 
+    public ResultBean forgotPasswordAuth(String mail) throws ApiValidateException, Exception;
+
     public UserEntity authentication() throws ApiValidateException, Exception;
 
 }

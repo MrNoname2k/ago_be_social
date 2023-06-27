@@ -7,12 +7,15 @@ import org.api.component.JwtTokenProvider;
 import org.api.constants.*;
 import org.api.entities.UserEntity;
 import org.api.entities.UserRoleEntity;
+import org.api.enumeration.MailTypeEnum;
 import org.api.payload.ResultBean;
+import org.api.payload.response.MailInfoResponse;
 import org.api.payload.response.UserResponse.UserResponse;
 import org.api.repository.RoleRepository;
 import org.api.repository.UserEntityRepository;
 import org.api.services.AuthenticationService;
 import org.api.services.CustomUserDetailsService;
+import org.api.services.MailerService;
 import org.api.services.UserEntityService;
 import org.api.utils.ApiValidateException;
 import org.api.utils.DataUtil;
@@ -30,10 +33,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import javax.mail.MessagingException;
+import java.util.*;
 
 @LogExecutionTime
 @Service
@@ -65,6 +66,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
     private Gson gson;
+
+    @Autowired
+    private MailerService mailerService;
 
     @Override
     public ResultBean loginAuth(String json) throws ApiValidateException, Exception {
@@ -117,6 +121,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         userEntityRepository.save(entity);
         return new ResultBean(entity, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    }
+
+    @Override
+    public ResultBean forgotPasswordAuth(String mail) throws ApiValidateException, Exception {
+        if (Boolean.TRUE.equals(userEntityRepository.existsByMail(mail))) {
+            throw new ApiValidateException(ConstantMessage.ID_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_ERR00001));
+        }
+        Object[] object = new Object[1];
+        object[0] = "www.example.com";
+        List<Object[]> list = new ArrayList<>();
+        list.add(object);
+        MailInfoResponse mailInfo = new MailInfoResponse(mail, MailTypeEnum.FORGOT.getText(), list, MailTypeEnum.FORGOT);
+        try {
+            mailerService.send(mailInfo);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return new ResultBean(null, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override

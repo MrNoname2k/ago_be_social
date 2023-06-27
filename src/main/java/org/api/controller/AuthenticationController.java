@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @LogExecutionTime
 @RestController
@@ -43,6 +40,18 @@ public class AuthenticationController {
     public ResponseEntity<ResultBean> register(@RequestBody String json) {
         try{
             ResultBean resultBean = authenticationService.registerAuth(json);
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
+        }catch (ApiValidateException ex){
+            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST,ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
+        }
+    }
+
+    @PostMapping(value = "/forgot-password", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<ResultBean> forgotPassword(@RequestParam(name = "mail") String mail) {
+        try{
+            ResultBean resultBean = authenticationService.forgotPasswordAuth(mail);
             return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
         }catch (ApiValidateException ex){
             return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
