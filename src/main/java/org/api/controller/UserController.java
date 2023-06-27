@@ -36,6 +36,20 @@ public class UserController {
         }
     }
 
+    @PutMapping(value = "/update-user", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResultBean> updateUser(@RequestBody String json) {
+        try {
+            ResultBean resultBean = userEntityService.updateUser(json);
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
+        } catch (ApiValidateException ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
+        }
+    }
+
     @GetMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResultBean> getUserById(@PathVariable String id) {
         try {
@@ -44,6 +58,7 @@ public class UserController {
         } catch (ApiValidateException ex) {
             return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
         }
     }

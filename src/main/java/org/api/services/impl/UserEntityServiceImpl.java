@@ -52,7 +52,22 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Override
     public ResultBean updateUser(String json) throws ApiValidateException, Exception {
-        return null;
+        UserEntity entity = new UserEntity();
+        JsonObject jsonObject = DataUtil.getJsonObject(json);
+        ValidateData.validate(ConstantJsonFileValidate.FILE_USER_JSON_VALIDATE, jsonObject, true);
+        entity = gson.fromJson(jsonObject, UserEntity.class);
+
+        UserEntity checkingUser = userEntityRepository.findOneById(entity.getId()).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, ALIAS))));
+        Optional<UserEntity> checkingExistedMain = userEntityRepository.existsByMailAndId(entity.getMail(), entity.getId());
+
+        if (checkingExistedMain.isPresent()) {
+            throw new ApiValidateException(ConstantMessage.ID_ERR00003, MessageUtils.getMessage(ConstantMessage.ID_ERR00003));
+        }
+
+        entity.setPassword(checkingUser.getPassword());
+        UserEntity entityOld = userEntityRepository.save(entity);
+        return new ResultBean(entityOld, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override

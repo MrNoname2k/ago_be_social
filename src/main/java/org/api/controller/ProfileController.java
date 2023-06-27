@@ -74,17 +74,4 @@ public class ProfileController {
             return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
         }
     }
-
-    @GetMapping(value = "/find-all-by-user-id", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ResultBean> getAllByPropertiesWhereIdUser(@RequestParam(name = "size", required = false) Integer size,
-                                                                    @RequestParam(name = "idUser", required = false) String idUser) {
-        try {
-            ResultBean resultBean = postEntityService.findAllByUserEntityPostId(size, idUser);
-            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
-        } catch (ApiValidateException ex) {
-            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
-        }
-    }
 }

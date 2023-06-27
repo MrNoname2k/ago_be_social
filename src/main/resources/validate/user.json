@@ -26,7 +26,6 @@
         },
         {
             "id": "birthDay",
-            "maxLength": 10,
             "isDate": "true"
         }
     ]
