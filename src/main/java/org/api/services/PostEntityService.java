@@ -16,10 +16,10 @@ public interface PostEntityService {
 
     public PostEntity findOneById(String id) throws ApiValidateException, Exception;
 
-    public ResultBean findAllByUserEntityPostId(int  size, String idUser) throws ApiValidateException, Exception;
-
-    public ResultBean findAllByUserEntityPostIdIn(int  size, String idUser) throws ApiValidateException, Exception;
-
     public PostHomePageResponse findAllByUserEntityPostIdInPage(int  size, String idUser) throws ApiValidateException, Exception;
+
+    public ResultBean updateAvatar(String json) throws ApiValidateException, Exception;
+    public ResultBean updateBanner(String json) throws ApiValidateException, Exception;
+
 
 }

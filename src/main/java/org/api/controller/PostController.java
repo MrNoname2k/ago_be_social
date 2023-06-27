@@ -38,15 +38,66 @@ public class PostController {
         }
     }
 
-        @GetMapping(value = "allPostOfFriends/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/create-avatar", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResultBean> createAvatar(@RequestPart("json") String json, @RequestPart("file") MultipartFile file) {
+        try {
+            ResultBean resultBean = postEntityService.createAvatar(json, file);
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
+        } catch (ApiValidateException ex) {
+            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
+        }
+    }
+
+    @PostMapping(value = "/create-banner", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResultBean> createBanner(@RequestPart("json") String json, @RequestPart("file") MultipartFile file) {
+        try {
+            ResultBean resultBean = postEntityService.createBanner(json, file);
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
+        } catch (ApiValidateException ex) {
+            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
+        }
+    }
+
+    @PutMapping(value = "/update-avatar", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResultBean> updateAvatar(@RequestBody String json) {
+        try {
+            ResultBean resultBean = postEntityService.updateAvatar(json);
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        }catch (ApiValidateException a) {
+            return new ResponseEntity<ResultBean>(new ResultBean(a.getCode(), a.getMessage()), HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, e.getMessage()), HttpStatus.OK);
+        }
+    }
+    @PutMapping(value = "/update-banner", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResultBean> updateBanner(@RequestBody String json) {
+        try {
+            ResultBean resultBean = postEntityService.updateBanner(json);
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        }catch (ApiValidateException a) {
+            return new ResponseEntity<ResultBean>(new ResultBean(a.getCode(), a.getMessage()), HttpStatus.OK);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, e.getMessage()), HttpStatus.OK);
+        }
+    }
+
+
+    @GetMapping(value = "allPostOfFriends/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResultBean> getAllPostOfFriend(@PathVariable("id") String id) {
         try {
             PostHomePageResponse response = postEntityService.findAllByUserEntityPostIdInPage(10, id);
             ResultBean resultBean = new ResultBean(response, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
             return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
-        }catch (ApiValidateException apiValidateException) {
+        } catch (ApiValidateException apiValidateException) {
             return new ResponseEntity<ResultBean>(new ResultBean(apiValidateException.getCode(), apiValidateException.getMessage()), HttpStatus.OK);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, e.getMessage()), HttpStatus.OK);
         }
     }
