@@ -2,7 +2,12 @@
   "alias": "register.info",
   "checks": [
     {
-      "id": "fullName",
+      "id": "firstName",
+      "required": "0",
+      "maxLength": 50
+    },
+    {
+      "id": "lastName",
       "required": "0",
       "maxLength": 50
     },

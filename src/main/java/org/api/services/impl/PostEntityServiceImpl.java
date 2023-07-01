@@ -200,8 +200,7 @@ public class PostEntityServiceImpl implements PostEntityService {
             }
             return pageResponse;
         }
-        throw new ApiValidateException(ConstantMessage.ID_ERR00005, "RelationShips",
-                MessageUtils.getMessage(ConstantMessage.ID_ERR00005, null, ItemNameUtils.getItemName("RelationShips", ALIAS)));
+        return null;
     }
 
     @Override

@@ -3,10 +3,7 @@ package org.api.services.impl;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
-import org.api.constants.ConstantColumns;
-import org.api.constants.ConstantJsonFileValidate;
-import org.api.constants.ConstantMessage;
-import org.api.constants.ConstantStatus;
+import org.api.constants.*;
 import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
 import org.api.payload.response.UserResponse.UserResponse;
@@ -15,6 +12,7 @@ import org.api.services.UserEntityService;
 import org.api.utils.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +34,9 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Override
     public ResultBean createUser(String json) throws ApiValidateException, Exception {
@@ -65,9 +66,18 @@ public class UserEntityServiceImpl implements UserEntityService {
             throw new ApiValidateException(ConstantMessage.ID_ERR00003, MessageUtils.getMessage(ConstantMessage.ID_ERR00003));
         }
 
-        entity.setPassword(checkingUser.getPassword());
-        UserEntity entityOld = userEntityRepository.save(entity);
-        return new ResultBean(entityOld, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        checkingUser.setFirstName(entity.getFirstName());
+        checkingUser.setLastName(entity.getLastName());
+        checkingUser.setAddress(entity.getAddress());
+        checkingUser.setMail(entity.getMail());
+        checkingUser.setStatus(ConstUserStatus.UPDATED);
+        checkingUser.setBirthDay(entity.getBirthDay());
+        checkingUser.setCity(entity.getCity());
+        checkingUser.setDescription(entity.getDescription());
+        checkingUser.setLinkIg(entity.getLinkIg());
+        checkingUser.setLinkFacebook(entity.getLinkFacebook());
+
+        return new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override
