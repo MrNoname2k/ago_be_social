@@ -115,6 +115,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Set<UserRoleEntity> roles = new HashSet<>();
         roles.add(userRole);
         entity.setAuthorities(roles);
+        entity.setPassword(encoder.encode(DataUtil.getJsonString(jsonObject, ConstantColumns.PASSWORD)));
+        entity.setStatus(ConstUserStatus.UN_CONFIRMED);
 
         if (Boolean.TRUE.equals(userEntityRepository.existsByMail(entity.getMail()))) {
             throw new ApiValidateException(ConstantMessage.ID_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_ERR00001));
