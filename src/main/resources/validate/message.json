@@ -1,0 +1,17 @@
+{
+    "alias": "message.info",
+    "checks": [
+        {
+            "id": "content",
+            "required": "0"
+        },
+        {
+            "id": "id_entity_from",
+            "required": "0"
+        },
+        {
+            "id": "id_entity_to",
+            "required": "0"
+        }
+    ]
+}
