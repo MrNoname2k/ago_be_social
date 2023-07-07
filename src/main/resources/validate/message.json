@@ -6,11 +6,11 @@
             "required": "0"
         },
         {
-            "id": "id_entity_from",
+            "id": "fromUserId",
             "required": "0"
         },
         {
-            "id": "id_entity_to",
+            "id": "toUserId",
             "required": "0"
         }
     ]

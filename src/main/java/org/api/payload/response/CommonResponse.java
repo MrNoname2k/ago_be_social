@@ -22,10 +22,10 @@ public abstract class CommonResponse {
     private Integer delFlg = 0;
 
     @JsonProperty("createDate")
-    private Date createDate;
+    private String createDate;
 
     @JsonProperty("updateDate")
-    private Date updateDate;
+    private String updateDate;
 
     @JsonProperty("id")
     private String id;

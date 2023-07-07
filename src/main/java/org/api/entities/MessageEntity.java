@@ -40,16 +40,16 @@ public class MessageEntity extends CommonEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_user_from")
-    @JsonProperty("idUserFrom")
+    @JsonProperty("userFrom")
     private UserEntity userEntityFrom;
 
     @ManyToOne
     @JoinColumn(name = "id_user_to")
-    @JsonProperty("idUserTo")
+    @JsonProperty("userTo")
     private UserEntity userEntityTo;
 
     @ManyToOne
     @JoinColumn(name = "id_relationship")
-    @JsonProperty("idRelationship")
+    @JsonProperty("relationship")
     private RelationshipEntity relationship;
 }

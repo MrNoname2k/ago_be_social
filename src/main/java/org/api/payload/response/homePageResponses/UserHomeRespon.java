@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.api.payload.response.CommonResponse;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -46,7 +47,7 @@ public class UserHomeRespon extends CommonResponse {
     private String linkFacebook;
 
     @JsonProperty("lastLoginDate")
-    private Date lastLoginDate;
+    private String lastLoginDate;
 
     @JsonProperty("online")
     private Boolean online;
@@ -56,4 +57,10 @@ public class UserHomeRespon extends CommonResponse {
 
     @JsonProperty("description")
     private String description;
+
+    @JsonProperty("avatars")
+    private List<PostHomeRespon> avatars;
+
+    @JsonProperty("banners")
+    private List<PostHomeRespon> banners;
 }

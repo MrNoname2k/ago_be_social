@@ -191,6 +191,17 @@ public class PostEntityServiceImpl implements PostEntityService {
             Page<PostEntity> pagePostEntity = postEntityRepository.findAllByUserEntityPostIdIn(listIdFriend, pageableRequest.getPageable());
             List<PostEntity> postEntities = pagePostEntity.getContent();
             List<PostHomeRespon> homeRespons = postEntities.stream().map(postEntity -> modelMapper.map(postEntity, PostHomeRespon.class)).collect(Collectors.toList());
+
+            homeRespons.stream().forEach(res -> {
+                List<PostEntity> avatars = postEntityRepository.getPostByUserIdAndType(res.getUserEntityPost().getId(), "avatar");
+                List<PostHomeRespon> avaRespons = avatars.stream().map(avatar -> modelMapper.map(avatar, PostHomeRespon.class)).collect(Collectors.toList());
+                List<PostEntity> banners = postEntityRepository.getPostByUserIdAndType(res.getUserEntityPost().getId(), "banner");
+                List<PostHomeRespon> baRespons = banners.stream().map(banner -> modelMapper.map(banner, PostHomeRespon.class)).collect(Collectors.toList());
+
+                res.getUserEntityPost().setAvatars(avaRespons);
+                res.getUserEntityPost().setBanners(baRespons);
+
+            });
             if (pagePostEntity.hasContent()) {
                 pageResponse.setResults(homeRespons);
                 pageResponse.setCurrentPage(pagePostEntity.getNumber());

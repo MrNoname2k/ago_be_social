@@ -5,14 +5,13 @@ import org.api.constants.ConstantColumns;
 import org.api.constants.ConstantMessage;
 import org.api.constants.ConstantRelationshipStatus;
 import org.api.constants.ConstantStatus;
+import org.api.entities.PostEntity;
 import org.api.entities.RelationshipEntity;
 import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
 import org.api.payload.response.*;
-import org.api.payload.response.homePageResponses.HomePageResponse;
-import org.api.payload.response.homePageResponses.NotifiHomePageResponse;
-import org.api.payload.response.homePageResponses.PostHomePageResponse;
-import org.api.payload.response.homePageResponses.UserHomeRespon;
+import org.api.payload.response.homePageResponses.*;
+import org.api.repository.PostEntityRepository;
 import org.api.repository.RelationshipEntityRepository;
 import org.api.repository.UserEntityRepository;
 import org.api.services.AgoService;
@@ -44,6 +43,9 @@ public class AgoServiceImpl implements AgoService {
     private PostEntityService postEntityService;
 
     @Autowired
+    private PostEntityRepository postEntityRepository;
+
+    @Autowired
     private NotificationEntityService notificationEntityService;
 
     @Autowired
@@ -57,16 +59,53 @@ public class AgoServiceImpl implements AgoService {
 
         List<RelationshipEntity> relationshipEntityList = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(userEntity.getId(), ConstantRelationshipStatus.FRIEND);
 
-        List<RelationshipResponse> responseList = relationshipEntityList.stream().map((relationshipEntity -> modelMapper.map(relationshipEntity, RelationshipResponse.class))).collect(Collectors.toList());
+        List<RelationshipResponse> relationshipResponses = relationshipEntityList.stream().map((relationshipEntity -> modelMapper.map(relationshipEntity, RelationshipResponse.class))).collect(Collectors.toList());
 
         PostHomePageResponse postEntityPage = postEntityService.findAllByUserEntityPostIdInPage(10, userEntity.getId());
         NotifiHomePageResponse notificationEntityPage = notificationEntityService.findAllByPostEntityUserEntityPostIdPage(10, userEntity.getId());
 
+
+
+        List<PostHomeRespon> avatarResponses = this.getAvatarOrBanner(userEntity, "avatar");
+        List<PostHomeRespon> bannerResponses = this.getAvatarOrBanner(userEntity, "banner");
+
+        for(RelationshipResponse relationshipResponse: relationshipResponses) {
+            relationshipResponse.getUserEntityOne().setBanners(getAvatarOrBanner(relationshipResponse.getUserEntityOne(), "banner"));            relationshipResponse.getUserEntityOne().setBanners(getAvatarOrBanner(relationshipResponse.getUserEntityOne(), "banner"));
+            relationshipResponse.getUserEntityOne().setAvatars(getAvatarOrBanner(relationshipResponse.getUserEntityOne(), "avatar"));
+
+            relationshipResponse.getUserEntityTow().setBanners(getAvatarOrBanner(relationshipResponse.getUserEntityTow(), "banner"));            relationshipResponse.getUserEntityOne().setBanners(getAvatarOrBanner(relationshipResponse.getUserEntityOne(), "banner"));
+            relationshipResponse.getUserEntityTow().setAvatars(getAvatarOrBanner(relationshipResponse.getUserEntityTow(), "avatar"));
+        };
+
+        UserHomeRespon userHomeRespon = modelMapper.map(userEntity, UserHomeRespon.class);
+        userHomeRespon.setAvatars(avatarResponses);
+        userHomeRespon.setBanners(bannerResponses);
         HomePageResponse homePageResponse = new HomePageResponse();
-        homePageResponse.setUserEntity(modelMapper.map(userEntity, UserHomeRespon.class));
-        homePageResponse.setRelationshipEntities(responseList);
+        homePageResponse.setUserEntity(userHomeRespon);
+        homePageResponse.setRelationshipEntities(relationshipResponses);
         homePageResponse.setPostEntityPage(postEntityPage);
         homePageResponse.setNotificationEntityPage(notificationEntityPage);
+
         return new ResultBean(homePageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    }
+
+    private List<PostHomeRespon> getAvatarOrBanner(UserEntity userEntity, String status) {
+        if(status == "avatar") {
+            List<PostEntity> postAvatar = postEntityRepository.getPostByUserAndType(userEntity, "avatar");
+            return postAvatar.stream().map(p -> modelMapper.map(p, PostHomeRespon.class)).collect(Collectors.toList());
+        }else {
+            List<PostEntity> postBanner = postEntityRepository.getPostByUserAndType(userEntity, "banner");
+            return postBanner.stream().map(p -> modelMapper.map(p, PostHomeRespon.class)).collect(Collectors.toList());
+        }
+    }
+
+    private List<PostHomeRespon> getAvatarOrBanner(UserHomeRespon userEntity, String status) {
+        if(status == "avatar") {
+            List<PostEntity> postAvatar = postEntityRepository.getPostByUserIdAndType(userEntity.getId(), "avatar");
+            return postAvatar.stream().map(p -> modelMapper.map(p, PostHomeRespon.class)).collect(Collectors.toList());
+        }else {
+            List<PostEntity> postBanner = postEntityRepository.getPostByUserIdAndType(userEntity.getId(), "banner");
+            return postBanner.stream().map(p -> modelMapper.map(p, PostHomeRespon.class)).collect(Collectors.toList());
+        }
     }
 }

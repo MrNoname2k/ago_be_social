@@ -2,6 +2,8 @@ package org.api.repository;
 
 import org.api.entities.PostEntity;
 
+import org.api.entities.UserEntity;
+import org.api.payload.response.homePageResponses.UserHomeRespon;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +18,11 @@ public interface PostEntityRepository extends BaseRepository<PostEntity, String>
 
     @Query("select p FROM PostEntity p WHERE p.userEntityPost.id in ?1 and (p.accessModifierLevel = 'public' or p.accessModifierLevel = 'people')")
     public Page<PostEntity> findAllByUserEntityPostIdIn(List<String> idUser, Pageable pageable);
+    @Query("select p from PostEntity p where p.userEntityPost = ?1 and p.typePost = ?2")
+    public List<PostEntity> getPostByUserAndType(UserEntity user, String type);
+
+    @Query("select p from PostEntity p where p.userEntityPost.id = ?1 and p.typePost = ?2")
+    public List<PostEntity> getPostByUserIdAndType(String userId, String type);
 
 //    @Query("SELECT new org.api.payload.response.UserResponse.PostResponse(" +
 //                "p.id, " +

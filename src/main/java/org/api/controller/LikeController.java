@@ -33,8 +33,10 @@ public class LikeController {
             ResultBean resultBean = likeEntityService.likeOrUnlike(json);
             return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
         } catch (ApiValidateException ex) {
+            ex.printStackTrace();
             return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
         }
     }

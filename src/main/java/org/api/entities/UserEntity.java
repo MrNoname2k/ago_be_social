@@ -20,7 +20,7 @@ import java.util.*;
 @Table(name = "t1_user_entity")
 @SQLDelete(sql = "UPDATE t1_user_entity SET del_flg = 1 WHERE id=?")
 @Where(clause = "del_flg=0")
-public class UserEntity extends CommonEntity implements Serializable {
+public class    UserEntity extends CommonEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

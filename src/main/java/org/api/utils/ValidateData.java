@@ -168,12 +168,27 @@ public class ValidateData {
                 throw new ApiValidateException(ConstantMessage.ID_BKE00009, id, MessageUtils.getMessage(ConstantMessage.ID_BKE00009, locate, new Object[] { name }));
             }
         }
+
+        if (check.isDate()) {
+            if (!DataUtil.isDate(value, ConstantDate.DATE_PATTEN)) {
+                throw new ApiValidateException(ConstantMessage.ID_BKE00009, id, MessageUtils.getMessage(ConstantMessage.ID_BKE00009, locate, new Object[] { name }));
+            }
+        }
+
         if (check.isDateTime()) {
             if (!DataUtil.isDate(value, ConstantDate.DATE_TIME_PATTEN)) {
                 throw new ApiValidateException(ConstantMessage.ID_BKE00009, id, MessageUtils.getMessage(ConstantMessage.ID_BKE00009, locate, new Object[] { name }));
             }
             formatDate = ConstantDate.DATE_TIME_PATTEN;
         }
+
+        if (check.isDateFull()) {
+            if (!DataUtil.isDate(value, ConstantDate.DATE_PATTERN_FULL)) {
+                throw new ApiValidateException(ConstantMessage.ID_BKE00009, id, MessageUtils.getMessage(ConstantMessage.ID_BKE00009, locate, new Object[] { name }));
+            }
+            formatDate = ConstantDate.DATE_PATTERN_FULL;
+        }
+
         if (!DataUtil.isEmpty(check.getPattern())) {
             if (!DataUtil.checkPattern(value, check.getPattern())) {
                 throw new ApiValidateException(ConstantMessage.ID_BKE00009, id, MessageUtils.getMessage(ConstantMessage.ID_BKE00009, locate, new Object[] { name }));

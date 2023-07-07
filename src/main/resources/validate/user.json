@@ -31,7 +31,7 @@
         },
         {
             "id": "birthDay",
-            "isDate": "true"
+            "isDateFull": "true"
         }
     ]
 }

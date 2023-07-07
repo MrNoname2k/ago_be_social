@@ -8,13 +8,13 @@ import org.api.constants.ConstantJsonFileValidate;
 import org.api.constants.ConstantMessage;
 import org.api.constants.ConstantStatus;
 import org.api.entities.RelationshipEntity;
+import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
 import org.api.repository.RelationshipEntityRepository;
 import org.api.repository.UserEntityRepository;
+import org.api.services.AuthenticationService;
 import org.api.services.RelationshipEntityService;
-import org.api.utils.ApiValidateException;
-import org.api.utils.DataUtil;
-import org.api.utils.ValidateData;
+import org.api.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +35,9 @@ public class RelationshipEntityServiceImpl implements RelationshipEntityService 
     @Autowired
     private Gson gson;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     @Override
     public ResultBean findAllByUserEntityOneIdAndStatus(String id, String status) {
         List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdAndStatus(id, status);
@@ -46,9 +49,19 @@ public class RelationshipEntityServiceImpl implements RelationshipEntityService 
         RelationshipEntity entity = new RelationshipEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_RELATIONSHIP_JSON_VALIDATE, jsonObject, false);
-        entity = gson.fromJson(jsonObject, RelationshipEntity.class);
+
+        String userTwoId = DataUtil.getJsonString(jsonObject, ConstantColumns.ID_USER_TOW);
+
+        UserEntity userTwo = userEntityRepository.findOneById(userTwoId).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00005, ConstantColumns.USER_ID,
+                MessageUtils.getMessage(ConstantMessage.ID_ERR00005, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, "Relationship"))));
+
+        UserEntity userOne = authenticationService.authentication();
+
+        entity.setUserEntityOne(userOne);
+        entity.setUserEntityTow(userTwo);
+        entity.setStatus(status);
         RelationshipEntity entityOld = relationshipEntityRepository.save(entity);
-        return new ResultBean(entityOld, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        return new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override

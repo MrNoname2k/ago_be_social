@@ -1,9 +1,16 @@
 package org.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.api.annotation.LogExecutionTime;
 import org.api.constants.ConstantMessage;
 import org.api.constants.ConstantStatus;
+import org.api.entities.MessageEntity;
+import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
+import org.api.payload.request.AllMessagesResponse;
+import org.api.payload.request.FriendMessageResponse;
+import org.api.payload.response.messageResponse.MessageResponse;
+import org.api.payload.response.messageResponse.MessagesBetweenTwoUserResponse;
 import org.api.services.MessageEntityService;
 import org.api.utils.ApiValidateException;
 import org.slf4j.Logger;
@@ -13,44 +20,56 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @LogExecutionTime
 @RestController
-@RequestMapping(value = "/v1/api/messages/")
+@RequestMapping(value = "/message")
 public class MessageController {
 
     private static final Logger log = LoggerFactory.getLogger(MessageController.class);
 
     @Autowired
     private MessageEntityService messageEntityService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-//    @MessageMapping("/message")
-//    @SendTo("/chatroom/public")
-//    public Message receiveMessage(@Payload Message message){
-//        return message;
-//    }
-//
-//    @MessageMapping("/private-message")
-//    public Message recMessage(@Payload Message message){
-//        simpMessagingTemplate.convertAndSendToUser(message.getReceiverName(),"/private",message);
-//        System.out.println(message.toString());
-//        return message;
-//    }
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
-    @MessageMapping("/private-message")
-    @PostMapping(value = "/create-message", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ResultBean> createMessage(@RequestBody String json) {
+    @GetMapping(value = "/all/{id}")
+    public ResponseEntity<ResultBean> getAllMessages(@PathVariable(value = "id") String id, Authentication principal) throws ApiValidateException, Exception {
+        String userForm = principal.getName();
+
+        MessagesBetweenTwoUserResponse messageResponses = messageEntityService.getAllMessages(userForm, id);
+
+        return new ResponseEntity<ResultBean>(new ResultBean(messageResponses, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK), HttpStatus.OK);
+    }
+
+    @GetMapping("/friend")
+    public ResponseEntity<ResultBean> getALlFriendMessages(Authentication principal) throws ApiValidateException, Exception {
+        String loggedInUserMail = principal.getName();
+
+        List<MessageEntity> messageResponses = messageEntityService.getAllFriendMessages(loggedInUserMail);
+
+        return new ResponseEntity<ResultBean>(new ResultBean(messageResponses, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK), HttpStatus.OK);
+    }
+
+    @MessageMapping("/message")
+    public void createMessage(@RequestBody String json) throws ApiValidateException, Exception{
         try {
-            ResultBean resultBean = messageEntityService.createMessage(json);
-            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
-        } catch (ApiValidateException ex) {
-            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
+            MessageResponse messageResponse = messageEntityService.createMessage(json);
+            String response = objectMapper.writeValueAsString(messageResponse);
+            messagingTemplate.convertAndSend("/user/" + messageResponse.getUserEntityTo().getMail() + "/messages", response);
+            messagingTemplate.convertAndSend("/user/" + messageResponse.getUserEntityFrom().getMail() + "/messages", response);
+        }catch(ApiValidateException a) {
+            a.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
