@@ -19,8 +19,8 @@ public class RelationshipResponse extends CommonResponse{
     @JsonProperty("status")
     private String status;
 
-    @JsonProperty("messages")
-    private List<MessageResponse> messages;
+//    @JsonProperty("messages")
+//    private List<MessageResponse> messages;
 
     @JsonProperty("idUserOne")
     private UserHomeRespon userEntityOne;

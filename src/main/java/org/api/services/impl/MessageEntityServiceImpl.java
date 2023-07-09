@@ -8,16 +8,20 @@ import org.api.constants.ConstantJsonFileValidate;
 import org.api.constants.ConstantMessage;
 import org.api.constants.ConstantStatus;
 import org.api.entities.MessageEntity;
+import org.api.entities.PostEntity;
 import org.api.entities.RelationshipEntity;
 import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
 import org.api.payload.request.FriendMessageResponse;
 import org.api.payload.request.MessageRequest;
 import org.api.payload.response.RelationshipResponse;
+import org.api.payload.response.homePageResponses.PostHomeRespon;
 import org.api.payload.response.homePageResponses.UserHomeRespon;
 import org.api.payload.response.messageResponse.MessageResponse;
+import org.api.payload.response.messageResponse.MessageViewAllResponse;
 import org.api.payload.response.messageResponse.MessagesBetweenTwoUserResponse;
 import org.api.repository.MessageEntityRepository;
+import org.api.repository.PostEntityRepository;
 import org.api.repository.RelationshipEntityRepository;
 import org.api.repository.UserEntityRepository;
 import org.api.services.AuthenticationService;
@@ -30,6 +34,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.TemporalType;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +60,9 @@ public class MessageEntityServiceImpl implements MessageEntityService {
     private RelationshipEntityRepository relationshipEntityRepository;
     @Autowired
     private Gson gson;
+
+    @Autowired
+    private PostEntityRepository postEntityRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -98,16 +107,25 @@ public class MessageEntityServiceImpl implements MessageEntityService {
 
         List<MessageEntity> allMessageBetweenTwoUsers = messageEntityRepository.findAllMessageBetweenTwoUser(loggedInUser.getId(), chatUser.getId());
 
-        List<MessageResponse> messageResponses = allMessageBetweenTwoUsers.stream()
-                .map((messageEntity -> modelMapper.map(messageEntity, MessageResponse.class))).collect(Collectors.toList());
+        List<MessageViewAllResponse> messageResponses = allMessageBetweenTwoUsers.stream()
+                .map(((messageEntity -> {
+                    MessageViewAllResponse messageResponse = modelMapper.map(messageEntity, MessageViewAllResponse.class);
+                    messageResponse.setFromUserId(messageEntity.getUserEntityFrom().getId());
+                    return messageResponse;
+                }))).collect(Collectors.toList());
 
         MessagesBetweenTwoUserResponse messagesBetweenTwoUserResponse = new MessagesBetweenTwoUserResponse();
 
+        List<PostEntity> avatarEntities = postEntityRepository.getPostByUserIdAndType(chatUser.getId(), "avatar");
+
+        List<PostHomeRespon> avatarResponses = avatarEntities.stream().map(post -> modelMapper.map(post, PostHomeRespon.class)).collect(Collectors.toList());
+
         messagesBetweenTwoUserResponse.setToUserId(chatUser.getId());
         messagesBetweenTwoUserResponse.setToUserFirstName(chatUser.getFirstName());
-        messagesBetweenTwoUserResponse.setToUSerLastName(chatUser.getLastName());
+        messagesBetweenTwoUserResponse.setToUserLastName(chatUser.getLastName());
         messagesBetweenTwoUserResponse.setLogin(chatUser.getOnline());
         messagesBetweenTwoUserResponse.setMessages(messageResponses);
+        messagesBetweenTwoUserResponse.setAvatar(avatarResponses);
         return messagesBetweenTwoUserResponse;
     }
 

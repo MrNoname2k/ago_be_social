@@ -10,6 +10,7 @@ import org.api.payload.ResultBean;
 import org.api.payload.request.AllMessagesResponse;
 import org.api.payload.request.FriendMessageResponse;
 import org.api.payload.response.messageResponse.MessageResponse;
+import org.api.payload.response.messageResponse.MessageViewAllResponse;
 import org.api.payload.response.messageResponse.MessagesBetweenTwoUserResponse;
 import org.api.services.MessageEntityService;
 import org.api.utils.ApiValidateException;
@@ -63,9 +64,18 @@ public class MessageController {
     public void createMessage(@RequestBody String json) throws ApiValidateException, Exception{
         try {
             MessageResponse messageResponse = messageEntityService.createMessage(json);
-            String response = objectMapper.writeValueAsString(messageResponse);
-            messagingTemplate.convertAndSend("/user/" + messageResponse.getUserEntityTo().getMail() + "/messages", response);
-            messagingTemplate.convertAndSend("/user/" + messageResponse.getUserEntityFrom().getMail() + "/messages", response);
+            MessageViewAllResponse messageViewAllResponse = new MessageViewAllResponse();
+            messageViewAllResponse.setContent(messageResponse.getContent());
+            messageViewAllResponse.setStatus(messageResponse.getStatus());
+            messageViewAllResponse.setFromUserId(messageResponse.getUserEntityFrom().getId());
+            messageViewAllResponse.setId(messageResponse.getId());
+            messageViewAllResponse.setCreateDate(messageResponse.getCreateDate());
+            messageViewAllResponse.setUpdateDate(messageResponse.getUpdateDate());
+            messageViewAllResponse.setDelFlg(messageResponse.getDelFlg());
+
+            String response = objectMapper.writeValueAsString(messageViewAllResponse);
+            messagingTemplate.convertAndSend("/user/" + messageResponse.getUserEntityTo().getMail() + "/messages", messageResponse);
+            messagingTemplate.convertAndSend("/user/" + messageResponse.getUserEntityFrom().getMail() + "/messages", messageResponse);
         }catch(ApiValidateException a) {
             a.printStackTrace();
         }catch (Exception e) {
