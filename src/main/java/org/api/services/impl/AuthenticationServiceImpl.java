@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 @LogExecutionTime
 @Service
@@ -120,6 +121,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if (Boolean.TRUE.equals(userEntityRepository.existsByMail(entity.getMail()))) {
             throw new ApiValidateException(ConstantMessage.ID_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_ERR00001));
+        }
+        String code = String.valueOf(ThreadLocalRandom.current().nextInt(10000, 99999));
+        List<Object[]> list = new ArrayList<>();
+        Object[] object = new Object[1];
+        object[0] = code;
+        list.add(object);
+        MailInfoResponse mailInfo = new MailInfoResponse(entity.getMail(), MailTypeEnum.REGISTER.getText(), list, MailTypeEnum.REGISTER);
+        try {
+            mailerService.send(mailInfo);
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
         userEntityRepository.save(entity);
         return new ResultBean(entity, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);

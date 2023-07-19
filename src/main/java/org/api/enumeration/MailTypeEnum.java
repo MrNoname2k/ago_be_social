@@ -1,7 +1,8 @@
 package org.api.enumeration;
 
 public enum MailTypeEnum {
-    FORGOT("Forgot password");
+    FORGOT("Forgot password"),
+    REGISTER("Register");
 
     MailTypeEnum(String text) {
         this.text = text;

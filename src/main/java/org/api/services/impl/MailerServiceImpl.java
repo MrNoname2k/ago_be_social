@@ -66,14 +66,14 @@ public class MailerServiceImpl implements MailerService {
                 helper.addAttachment(file.getName(), file);
             }
         }
-        if (mail.getMailType() == MailTypeEnum.FORGOT) {
+        //if (mail.getMailType() == MailTypeEnum.FORGOT) {
             helper.addInline("image-facebook2x", new ClassPathResource("static/facebook2x.png"));
             helper.addInline("image-Forgot_Password", new ClassPathResource("static/Forgot_Password.gif"));
             helper.addInline("image-instagram2x", new ClassPathResource("static/instagram2x.png"));
             helper.addInline("image-linkedin2x", new ClassPathResource("static/linkedin2x.png"));
             helper.addInline("image-LOGO_password", new ClassPathResource("static/LOGO_password.png"));
             helper.addInline("image-twitter2x", new ClassPathResource("static/twitter2x.png"));
-        }
+        //}
         sender.send(message);
     }
 
@@ -85,6 +85,11 @@ public class MailerServiceImpl implements MailerService {
             template = "forgot-password.ftlh";
             for (Object[] objects : body) { //cid:forgot-password ${body}
                 model.put("link", objects[0].toString());
+            }
+        }else if (mailType == MailTypeEnum.FORGOT) {
+            template = "register.ftlh";
+            for (Object[] objects : body) {
+                model.put("code", objects[0].toString());
             }
         }
         configuration.getTemplate(template).process(model, stringWriter);

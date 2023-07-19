@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 @LogExecutionTime
@@ -123,5 +124,11 @@ public class UserEntityServiceImpl implements UserEntityService {
             user.setOnline(online);
             UserEntity entityOld = userEntityRepository.save(user);
             return entityOld;
+    }
+
+    @Override
+    public ResultBean recommendFriends(String idUser) throws ApiValidateException, Exception {
+        List<UserEntity> list = userEntityRepository.recommendFriends(idUser);
+        return new ResultBean(list, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 }
