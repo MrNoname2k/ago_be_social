@@ -11,9 +11,12 @@ import org.api.payload.WebNotification;
 import org.api.payload.request.PageableRequest;
 import org.api.payload.response.homePageResponses.NotificationHomeResponse;
 import org.api.payload.response.homePageResponses.NotifiHomePageResponse;
+import org.api.payload.response.homePageResponses.PostHomeRespon;
+import org.api.payload.response.homePageResponses.UserHomeRespon;
 import org.api.repository.NotificationEntityRepository;
 import org.api.repository.PostEntityRepository;
 import org.api.repository.UserEntityRepository;
+import org.api.services.AuthenticationService;
 import org.api.services.NotificationEntityService;
 import org.api.services.RelationshipEntityService;
 import org.api.utils.ApiValidateException;
@@ -42,6 +45,9 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
     private UserEntityRepository userEntityRepository;
 
     @Autowired
+    private AuthenticationService authenticationService;
+
+    @Autowired
     private PostEntityRepository postEntityRepository;
 
     @Autowired
@@ -54,9 +60,8 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
     private ModelMapper modelMapper;
 
 
-
     @Override
-    public NotificationEntity create(String idUser, String idPost, String type) throws ApiValidateException, Exception{
+    public NotificationEntity create(String idUser, String idPost, String type) throws ApiValidateException, Exception {
         UserEntity userEntity = userEntityRepository.findOneById(idUser).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID,
                 MessageUtils.getMessage(ConstantMessage.ID_ERR00002, null, ItemNameUtils.getItemName(ConstantColumns.USER_ID, "Notification"))));
         PostEntity postEntity = postEntityRepository.findOneById(idPost).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.POST_ID,
@@ -65,6 +70,8 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
         entity.setUserEntity(userEntity);
         entity.setPostEntity(postEntity);
         entity.setType(type);
+        entity.setStatus(ConstNotificationStatus.UNCHECKED);
+
         if (type.equals(ConstantNotificationType.POST_AVATAR))
             entity.setContent(MessageUtils.getMessage(ConstantMessage.ID_NOTIFICATION_001, null, new Object[]{entity.getUserEntity().getFullName(), entity.getPostEntity().getContent()}));
         else if (type.equals(ConstantNotificationType.POST_BANNER))
@@ -80,12 +87,21 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
     }
 
     @Override
-    public void sendNotification(NotificationEntity notificationEntity) throws ApiValidateException, Exception{
+    public void sendNotification(NotificationEntity notificationEntity) throws ApiValidateException, Exception {
         if (notificationEntity.getType().equals(ConstantNotificationType.LIKE) || notificationEntity.getType().equals(ConstantNotificationType.COMMENT)) {
             WebNotification webNotification = new WebNotification();
-            webNotification.setUserEntity(notificationEntity.getPostEntity().getUserEntityPost());
+
+            UserEntity userEntity = notificationEntity.getUserEntity();
+
+            UserHomeRespon userHomeRespon = modelMapper.map(userEntity, UserHomeRespon.class);
+            List<PostHomeRespon> avatarResponses = this.getAvatarOrBanner(userEntity.getId(), "avatar");
+            List<PostHomeRespon> bannerResponses = this.getAvatarOrBanner(userEntity.getId(), "banner");
+            userHomeRespon.setAvatars(avatarResponses);
+            userHomeRespon.setBanners(bannerResponses);
+            webNotification.setUserEntity(userHomeRespon);
             String url = "/user/" + notificationEntity.getPostEntity().getUserEntityPost().getMail() + "/notifications";
             webNotification.setContent(notificationEntity.getContent());
+            webNotification.setPostEntity(modelMapper.map(notificationEntity.getPostEntity(), PostHomeRespon.class));
             messagingTemplate.convertAndSend(url, webNotification);
         } else {
             List<RelationshipEntity> listFriends = relationshipEntityService.findAllByUserEntityOneIdOrUserEntityTowAndStatus(notificationEntity.getUserEntity().getId(), ConstantRelationshipStatus.FRIEND);
@@ -93,15 +109,32 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
                 for (RelationshipEntity friend : listFriends) {
                     if (friend.getUserEntityOne().getId().equals(notificationEntity.getUserEntity().getId())) {
                         WebNotification webNotification = new WebNotification();
-                        webNotification.setUserEntity(friend.getUserEntityTow());
+                        UserEntity userEntity = friend.getUserEntityOne();
+
+                        UserHomeRespon userHomeRespon = modelMapper.map(userEntity, UserHomeRespon.class);
+                        List<PostHomeRespon> avatarResponses = this.getAvatarOrBanner(userEntity.getId(), "avatar");
+                        List<PostHomeRespon> bannerResponses = this.getAvatarOrBanner(userEntity.getId(), "banner");
+                        userHomeRespon.setAvatars(avatarResponses);
+                        userHomeRespon.setBanners(bannerResponses);
+                        webNotification.setUserEntity(userHomeRespon);
+
                         String url = "/user/" + friend.getUserEntityTow().getMail() + "/notifications";
                         webNotification.setContent(notificationEntity.getContent());
+                        webNotification.setPostEntity(modelMapper.map(notificationEntity.getPostEntity(), PostHomeRespon.class));
                         messagingTemplate.convertAndSend(url, webNotification);
                     } else if (friend.getUserEntityTow().getId().equals(notificationEntity.getUserEntity().getId())) {
                         WebNotification webNotification = new WebNotification();
-                        webNotification.setUserEntity(friend.getUserEntityOne());
+                        UserEntity userEntity = friend.getUserEntityTow();
+                        UserHomeRespon userHomeRespon = modelMapper.map(userEntity, UserHomeRespon.class);
+                        List<PostHomeRespon> avatarResponses = this.getAvatarOrBanner(userEntity.getId(), "avatar");
+                        List<PostHomeRespon> bannerResponses = this.getAvatarOrBanner(userEntity.getId(), "banner");
+                        userHomeRespon.setAvatars(avatarResponses);
+                        userHomeRespon.setBanners(bannerResponses);
+                        webNotification.setUserEntity(userHomeRespon);
+
                         String url = "/user/" + friend.getUserEntityOne().getMail() + "/notifications";
                         webNotification.setContent(notificationEntity.getContent());
+                        webNotification.setPostEntity(modelMapper.map(notificationEntity.getPostEntity(), PostHomeRespon.class));
                         messagingTemplate.convertAndSend(url, webNotification);
                     }
                 }
@@ -117,7 +150,8 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
         pageableRequest.setPage(0);
         Page<NotificationEntity> notificationEntityPage = notificationEntityRepository.findAllByPostEntityUserEntityPostId(idUser, pageableRequest.getPageable());
         List<NotificationEntity> notificationEntities = notificationEntityPage.getContent();
-        List<NotificationHomeResponse> responses = notificationEntities.stream().map(notificationEntity -> modelMapper.map(notificationEntity, NotificationHomeResponse.class)).collect(Collectors.toList());
+        List<WebNotification> responses = notificationEntities.stream().map(notificationEntity -> modelMapper.map(notificationEntity, WebNotification.class)).collect(Collectors.toList());
+
         NotifiHomePageResponse pageResponse = new NotifiHomePageResponse();
         if (notificationEntityPage.hasContent()) {
             pageResponse.setResults(responses);
@@ -137,7 +171,11 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
         pageableRequest.setPage(0);
         Page<NotificationEntity> notificationEntityPage = notificationEntityRepository.findAllByPostEntityUserEntityPostId(idUser, pageableRequest.getPageable());
         List<NotificationEntity> notificationEntities = notificationEntityPage.getContent();
-        List<NotificationHomeResponse> responses = notificationEntities.stream().map(notificationEntity -> modelMapper.map(notificationEntity, NotificationHomeResponse.class)).collect(Collectors.toList());
+        List<WebNotification> responses = notificationEntities.stream().map(notificationEntity -> modelMapper.map(notificationEntity, WebNotification.class)).collect(Collectors.toList());
+        responses.forEach(res -> {
+            List<PostHomeRespon> avatars = this.getAvatarOrBanner(res.getUserEntity().getId(), "avatar");
+            res.getUserEntity().setAvatars(avatars);
+        });
         NotifiHomePageResponse pageResponse = new NotifiHomePageResponse();
         if (notificationEntityPage.hasContent()) {
             pageResponse.setResults(responses);
@@ -147,6 +185,40 @@ public class NotificationEntityServiceImpl implements NotificationEntityService 
             pageResponse.setTotalRecords(notificationEntityPage.getTotalElements());
         }
         return pageResponse;
+    }
+
+    @Override
+    public ResultBean updateNotificationStatus() throws ApiValidateException, Exception {
+        UserEntity user = authenticationService.authentication();
+        List<NotificationEntity> notificationEntities = notificationEntityRepository.findAllByUserEntity(user);
+
+        if (notificationEntities.size() > 0) {
+            for (NotificationEntity notify : notificationEntities) {
+                if (notify.getStatus() != null && notify.getStatus().equals(ConstNotificationStatus.UNCHECKED)) {
+                    notify.setStatus(ConstNotificationStatus.CHECKED);
+                    notificationEntityRepository.save(notify);
+                }
+            }
+        }
+
+        List<WebNotification> responses = notificationEntities.stream().map(notify -> modelMapper.map(notify, WebNotification.class)).collect(Collectors.toList());
+
+        responses.forEach(res -> {
+            List<PostHomeRespon> avatars = this.getAvatarOrBanner(res.getUserEntity().getId(), "avatar");
+            res.getUserEntity().setAvatars(avatars);
+        });
+
+        return new ResultBean(responses, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    }
+
+    private List<PostHomeRespon> getAvatarOrBanner(String id, String status) {
+        if (status == "avatar") {
+            List<PostEntity> postAvatar = postEntityRepository.getPostByUserIdAndType(id, "avatar");
+            return postAvatar.stream().map(p -> modelMapper.map(p, PostHomeRespon.class)).collect(Collectors.toList());
+        } else {
+            List<PostEntity> postBanner = postEntityRepository.getPostByUserIdAndType(id, "banner");
+            return postBanner.stream().map(p -> modelMapper.map(p, PostHomeRespon.class)).collect(Collectors.toList());
+        }
     }
 
 }

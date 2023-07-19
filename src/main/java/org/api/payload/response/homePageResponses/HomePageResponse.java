@@ -22,8 +22,6 @@ public class HomePageResponse implements Serializable {
     private UserHomeRespon userEntity;
     private List<RelationshipResponse> relationshipEntities;
     private PostHomePageResponse postEntityPage;
-//    private MessagePageResponse messageEntityPage;
     private NotifiHomePageResponse notificationEntityPage;
-//    private List<PostHomeRespon> postAvatar;
-//    private List<PostHomeRespon> postBanner;
+    private MessagePageResponse messagePageResponse;
 }
