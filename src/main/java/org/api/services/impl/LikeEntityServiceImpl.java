@@ -74,6 +74,7 @@ public class LikeEntityServiceImpl implements LikeEntityService {
             NotificationEntity notificationEntity = notificationEntityService.create(userEntity.getId(), postEntity.getId(), ConstantNotificationType.LIKE);
             notificationEntityService.sendNotification(notificationEntity);
         }
+
         LikeHomeResponse respon = modelMapper.map(entityOld, LikeHomeResponse.class);
 
         return new ResultBean(respon, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.api.payload.response.UserResponse.UserResponse;
 import org.api.payload.response.homePageResponses.UserHomeRespon;
+import org.api.payload.response.messageResponse.MessageViewAllResponse;
+import org.api.payload.response.messageResponse.MessagesBetweenTwoUserResponse;
 
 import java.util.List;
 
@@ -18,9 +20,6 @@ public class RelationshipResponse extends CommonResponse{
 
     @JsonProperty("status")
     private String status;
-
-//    @JsonProperty("messages")
-//    private List<MessageResponse> messages;
 
     @JsonProperty("idUserOne")
     private UserHomeRespon userEntityOne;

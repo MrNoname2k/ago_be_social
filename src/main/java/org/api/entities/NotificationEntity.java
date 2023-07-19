@@ -39,6 +39,10 @@ public class NotificationEntity extends CommonEntity implements Serializable {
     @JsonProperty("content")
     private String content;
 
+    @Column (name = "status")
+    @JsonProperty("status")
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "id_user_create")
     @JsonProperty("idUserCreate")
