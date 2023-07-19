@@ -11,6 +11,7 @@ import org.api.entities.UserEntity;
 import org.api.payload.ResultBean;
 import org.api.payload.response.*;
 import org.api.payload.response.homePageResponses.*;
+import org.api.payload.response.pageResponse.MessagePageResponse;
 import org.api.repository.PostEntityRepository;
 import org.api.repository.RelationshipEntityRepository;
 import org.api.repository.UserEntityRepository;
@@ -62,9 +63,7 @@ public class AgoServiceImpl implements AgoService {
         List<RelationshipResponse> relationshipResponses = relationshipEntityList.stream().map((relationshipEntity -> modelMapper.map(relationshipEntity, RelationshipResponse.class))).collect(Collectors.toList());
 
         PostHomePageResponse postEntityPage = postEntityService.findAllByUserEntityPostIdInPage(10, userEntity.getId());
-        NotifiHomePageResponse notificationEntityPage = notificationEntityService.findAllByPostEntityUserEntityPostIdPage(10, userEntity.getId());
-
-
+        NotifiHomePageResponse notificationEntityPage = notificationEntityService.findAllByPostEntityUserEntityPostIdPage(5, userEntity.getId());
 
         List<PostHomeRespon> avatarResponses = this.getAvatarOrBanner(userEntity, "avatar");
         List<PostHomeRespon> bannerResponses = this.getAvatarOrBanner(userEntity, "banner");

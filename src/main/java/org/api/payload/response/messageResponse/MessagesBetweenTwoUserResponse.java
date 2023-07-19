@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.api.entities.UserEntity;
 import org.api.payload.response.homePageResponses.PostHomeRespon;
 
 import java.util.List;
