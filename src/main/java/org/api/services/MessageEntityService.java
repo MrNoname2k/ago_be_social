@@ -15,4 +15,6 @@ public interface MessageEntityService {
     public MessagesBetweenTwoUserResponse getAllMessages(String loggedInUsername, String chatUserId) throws ApiValidateException, Exception;
 
     public List<MessageEntity> getAllFriendMessages(String loggedInUsername) throws ApiValidateException, Exception;
+
+    public ResultBean updateStatus(String json)throws Exception;
 }

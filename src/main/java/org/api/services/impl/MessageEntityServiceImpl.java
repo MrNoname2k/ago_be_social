@@ -3,10 +3,7 @@ package org.api.services.impl;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.api.annotation.LogExecutionTime;
-import org.api.constants.ConstantColumns;
-import org.api.constants.ConstantJsonFileValidate;
-import org.api.constants.ConstantMessage;
-import org.api.constants.ConstantStatus;
+import org.api.constants.*;
 import org.api.entities.MessageEntity;
 import org.api.entities.PostEntity;
 import org.api.entities.RelationshipEntity;
@@ -87,6 +84,7 @@ public class MessageEntityServiceImpl implements MessageEntityService {
         message.setRelationship(relationship);
         message.setUserEntityTo(toUser);
         message.setUserEntityFrom(fromUser);
+        message.setStatus(ConstNotificationStatus.UNCHECKED);
 
         MessageEntity savedMessage = messageEntityRepository.save(message);
 
@@ -138,4 +136,22 @@ public class MessageEntityServiceImpl implements MessageEntityService {
 
         return allMessage;
     }
+
+    @Override
+    public ResultBean updateStatus(String json) throws Exception {
+        JsonObject jsonObject = DataUtil.getJsonObject(json);
+        String fromUserId = DataUtil.getJsonString(jsonObject, "fromUserId");
+        String toUserId = DataUtil.getJsonString(jsonObject, "toUserId");
+
+        List<MessageEntity> messageEntityList = messageEntityRepository.findAllMessageBetweenTwoUser(fromUserId, toUserId);
+
+        messageEntityList.forEach(messageEntity -> {
+            messageEntity.setStatus(ConstNotificationStatus.CHECKED);
+            messageEntityRepository.save(messageEntity);
+        });
+
+        return new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    }
+
+
 }

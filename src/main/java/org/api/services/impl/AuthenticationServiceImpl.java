@@ -133,6 +133,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+
+        entity.setCode(code);
         userEntityRepository.save(entity);
         return new ResultBean(entity, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }

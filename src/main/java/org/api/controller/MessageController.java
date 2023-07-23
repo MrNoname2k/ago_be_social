@@ -60,6 +60,17 @@ public class MessageController {
         return new ResponseEntity<ResultBean>(new ResultBean(messageResponses, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK), HttpStatus.OK);
     }
 
+    @PutMapping("/update-status")
+    public ResponseEntity<ResultBean> updateStatus(@RequestBody String json) throws Exception {
+        ResultBean resultBean = null;
+
+        try {
+            resultBean = messageEntityService.updateStatus(json);
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, e.getMessage()), HttpStatus.OK);
+        }
+    }
     @MessageMapping("/message")
     public void createMessage(@RequestBody String json) throws ApiValidateException, Exception{
         try {

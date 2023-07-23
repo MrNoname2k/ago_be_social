@@ -66,8 +66,8 @@ public class RelationshipEntityServiceImpl implements RelationshipEntityService 
 
     @Override
     public List<RelationshipEntity> findAllByUserEntityOneIdOrUserEntityTowAndStatus(String idOne, String status) throws ApiValidateException, Exception{
-        List<RelationshipEntity> lists = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idOne, status);
-        return lists;
+        List<RelationshipEntity> list = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idOne, status);
+        return list;
     }
 
     private void convertJsonToEntity(JsonObject json, RelationshipEntity entity, String status) throws ApiValidateException {
