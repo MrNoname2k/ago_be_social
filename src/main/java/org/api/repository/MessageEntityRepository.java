@@ -25,5 +25,4 @@ public interface MessageEntityRepository extends BaseRepository<MessageEntity, S
             "ORDER BY m.create_date DESC;", nativeQuery = true)
     public List<MessageEntity> getAllFriendMessages(@Param("userId") String loggedInUserId);
 
-
 }

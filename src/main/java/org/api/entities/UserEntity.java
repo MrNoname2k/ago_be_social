@@ -91,6 +91,10 @@ public class  UserEntity extends CommonEntity implements Serializable {
     @JsonProperty("status")
     private String status;
 
+    @Column(name = "code")
+    @JsonProperty("code")
+    private String code;
+
     @JsonIgnore
     @OneToMany(mappedBy = "userEntityPost", cascade = CascadeType.ALL)
     private List<PostEntity> posts;
