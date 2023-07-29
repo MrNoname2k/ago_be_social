@@ -16,4 +16,6 @@ public interface AuthenticationService {
 
     public UserEntity authentication() throws ApiValidateException, Exception;
 
+    public ResultBean checkCode(String json) throws ApiValidateException, Exception;
+
 }

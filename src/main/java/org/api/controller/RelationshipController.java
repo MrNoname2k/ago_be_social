@@ -66,7 +66,7 @@ public class RelationshipController {
         }
     }
 
-    @GetMapping(value = {"/recommend-friends/{idUser}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    /*@GetMapping(value = {"/recommend-friends/{idUser}"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResultBean> recommendFriends(@PathVariable String idUser, HttpServletRequest request) {
         try {
             ResultBean resultBean = userEntityService.recommendFriends(idUser);
@@ -76,6 +76,6 @@ public class RelationshipController {
         } catch (Exception ex) {
             return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
         }
-    }
+    }*/
 
 }
