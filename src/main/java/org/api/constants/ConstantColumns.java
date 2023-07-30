@@ -9,6 +9,7 @@ public class ConstantColumns {
     public static final String LAST_NAME = "lastName";
 
     public static final String MAIL = "mail";
+    public static final String CODE = "code";
     public static final String PASSWORD = "password";
     public static final String ID = "id";
     public static final String PHONE = "phone";

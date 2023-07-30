@@ -62,4 +62,17 @@ public class AuthenticationController {
         }
     }
 
+    @PostMapping(value = "/check-code", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<ResultBean> checkCode(@RequestBody String json) {
+        try{
+            ResultBean resultBean = authenticationService.checkCode(json);
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
+        }catch (ApiValidateException ex){
+            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST,ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
+        }
+    }
+
+
 }

@@ -124,8 +124,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         String code = String.valueOf(ThreadLocalRandom.current().nextInt(10000, 99999));
         List<Object[]> list = new ArrayList<>();
-        Object[] object = new Object[1];
+        Object[] object = new Object[2];
         object[0] = code;
+        object[1] = entity.getMail();
         list.add(object);
         MailInfoResponse mailInfo = new MailInfoResponse(entity.getMail(), MailTypeEnum.REGISTER.getText(), list, MailTypeEnum.REGISTER);
         try {
@@ -164,6 +165,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UserEntity entityOld = userEntityService.findOneByMail(userPrincipal.getUsername());
         return entityOld;
     }
+
+    @Override
+    public ResultBean checkCode(String json) throws ApiValidateException, Exception {
+        JsonObject jsonObject = DataUtil.getJsonObject(json);
+        ValidateData.validate(ConstantJsonFileValidate.FILE_REGISTER_JSON_VALIDATE, jsonObject, false);
+        String mail = null;
+        String code = null;
+        if (DataUtil.hasMember(json, ConstantColumns.MAIL)) {
+            mail = DataUtil.getJsonString(json, ConstantColumns.MAIL);
+        }
+        if (DataUtil.hasMember(json, ConstantColumns.CODE)) {
+            code = DataUtil.getJsonString(json, ConstantColumns.CODE);
+        }
+        UserEntity user = userEntityRepository.findOneByMail(mail).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID));
+        Boolean check = false;
+        if(user.getCode().equals("code")){
+            check = true;
+        }
+        return new ResultBean(check, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    }
+
 
 //    private void convertJsonToEntityRegister(JsonObject json, UserEntity entity) throws ApiValidateException {
 //        if (DataUtil.hasMember(json, ConstantColumns.FULL_NAME)) {

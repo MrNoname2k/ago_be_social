@@ -66,14 +66,22 @@ public class MailerServiceImpl implements MailerService {
                 helper.addAttachment(file.getName(), file);
             }
         }
-        //if (mail.getMailType() == MailTypeEnum.FORGOT) {
+        if (mail.getMailType() == MailTypeEnum.FORGOT) {
             helper.addInline("image-facebook2x", new ClassPathResource("static/facebook2x.png"));
             helper.addInline("image-Forgot_Password", new ClassPathResource("static/Forgot_Password.gif"));
             helper.addInline("image-instagram2x", new ClassPathResource("static/instagram2x.png"));
             helper.addInline("image-linkedin2x", new ClassPathResource("static/linkedin2x.png"));
             helper.addInline("image-LOGO_password", new ClassPathResource("static/LOGO_password.png"));
             helper.addInline("image-twitter2x", new ClassPathResource("static/twitter2x.png"));
-        //}
+        }else if (mail.getMailType() == MailTypeEnum.REGISTER) {
+            helper.addInline("image-logo", new ClassPathResource("static/register/23891556799905703.png"));
+            helper.addInline("image-facebook", new ClassPathResource("static/register/facebook-rounded-gray.png"));
+            helper.addInline("image-instagram", new ClassPathResource("static/register/instagram-rounded-gray.png"));
+            helper.addInline("image-linkedin", new ClassPathResource("static/register/linkedin-rounded-gray.png"));
+            helper.addInline("image-twitter", new ClassPathResource("static/register/twitter-rounded-gray.png"));
+            helper.addInline("image-youtube", new ClassPathResource("static/register/youtube-rounded-gray.png"));
+        }
+
         sender.send(message);
     }
 
@@ -90,6 +98,7 @@ public class MailerServiceImpl implements MailerService {
             template = "register.ftlh";
             for (Object[] objects : body) {
                 model.put("code", objects[0].toString());
+                model.put("mail", objects[1].toString());
             }
         }
         configuration.getTemplate(template).process(model, stringWriter);

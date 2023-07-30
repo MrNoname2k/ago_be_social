@@ -76,6 +76,9 @@ public class AgoServiceImpl implements AgoService {
             relationshipResponse.getUserEntityTow().setAvatars(getAvatarOrBanner(relationshipResponse.getUserEntityTow(), "avatar"));
         };
 
+        List<UserEntity> recommendFriendsList = userEntityRepository.recommendFriends(idUser);
+        List<RecommendFriendsHomeResponse> recommendFriends = recommendFriendsList.stream().map((relationshipEntity -> modelMapper.map(relationshipEntity, RecommendFriendsHomeResponse.class))).collect(Collectors.toList());
+
         UserHomeRespon userHomeRespon = modelMapper.map(userEntity, UserHomeRespon.class);
         userHomeRespon.setAvatars(avatarResponses);
         userHomeRespon.setBanners(bannerResponses);
@@ -84,6 +87,7 @@ public class AgoServiceImpl implements AgoService {
         homePageResponse.setRelationshipEntities(relationshipResponses);
         homePageResponse.setPostEntityPage(postEntityPage);
         homePageResponse.setNotificationEntityPage(notificationEntityPage);
+        homePageResponse.setRecommendFriends(recommendFriends);
 
         return new ResultBean(homePageResponse, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
