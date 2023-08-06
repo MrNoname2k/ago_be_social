@@ -17,20 +17,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-
 @LogExecutionTime
 @RestController
 @RequestMapping(value = "/v1/api/relationships/")
 public class RelationshipController {
 
     private static final Logger log = LoggerFactory.getLogger(RelationshipController.class);
-
     @Autowired
     private RelationshipEntityService relationshipEntityService;
-
     @Autowired
     private UserEntityService userEntityService;
-
     @PostMapping(value = {"/friend", "/unFriend"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResultBean> friendOrUnFriend(@RequestBody String json, HttpServletRequest request) {
         try {

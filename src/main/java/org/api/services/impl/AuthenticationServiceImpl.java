@@ -76,7 +76,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UserEntity entity = new UserEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_LOGIN_JSON_VALIDATE, jsonObject, false);
-//        this.convertJsonToEntityLogin(jsonObject, entity);
         entity =  gson.fromJson(jsonObject, UserEntity.class);
         if (Boolean.FALSE.equals(userEntityRepository.existsByMail(entity.getMail()))) {
             throw new ApiValidateException(ConstantMessage.ID_ERR00004, MessageUtils.getMessage(ConstantMessage.ID_ERR00004));
@@ -86,7 +85,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(entity.getMail(), entity.getPassword()));
         } catch (Exception ex) {
             ex.printStackTrace();
-//            throw new ApiValidateException(ConstantMessage.ID_AUTH_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_AUTH_ERR00001));
+            throw new ApiValidateException(ConstantMessage.ID_AUTH_ERR00001, MessageUtils.getMessage(ConstantMessage.ID_AUTH_ERR00001));
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         CustomUserDetailsService userDetails = (CustomUserDetailsService) authentication.getPrincipal();
@@ -109,8 +108,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UserEntity entity = new UserEntity();
         JsonObject jsonObject = DataUtil.getJsonObject(json);
         ValidateData.validate(ConstantJsonFileValidate.FILE_REGISTER_JSON_VALIDATE, jsonObject, false);
-//        this.convertJsonToEntityRegister(jsonObject, entity);
-//        entity.setRole(ConstantRole.ROLE_USER);
         entity = gson.fromJson(jsonObject, UserEntity.class);
         UserRoleEntity userRole = this.roleRepository.findByAuthority(ConstantRole.ROLE_USER);
         Set<UserRoleEntity> roles = new HashSet<>();
@@ -169,38 +166,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public ResultBean checkCode(String json) throws ApiValidateException, Exception {
         JsonObject jsonObject = DataUtil.getJsonObject(json);
-        ValidateData.validate(ConstantJsonFileValidate.FILE_REGISTER_JSON_VALIDATE, jsonObject, false);
+        ValidateData.validate(ConstantJsonFileValidate.FILE_CHECK_JSON_VALIDATE, jsonObject, false);
         String mail = null;
         String code = null;
-        if (DataUtil.hasMember(json, ConstantColumns.MAIL)) {
-            mail = DataUtil.getJsonString(json, ConstantColumns.MAIL);
+        if (DataUtil.hasMember(jsonObject, ConstantColumns.MAIL)) {
+            mail = DataUtil.getJsonString(jsonObject, ConstantColumns.MAIL);
         }
-        if (DataUtil.hasMember(json, ConstantColumns.CODE)) {
-            code = DataUtil.getJsonString(json, ConstantColumns.CODE);
+        if (DataUtil.hasMember(jsonObject, ConstantColumns.CODE)) {
+            code = DataUtil.getJsonString(jsonObject, ConstantColumns.CODE);
         }
         UserEntity user = userEntityRepository.findOneByMail(mail).orElseThrow(() -> new ApiValidateException(ConstantMessage.ID_ERR00002, ConstantColumns.USER_ID));
         Boolean check = false;
-        if(user.getCode().equals("code")){
+        if(user.getCode().equals(code)){
             check = true;
+            user.setCode(null);
+            user.setStatus(ConstUserStatus.VERIFIED);
+            userEntityRepository.save(user);
+            return new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
         }
-        return new ResultBean(check, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        return new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR);
     }
-
-
-//    private void convertJsonToEntityRegister(JsonObject json, UserEntity entity) throws ApiValidateException {
-//        if (DataUtil.hasMember(json, ConstantColumns.FULL_NAME)) {
-//            entity.setFirstName(DataUtil.getJsonString(json, ConstantColumns.FULL_NAME));
-//        }
-//        if (DataUtil.hasMember(json, ConstantColumns.MAIL)) {
-//            entity.setMail(DataUtil.getJsonString(json, ConstantColumns.MAIL));
-//        }
-//        if (DataUtil.hasMember(json, ConstantColumns.PASSWORD)) {
-//            entity.setPassword(encoder.encode(DataUtil.getJsonString(json, ConstantColumns.PASSWORD)));
-//        }
-////        if (DataUtil.hasMember(json, ConstantColumns.ROLE)) {
-////            entity.setRole(DataUtil.getJsonString(json, ConstantColumns.ROLE));
-////        }
-//    }
 
     private void convertJsonToEntityLogin(JsonObject json, UserEntity entity) throws ApiValidateException {
         if (DataUtil.hasMember(json, ConstantColumns.MAIL)) {
