@@ -24,6 +24,15 @@ public interface PostEntityRepository extends BaseRepository<PostEntity, String>
     @Query("select p from PostEntity p where p.userEntityPost.id = ?1 and p.typePost = ?2")
     public List<PostEntity> getPostByUserIdAndType(String userId, String type);
 
+    public long countAllByCreateDateContaining(String date);
+    @Query("select count(p) from PostEntity p")
+    public long countAllPost();
+    @Query("select count(p) from PostEntity  p where day(p.createDate) = ?1 and month(p.createDate) =?2 and year(p.createDate) =?3")
+    public long countPostToday(int day, int month, int year);
+
+    @Query("select count(p) from PostEntity  p where month(p.createDate) =?1 and year(p.createDate) =?2")
+    public long countPostByMonth(int month, int year);
+
 //    @Query("SELECT new org.api.payload.response.UserResponse.PostResponse(" +
 //                "p.id, " +
 //                "p.content, " +

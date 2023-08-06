@@ -1,6 +1,7 @@
 package org.api.repository;
 
 import org.api.entities.MessageEntity;
+import org.api.payload.response.admin.ReportMessage;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -24,5 +25,12 @@ public interface MessageEntityRepository extends BaseRepository<MessageEntity, S
             "where m.id_user_to =:userId " +
             "ORDER BY m.create_date DESC;", nativeQuery = true)
     public List<MessageEntity> getAllFriendMessages(@Param("userId") String loggedInUserId);
+        @Query(
+            "SELECT new org.api.payload.response.admin.ReportMessage(month(m.createDate),count(m))\n" +
+                    "from MessageEntity m \n " +
+                    "where year(m.createDate) = ?1 \n " +
+                    "group by month(m.createDate)"
+    )
+    public List<ReportMessage> countAllMessage(int year);
 
 }
