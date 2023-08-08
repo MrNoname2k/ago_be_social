@@ -16,10 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @LogExecutionTime
 @Service
@@ -78,6 +75,7 @@ public class UserEntityServiceImpl implements UserEntityService {
         checkingUser.setDescription(entity.getDescription());
         checkingUser.setLinkIg(entity.getLinkIg());
         checkingUser.setLinkFacebook(entity.getLinkFacebook());
+        checkingUser.setDelFlg(entity.getDelFlg());
 
         return new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
@@ -98,7 +96,12 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     @Override
     public ResultBean getAll() throws ApiValidateException, Exception {
-        return null;
+        List<UserEntity> u = userEntityRepository.findAll();
+        List<UserResponse> l = new ArrayList<>();
+        u.forEach(e->{
+            l.add(modelMapper.map(e,UserResponse.class));
+        });
+        return new ResultBean(l, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
     }
 
     @Override
@@ -130,5 +133,19 @@ public class UserEntityServiceImpl implements UserEntityService {
     public ResultBean recommendFriends(String idUser) throws ApiValidateException, Exception {
         List<UserEntity> list = userEntityRepository.recommendFriends(idUser);
         return new ResultBean(list, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    }
+
+    @Override
+    public ResultBean softDeleteUserById(String json) throws ApiValidateException, Exception {
+        UserEntity entity;
+        System.out.println("USER-DELETE + " + json);
+        JsonObject jsonObject = DataUtil.getJsonObject(json);
+        ValidateData.validate(ConstantJsonFileValidate.FILE_USER_JSON_VALIDATE, jsonObject, true);
+        entity = gson.fromJson(jsonObject, UserEntity.class);
+        if (entity!=null){
+            userEntityRepository.softDeleteUser(entity.getId());
+            return new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        }
+        return new ResultBean(null, ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR);
     }
 }

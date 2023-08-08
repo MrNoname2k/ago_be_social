@@ -63,17 +63,18 @@ public class WebSecurityConfiguration {
                         "/v1/api/files/**",
                         "/socket/**"
                 ).permitAll()
+//                .antMatchers(
+//                        "/v1/api/users/**",
+//                        "/v1/api/posts/**",
+//                        "/v1/api/likes/**",
+//                        "/v1/api/profiles/**",
+//                        "/v1/api/messages/**",
+//                        "/v1/api/relationships/**",
+//                        "/v1/api/album/**"
+//                ).access(allOf)
                 .antMatchers(
-                        "/v1/api/users/**",
-                        "/v1/api/posts/**",
-                        "/v1/api/likes/**",
-                        "/v1/api/profiles/**",
                         "/v1/api/messages/**",
-                        "/v1/api/relationships/**",
-                        "/v1/api/album/**"
-                ).access("hasRole('ROLE_USER')")
-                .antMatchers(
-                        "/v1/api/messages/**"
+                        "/v1/api/ago/admin/**"
                 ).access("hasRole('ROLE_ADMIN')")
                 .anyRequest().authenticated();
         http.authenticationProvider(authenticationProvider());

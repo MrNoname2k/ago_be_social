@@ -6,7 +6,7 @@
 	<springProperty name="maxFileSize" source="logging.rolling-policy.max-file-size" defaultValue="50MB"/>
 	<springProperty name="maxHistory" source="logging.rolling-policy.max-history" defaultValue="30"/>
 	<springProperty name="totalSizeCap" source="logging.rolling-policy.total-size-cap" defaultValue="3GB"/>
-	<springProperty name="logPath" source="logging.path" defaultValue="E:/Du-An-Tot-Nghiep-PRO211/ago_social_media_be"/>
+<!--	<springProperty name="logPath" source="logging.path" defaultValue="E:/Du-An-Tot-Nghiep-PRO211/ago_social_media_be"/>-->
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -23,7 +23,7 @@
 		</encoder>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>${logPath}/mnt/disks/api/log_bk/API_FULL_%d{yyyyMMdd}.%i.${extension}</FileNamePattern>
+			<FileNamePattern>/mnt/disks/api/log_bk/API_FULL_%d{yyyyMMdd}.%i.${extension}</FileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>${maxFileSize}</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>

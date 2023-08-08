@@ -23,4 +23,6 @@ public interface UserEntityService {
     public UserEntity updateOnline(String mail, boolean online) throws ApiValidateException, Exception;
 
     public ResultBean recommendFriends(String idUser) throws ApiValidateException, Exception;
+
+    public ResultBean softDeleteUserById(String json) throws ApiValidateException,Exception;
 }

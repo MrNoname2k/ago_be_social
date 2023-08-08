@@ -5,6 +5,7 @@ import org.api.entities.UserEntity;
 import org.api.payload.response.admin.ReportTotalUser;
 import org.api.payload.response.admin.ReportUserAccessByHour;
 import org.hibernate.sql.Select;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -18,6 +19,8 @@ public interface UserEntityRepository extends BaseRepository<UserEntity, String>
     public Optional<UserEntity> findOneByMail(String mail);
 
     public Boolean existsByMail(String mail);
+
+    public List<UserEntity> findAll();
 
     @Query("SELECT u FROM UserEntity u WHERE u.mail = ?1 AND u.id <> ?2")
     public Optional<UserEntity> existsByMailAndId(String mail, String id);
@@ -49,5 +52,8 @@ public interface UserEntityRepository extends BaseRepository<UserEntity, String>
 
     @Query("select count(p) from UserEntity  p where month(p.createDate) =?1 and year(p.createDate) =?2")
     public long countUserByMonth(int month, int year);
+    @Query("update UserEntity u set u.delFlg = 1 where u.id =?1")
+    @Modifying
+    public void softDeleteUser(String id);
 
 }
