@@ -38,6 +38,20 @@ public class AdminUserManagerController {
         }
     }
 
+    @GetMapping("/user-deleted")
+    public ResponseEntity<ResultBean> getAllUserDelete(){
+        try{
+            ResultBean resultBean = userEntityService.getAllUserSoftDelete();
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
+        } catch (ApiValidateException ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
+        }
+    }
+
     @GetMapping("/info/{id}")
     public ResponseEntity<ResultBean> getUserById(@PathVariable String id){
         try{
@@ -67,9 +81,23 @@ public class AdminUserManagerController {
     }
     @PutMapping(value = "/soft-delete",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResultBean> softDeleteUser(@RequestBody String json) {
-        System.out.println(json + "ASO");
         try {
             ResultBean resultBean = userEntityService.softDeleteUserById(json);
+            return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
+        } catch (ApiValidateException ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean(ex.getCode(), ex.getMessage()), HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<ResultBean>(new ResultBean(ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR), HttpStatus.OK);
+        }
+    }
+
+    @PutMapping(value = "/recover-user",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResultBean> recoverUser(@RequestBody String json) {
+        System.out.println("ALIAS RUN RECOVER");
+        try {
+            ResultBean resultBean = userEntityService.recoverUserSoftDelete(json);
             return new ResponseEntity<ResultBean>(resultBean, HttpStatus.CREATED);
         } catch (ApiValidateException ex) {
             ex.printStackTrace();

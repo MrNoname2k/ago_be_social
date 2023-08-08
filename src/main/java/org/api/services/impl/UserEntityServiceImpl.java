@@ -148,4 +148,33 @@ public class UserEntityServiceImpl implements UserEntityService {
         }
         return new ResultBean(null, ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR);
     }
+
+    @Override
+    public ResultBean recoverUserSoftDelete(String json) throws ApiValidateException, Exception {
+        UserEntity entity;
+        System.out.println("USER-DELETE + " + json);
+        JsonObject jsonObject = DataUtil.getJsonObject(json);
+        ValidateData.validate(ConstantJsonFileValidate.FILE_USER_JSON_VALIDATE, jsonObject, true);
+        entity = gson.fromJson(jsonObject, UserEntity.class);
+        if (entity!=null){
+            userEntityRepository.recoverUser(entity.getId());
+            return new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        }
+        return new ResultBean(null, ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR);
+    }
+
+    @Override
+    public ResultBean getAllUserSoftDelete() throws ApiValidateException, Exception {
+        try {
+             List<UserEntity> lE = userEntityRepository.getAllUserDeleted();
+            List<UserResponse> lR = new ArrayList<>();
+            lE.forEach((e)->{
+                lR.add(modelMapper.map(e,UserResponse.class));
+            });
+            return new ResultBean(lR,ConstantStatus.STATUS_OK,ConstantMessage.MESSAGE_OK);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResultBean(null,ConstantStatus.STATUS_BAD_REQUEST,ConstantMessage.MESSAGE_SYSTEM_ERROR);
+    }
 }

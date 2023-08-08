@@ -25,4 +25,8 @@ public interface UserEntityService {
     public ResultBean recommendFriends(String idUser) throws ApiValidateException, Exception;
 
     public ResultBean softDeleteUserById(String json) throws ApiValidateException,Exception;
+
+    public ResultBean getAllUserSoftDelete() throws ApiValidateException,Exception;
+
+    public ResultBean recoverUserSoftDelete(String json) throws ApiValidateException,Exception;
 }

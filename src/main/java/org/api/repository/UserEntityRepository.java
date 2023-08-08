@@ -56,4 +56,10 @@ public interface UserEntityRepository extends BaseRepository<UserEntity, String>
     @Modifying
     public void softDeleteUser(String id);
 
+    @Query("update UserEntity u set u.delFlg = 0 where u.id =?1")
+    @Modifying
+    public void recoverUser(String id);
+    @Query(value = "select * from t1_user_entity where del_flg=1",nativeQuery = true)
+    public List<UserEntity> getAllUserDeleted();
+
 }
