@@ -6,7 +6,11 @@ import org.api.entities.UserEntity;
 import org.api.payload.response.homePageResponses.UserHomeRespon;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -32,31 +36,19 @@ public interface PostEntityRepository extends BaseRepository<PostEntity, String>
 
     @Query("select count(p) from PostEntity  p where month(p.createDate) =?1 and year(p.createDate) =?2")
     public long countPostByMonth(int month, int year);
+    @Query(value = "CALL GET_LEGAL_POST(:rule)",nativeQuery = true)
+    public List<PostEntity> getLegalPosts(@Param("rule") String rule);
+    @Query(value = "CALL GET_ILLEGAL_POST(:rule)",nativeQuery = true)
+    public List<PostEntity> getIllegalPosts(@Param("rule") String rule);
 
-//    @Query("SELECT new org.api.payload.response.UserResponse.PostResponse(" +
-//                "p.id, " +
-//                "p.content, " +
-//                " p.updateDate, " +
-//                "u.id, " +
-//                "u.fullName, " +
-//                "COUNT(l), " +
-//                "COUNT(c)) " +
-//            "FROM PostEntity p " +
-//            "LEFT JOIN p.comments c " +
-//            "LEFT JOIN p.likes l " +
-//            "LEFT JOIN p.userEntityPost u " +
-//            "WHERE u.id = :idUser AND " +
-//                "p.typePost = :typePost AND " +
-//                "p.accessModifierLevel = :accessModifierLevel AND " +
-//                "p.albumEntityPost.typeAlbum = :typeAlbum AND " +
-//                "p.updateDate BETWEEN :startDate AND :endDate " +
-//            "GROUP BY p.id " +
-//            "ORDER BY p.updateDate ASC")
-//    public List<PostResponse> getAllByPropertiesWhereIdUser(@Param("accessModifierLevel") String accessModifierLevel,
-//                                                 @Param("typePost") String typePost,
-//                                                 @Param("idUser") String idUser,
-//                                                 @Param("typeAlbum") String typeAlbum,
-//                                                 @Param("startDate") Date startDate,
-//                                                 @Param("endDate") Date endDate);
+    @Query("update PostEntity p set p.delFlg = 1 where p.id =?1")
+    @Modifying
+    public void softDeletePost(String id);
+
+    @Query("update PostEntity p set p.delFlg = 0 where p.id =?1")
+    @Modifying
+    public void recoverPost(String id);
+    @Query(value = "select * from t1_post_entity where del_flg=1",nativeQuery = true)
+    public List<PostEntity> getAllPostDeleted();
 
 }

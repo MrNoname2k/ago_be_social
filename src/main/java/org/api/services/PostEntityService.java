@@ -16,10 +16,22 @@ public interface PostEntityService {
 
     public PostEntity findOneById(String id) throws ApiValidateException, Exception;
 
+    public ResultBean getbyId(String id) throws ApiValidateException, Exception;
+
     public PostHomePageResponse findAllByUserEntityPostIdInPage(int  size, String idUser) throws ApiValidateException, Exception;
 
     public ResultBean updateAvatar(String json) throws ApiValidateException, Exception;
     public ResultBean updateBanner(String json) throws ApiValidateException, Exception;
+
+    public ResultBean getLegalPosts() throws ApiValidateException,Exception;
+
+    public ResultBean getIllegalPosts() throws ApiValidateException,Exception;
+
+    public ResultBean softDeletePostById(String json) throws ApiValidateException,Exception;
+
+    public ResultBean getAllPostsSoftDelete() throws ApiValidateException,Exception;
+
+    public ResultBean recoverPostSoftDelete(String json) throws ApiValidateException,Exception;
 
 
 }

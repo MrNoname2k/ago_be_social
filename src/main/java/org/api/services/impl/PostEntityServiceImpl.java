@@ -7,6 +7,8 @@ import org.api.constants.*;
 import org.api.entities.*;
 import org.api.payload.ResultBean;
 import org.api.payload.request.PageableRequest;
+import org.api.payload.response.UserResponse.PostResponse;
+import org.api.payload.response.UserResponse.UserResponse;
 import org.api.payload.response.homePageResponses.PostHomeRespon;
 import org.api.payload.response.homePageResponses.PostHomePageResponse;
 import org.api.repository.AlbumEntityRepository;
@@ -64,6 +66,8 @@ public class PostEntityServiceImpl implements PostEntityService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    private static List<String> rule = ConstantLegalPostRules.ILLEGAL;
 
     @Override
     public ResultBean createPost(String json, MultipartFile[] files) throws ApiValidateException, Exception {
@@ -171,6 +175,16 @@ public class PostEntityServiceImpl implements PostEntityService {
     }
 
     @Override
+    public ResultBean getbyId(String id) throws ApiValidateException, Exception {
+        try {
+            PostEntity entity = postEntityRepository.getReferenceById(id);
+            return new ResultBean(modelMapper.map(entity,PostResponse.class), ConstantStatus.STATUS_201, ConstantMessage.MESSAGE_OK);
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
     public PostHomePageResponse findAllByUserEntityPostIdInPage(int size, String idUser) throws ApiValidateException, Exception {
         List<RelationshipEntity> listFriends = relationshipEntityRepository.findAllByUserEntityOneIdOrUserEntityTowIdAndStatus(idUser, ConstantRelationshipStatus.FRIEND);
         if (!listFriends.isEmpty()) {
@@ -260,5 +274,83 @@ public class PostEntityServiceImpl implements PostEntityService {
         newFile.add(savedFile);
         postEntity.setFileEntities(newFile);
         return new ResultBean(postEntity, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    }
+
+    @Override
+    public ResultBean getLegalPosts() throws ApiValidateException, Exception {
+        List<PostEntity> listLegal;
+        List<PostResponse> listLegalRes = new ArrayList<>();
+        String ruleStr;
+        StringBuilder sb = new StringBuilder();
+        rule.forEach(r->{
+            String decodedString = new String(Base64.getDecoder().decode(r));
+            sb.append(decodedString).append("|");
+        });
+        ruleStr = "^.*("+sb.toString()+"cc).*$";
+        listLegal = postEntityRepository.getLegalPosts(ruleStr);
+        listLegal.forEach(e->{
+            listLegalRes.add(modelMapper.map(e,PostResponse.class));
+        });
+        return new ResultBean(listLegalRes, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    }
+
+    @Override
+    public ResultBean getIllegalPosts() throws ApiValidateException, Exception {
+        List<PostEntity> listIllegal;
+        List<PostResponse> listIllegalRes = new ArrayList<>();
+        String ruleStr;
+        StringBuilder sb = new StringBuilder();
+        rule.forEach(r->{
+            String decodedString = new String(Base64.getDecoder().decode(r));
+            sb.append(decodedString).append("|");
+        });
+        ruleStr = "^.*("+sb.toString()+"cc).*$";
+        listIllegal = postEntityRepository.getIllegalPosts(ruleStr);
+        listIllegal.forEach(e->{
+            listIllegalRes.add(modelMapper.map(e,PostResponse.class));
+        });
+        return new ResultBean(listIllegalRes, ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+    }
+
+    @Override
+    public ResultBean softDeletePostById(String json) throws ApiValidateException, Exception {
+        PostEntity entity;
+        JsonObject jsonObject = DataUtil.getJsonObject(json);
+        ValidateData.validate(ConstantJsonFileValidate.FILE_POST_JSON_VALIDATE, jsonObject, true);
+        entity = gson.fromJson(jsonObject, PostEntity.class);
+        if (entity!=null){
+            postEntityRepository.softDeletePost(entity.getId());
+            return new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        }
+        return new ResultBean(null, ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR);
+    }
+
+    @Override
+    public ResultBean getAllPostsSoftDelete() throws ApiValidateException, Exception {
+        try {
+            List<PostEntity> lE = postEntityRepository.getAllPostDeleted();
+            List<PostResponse> lR = new ArrayList<>();
+            lE.forEach((e)->{
+                lR.add(modelMapper.map(e,PostResponse.class));
+            });
+            return new ResultBean(lR,ConstantStatus.STATUS_OK,ConstantMessage.MESSAGE_OK);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResultBean(null,ConstantStatus.STATUS_BAD_REQUEST,ConstantMessage.MESSAGE_SYSTEM_ERROR);
+    }
+
+    @Override
+    public ResultBean recoverPostSoftDelete(String json) throws ApiValidateException, Exception {
+        PostEntity entity;
+        System.out.println("USER-DELETE + " + json);
+        JsonObject jsonObject = DataUtil.getJsonObject(json);
+        ValidateData.validate(ConstantJsonFileValidate.FILE_POST_JSON_VALIDATE, jsonObject, true);
+        entity = gson.fromJson(jsonObject, PostEntity.class);
+        if (entity!=null){
+            postEntityRepository.recoverPost(entity.getId());
+            return new ResultBean(ConstantStatus.STATUS_OK, ConstantMessage.MESSAGE_OK);
+        }
+        return new ResultBean(null, ConstantStatus.STATUS_BAD_REQUEST, ConstantMessage.MESSAGE_SYSTEM_ERROR);
     }
 }
